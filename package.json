@@ -63,7 +63,7 @@
         "validator": "3.4.0",
         "xml": "0.0.12",
         "qiniu": "6.1.5",
-        "upyun": "1.0.1",
+        "upyun": "1.0.1"
     },
     "optionalDependencies": {
         "mysql": "2.1.1"
