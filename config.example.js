@@ -25,7 +25,32 @@ config = {
             host: '127.0.0.1',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '2368'
+        },
+
+        //Storage.Now,we can support `qiniu`,`upyun` and `local-file-store`
+        storage: {
+            provider: 'local-file-store'
         }
+
+        //or
+        // storage: {
+        //     provider: 'qiniu',
+        //     bucketname: 'your-bucket-name',
+        //     ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        //     SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        //     root: '/image/',
+        //     prefix: 'http://your-bucket-name.qiniudn.com'
+        // }
+
+        //or
+        // storage: {
+        //     provider: 'upyun',
+        //     bucketname: 'your-bucket-name',
+        //     username: 'your user name',
+        //     password: 'your password',
+        //     root: '/image/',
+        //     prefix: 'http://your-bucket-name.b0.upaiyun.com'
+        // }
     },
 
     // ### Development **(default)**
