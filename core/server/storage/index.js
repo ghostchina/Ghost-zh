@@ -9,7 +9,7 @@ function getStorage(storageChoice) {
     // storageChoice = 'local-file-store';
 
     //Now, we can support 3rd storages and local file system.
-    storageChoice = (config.storage && config.storage.provider') || 'local-file-store';
+    storageChoice = (config.storage && config.storage.provider) || 'local-file-store';
 
     if (storage[storageChoice]) {
         return storage[storageChoice];

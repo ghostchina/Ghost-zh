@@ -12,9 +12,9 @@ var _       = require('lodash'),
     config  = require('../config'),
     baseStore   = require('./base'),
     crypto  = require('crypto');
-    upyunConfig = config.upyun,
-    UPYun   = require('./upyun/upyun').UPYun,
-    upyun   = new UPYun(upyunConfig.bucketname, upyunConfig.username, upyunConfig.password);
+    upyunConfig = config.storage,
+    UPYun   = require('upyun'),
+    upyun   = new UPYun(upyunConfig.bucketname, upyunConfig.username, upyunConfig.password, 'v0');
 
 function UpyunStore () {
 }
@@ -37,8 +37,9 @@ UpyunStore.prototype.save = function (image) {
         targetFilename = path.join(targetDirRoot, md5.replace(/^(\w{1})(\w{2})(\w+)$/, '$1/$2/$3')) + ext;
         targetFilename = targetFilename.replace(/\\/g, '/');
 
-        return Promise.promisify(upyun.writeFile)(targetFilename, data, true);
-    }).then(function() {
+        return Promise.promisify(upyun.uploadFile)(targetFilename, data, '', false, {});
+    }).then(function(response) {
+        console.log('Response code: ' + response.statusCode);
         // Remove temp file
         return Promise.promisify(fs.unlink)(savedpath);
     }).then(function () {
