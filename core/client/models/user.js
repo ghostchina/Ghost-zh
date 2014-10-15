@@ -75,11 +75,11 @@ var User = DS.Model.extend(NProgressSaveMixin, SelectiveSaveMixin, ValidationEng
         var validationErrors = [];
 
         if (!validator.equals(this.get('newPassword'), this.get('ne2Password'))) {
-            validationErrors.push({message: 'Your new passwords do not match'});
+            validationErrors.push({message: '两次输入的新密码不匹配。'});
         }
 
         if (!validator.isLength(this.get('newPassword'), 8)) {
-            validationErrors.push({message: 'Your password is not long enough. It must be at least 8 characters long.'});
+            validationErrors.push({message: '密码太短。至少输入8个字符。'});
         }
 
         return validationErrors;

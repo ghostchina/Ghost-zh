@@ -10,9 +10,9 @@ var DeletePostController = Ember.Controller.extend({
             model.destroyRecord().then(function () {
                 self.get('dropdown').closeDropdowns();
                 self.transitionToRoute('posts.index');
-                self.notifications.showSuccess('Your post has been deleted.', { delayed: true });
+                self.notifications.showSuccess('博文已删除。', { delayed: true });
             }, function () {
-                self.notifications.showError('Your post could not be deleted. Please try again.');
+                self.notifications.showError('删除博文失败，请重试。');
             });
 
         },
@@ -23,11 +23,11 @@ var DeletePostController = Ember.Controller.extend({
     },
     confirm: {
         accept: {
-            text: 'Delete',
+            text: '删除',
             buttonClass: 'btn btn-red'
         },
         reject: {
-            text: 'Cancel',
+            text: '取消',
             buttonClass: 'btn btn-default btn-minor'
         }
     }

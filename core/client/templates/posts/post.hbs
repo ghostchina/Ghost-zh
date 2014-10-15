@@ -1,16 +1,16 @@
 <header class="post-preview-header clearfix">
-    {{#link-to "posts" tagName="button" class="btn btn-default btn-back"}}Back{{/link-to}}
-    <h2 class="page-title">Preview</h2>
-    <button type="button" {{bind-attr class="featured:featured:unfeatured"}} title="Feature this post" {{action "toggleFeatured"}}>
+    {{#link-to "posts" tagName="button" class="btn btn-default btn-back"}}返回{{/link-to}}
+    <h2 class="page-title">预览</h2>
+    <button type="button" {{bind-attr class="featured:featured:unfeatured"}} title="推荐此博文" {{action "toggleFeatured"}}>
         <span class="hidden">Star</span>
     </button>
     <small class="post-published-by">
-        <span class="status">{{#if isPublished}}Published{{else}}Written{{/if}}</span>
-        <span class="normal">by</span>
+        <span class="normal">由</span>
         <span class="author">{{#if author.name}}{{author.name}}{{else}}{{author.email}}{{/if}}</span>
+        <span class="status">{{#if isPublished}}发布{{else}}创作{{/if}}</span>
     </small>
     <section class="post-controls">
-        {{#link-to "editor.edit" this class="btn btn-default post-edit"}} Edit{{/link-to}}
+        {{#link-to "editor.edit" this class="btn btn-default post-edit"}} 编辑{{/link-to}}
     </section>
 </header>
 

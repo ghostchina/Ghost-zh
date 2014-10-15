@@ -24,14 +24,14 @@ var express     = require('express'),
 
 function doFirstRun() {
     var firstRunMessage = [
-        'Welcome to Ghost.',
-        'You\'re running under the <strong>',
+        '欢迎使用 Ghost 博客系统。',
+        '当前博客的运行环境为 <strong>',
         process.env.NODE_ENV,
-        '</strong>environment.',
+        '</strong>。',
 
-        'Your URL is set to',
+        '博客网址被设置为',
         '<strong>' + config.url + '</strong>.',
-        'See <a href="http://support.ghost.org/" target="_blank">http://support.ghost.org</a> for instructions.'
+        '请参考 <a href="http://support.ghost.org/" target="_blank">http://support.ghost.org</a> 了解详情。'
     ];
 
     return api.notifications.add({notifications: [{
@@ -106,9 +106,9 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'info',
             message: [
-                'Ghost is attempting to use a direct method to send e-mail.',
-                'It is recommended that you explicitly configure an e-mail service.',
-                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
+                'Ghost 将尝试直接发送邮件。',
+                '建议为 Ghost 系统设置一个邮件服务。',
+                '请参考 <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> 了解更多信息'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
@@ -116,8 +116,8 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'warn',
             message: [
-                'Ghost is currently unable to send e-mail.',
-                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
+                'Ghost 目前无法发送邮件。',
+                '请参考 <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> 了解更多信息'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
