@@ -5,19 +5,19 @@ var PostValidator = Ember.Object.create({
 
         if (validator.empty(data.title)) {
             validationErrors.push({
-                message: 'You must specify a title for the post.'
+                message: '必须为博文输入标题。'
             });
         }
 
         if (!validator.isLength(data.meta_title, 0, 150)) {
             validationErrors.push({
-                message: 'Meta Title cannot be longer than 150 characters.'
+                message: '优化标题不能超过150个字符。'
             });
         }
 
         if (!validator.isLength(data.meta_description, 0, 200)) {
             validationErrors.push({
-                message: 'Meta Description cannot be longer than 200 characters.'
+                message: '优化页面描述不能超过200个字符。'
             });
         }
 

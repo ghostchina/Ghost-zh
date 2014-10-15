@@ -26,12 +26,12 @@ var ForgottenController = Ember.Controller.extend(ValidationEngine, {
                     }
                 }).then(function (resp) {
                     self.toggleProperty('submitting');
-                    self.notifications.showSuccess('Please check your email for instructions.', {delayed: true});
+                    self.notifications.showSuccess('请查看邮箱中的邮件。', {delayed: true});
                     self.set('email', '');
                     self.transitionToRoute('signin');
                 }).catch(function (resp) {
                     self.toggleProperty('submitting');
-                    self.notifications.showAPIError(resp, { defaultErrorText: 'There was a problem logging in, please try again.' });
+                    self.notifications.showAPIError(resp, { defaultErrorText: '登录出现故障，请重试。' });
                 });
             }).catch(function (errors) {
                 self.toggleProperty('submitting');

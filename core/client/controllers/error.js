@@ -4,10 +4,10 @@ var ErrorController = Ember.Controller.extend({
     }),
     message: Ember.computed('content.statusText', function () {
         if (this.get('code') === 404) {
-            return 'No Ghost Found';
+            return '未找到 Ghost 系统';
         }
 
-        return this.get('content.statusText') !== 'error' ? this.get('content.statusText') : 'Internal Server Error';
+        return this.get('content.statusText') !== 'error' ? this.get('content.statusText') : '服务器内部错误';
     }),
     stack: false
 });

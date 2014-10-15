@@ -97,7 +97,7 @@ Settings = ghostBookshelf.Model.extend({
             // Accept an array of models as input
             if (item.toJSON) { item = item.toJSON(); }
             if (!(_.isString(item.key) && item.key.length > 0)) {
-                return Promise.reject(new errors.ValidationError('Value in [settings.key] cannot be blank.'));
+                return Promise.reject(new errors.ValidationError('[settings.key] 不能为空。'));
             }
 
             item = self.filterData(item);
@@ -107,14 +107,14 @@ Settings = ghostBookshelf.Model.extend({
                     return setting.save({value: item.value}, options);
                 }
 
-                return Promise.reject(new errors.NotFoundError('Unable to find setting to update: ' + item.key));
+                return Promise.reject(new errors.NotFoundError('未找到需要更新的配置： ' + item.key));
             }, errors.logAndThrowError);
         });
     },
 
     populateDefault: function (key) {
         if (!getDefaultSettings()[key]) {
-            return Promise.reject(new errors.NotFoundError('Unable to find default setting: ' + key));
+            return Promise.reject(new errors.NotFoundError('未找到默认配置： ' + key));
         }
 
         return this.findOne({key: key}).then(function (foundSetting) {

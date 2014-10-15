@@ -16,11 +16,11 @@ var UserValidator = Ember.Object.create({
                 roles = model.get('roles');
 
             if (!validator.isEmail(email)) {
-                validationErrors.push({ message: 'Please supply a valid email address' });
+                validationErrors.push({ message: '请输入有效的邮箱地址' });
             }
 
             if (roles.length < 1) {
-                validationErrors.push({ message: 'Please select a role' });
+                validationErrors.push({ message: '请为用户选择角色/权限' });
             }
 
             return validationErrors;
@@ -35,26 +35,26 @@ var UserValidator = Ember.Object.create({
                 website = model.get('website');
 
             if (!validator.isLength(name, 0, 150)) {
-                validationErrors.push({ message: 'Name is too long' });
+                validationErrors.push({ message: '姓名太长' });
             }
 
             if (!validator.isLength(bio, 0, 200)) {
-                validationErrors.push({ message: 'Bio is too long' });
+                validationErrors.push({ message: '个人简介太长' });
             }
 
             if (!validator.isEmail(email)) {
-                validationErrors.push({ message: 'Please supply a valid email address' });
+                validationErrors.push({ message: '请输入有效的邮箱地址' });
             }
 
             if (!validator.isLength(location, 0, 150)) {
-                validationErrors.push({ message: 'Location is too long' });
+                validationErrors.push({ message: '所在地太长' });
             }
 
             if (!_.isEmpty(website) &&
                 (!validator.isURL(website, { protocols: ['http', 'https'], require_protocol: true }) ||
                 !validator.isLength(website, 0, 2000))) {
 
-                validationErrors.push({ message: 'Website is not a valid url' });
+                validationErrors.push({ message: '个人网站不是有效的网址' });
             }
 
             return validationErrors;

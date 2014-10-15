@@ -35,19 +35,19 @@
     "roles": [
         {
             "name":             "Administrator",
-            "description":      "Administrators"
+            "description":      "管理员"
         },
         {
             "name":             "Editor",
-            "description":      "Editors"
+            "description":      "编辑"
         },
         {
             "name":             "Author",
-            "description":      "Authors"
+            "description":      "作者"
         },
         {
             "name":             "Owner",
-            "description":      "Blog Owner"
+            "description":      "博客业主"
         }
     ],
 

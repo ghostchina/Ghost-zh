@@ -97,11 +97,11 @@ UploadUi = function ($dropzone, settings) {
                     $dropzone.trigger('uploadfailure', [data.result]);
                     $dropzone.find('.js-upload-progress-bar').addClass('fail');
                     if (data.jqXHR.status === 413) {
-                        $dropzone.find('div.js-fail').text('The image you uploaded was larger than the maximum file size your server allows.');
+                        $dropzone.find('div.js-fail').text('上传的图片超出了服务器端允许的大小。');
                     } else if (data.jqXHR.status === 415) {
-                        $dropzone.find('div.js-fail').text('The image type you uploaded is not supported. Please use .PNG, .JPG, .GIF, .SVG.');
+                        $dropzone.find('div.js-fail').text('上传的图片类型不被支持。请检查是否是 .PNG、.JPG、.GIF、.SVG 格式。');
                     } else {
-                        $dropzone.find('div.js-fail').text('Something went wrong :(');
+                        $dropzone.find('div.js-fail').text('发生故障了 :(');
                     }
                     $dropzone.find('div.js-fail, button.js-fail').fadeIn(1500);
                     $dropzone.find('button.js-fail').on('click', function () {
@@ -120,19 +120,19 @@ UploadUi = function ($dropzone, settings) {
 
         buildExtras: function () {
             if (!$dropzone.find('span.media')[0]) {
-                $dropzone.prepend('<span class="media"><span class="hidden">Image Upload</span></span>');
+                $dropzone.prepend('<span class="media"><span class="hidden">上传图片</span></span>');
             }
             if (!$dropzone.find('div.description')[0]) {
-                $dropzone.append('<div class="description">Add image</div>');
+                $dropzone.append('<div class="description">添加图片</div>');
             }
             if (!$dropzone.find('div.js-fail')[0]) {
-                $dropzone.append('<div class="js-fail failed" style="display: none">Something went wrong :(</div>');
+                $dropzone.append('<div class="js-fail failed" style="display: none">发生故障了：(</div>');
             }
             if (!$dropzone.find('button.js-fail')[0]) {
-                $dropzone.append('<button class="js-fail btn btn-green" style="display: none">Try Again</button>');
+                $dropzone.append('<button class="js-fail btn btn-green" style="display: none">重试</button>');
             }
             if (!$dropzone.find('a.image-url')[0]) {
-                $dropzone.append('<a class="image-url" title="Add image from URL"><span class="hidden">URL</span></a>');
+                $dropzone.append('<a class="image-url" title="添加图片地址（URL）"><span class="hidden">URL</span></a>');
             }
 //                if (!$dropzone.find('a.image-webcam')[0]) {
 //                    $dropzone.append('<a class="image-webcam" title="Add image from webcam"><span class="hidden">Webcam</span></a>');
@@ -177,7 +177,7 @@ UploadUi = function ($dropzone, settings) {
             $dropzone.find('div.description').before($url);
 
             if (settings.editor) {
-                $dropzone.find('div.js-url').append('<button class="btn btn-blue js-button-accept">Save</button>');
+                $dropzone.find('div.js-url').append('<button class="btn btn-blue js-button-accept">保存</button>');
             }
 
             $dropzone.find('.js-button-accept').on('click', function () {
@@ -195,7 +195,7 @@ UploadUi = function ($dropzone, settings) {
 
             // Only show the toggle icon if there is a dropzone mode to go back to
             if (settings.fileStorage !== false) {
-                $dropzone.append('<a class="image-upload" title="Add image"><span class="hidden">Upload</span></a>');
+                $dropzone.append('<a class="image-upload" title="Add image"><span class="hidden">上传</span></a>');
             }
 
             $dropzone.find('a.image-upload').on('click', function () {

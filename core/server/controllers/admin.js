@@ -30,8 +30,8 @@ adminControllers = {
                 location: 'top',
                 dismissible: false,
                 status: 'persistent',
-                message: '<a href="https://ghost.org/download">Ghost ' + updateVersion +
-                '</a> is available! Hot Damn. Please <a href="http://support.ghost.org/how-to-upgrade/" target="_blank">upgrade</a> now'
+                message: '有 <a href="http://www.ghostchina.com/download/">Ghost ' + updateVersion +
+                '</a> 新版本可以升级！请赶紧 <a href="http://www.ghostchina.com/" target="_blank">升级</a> 吧。'
             };
 
             return api.notifications.browse({context: {internal: true}}).then(function (results) {

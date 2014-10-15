@@ -22,7 +22,7 @@ var _              = require('lodash'),
 function validatePasswordLength(password) {
     try {
         if (!validator.isLength(password, 8)) {
-            throw new Error('Your password must be at least 8 characters long.');
+            throw new Error('密码至少8个字符。');
         }
     } catch (error) {
         return Promise.reject(error);
@@ -447,7 +447,7 @@ User = ghostBookshelf.Model.extend({
 
             // check for too many roles
             if (roles.length > 1) {
-                return Promise.reject(new errors.ValidationError('Only one role per user is supported at the moment.'));
+                return Promise.reject(new errors.ValidationError('目前仅支持一个用户对应一个角色/权限。'));
             }
             // remove roles from the object
             delete data.roles;
@@ -598,20 +598,20 @@ User = ghostBookshelf.Model.extend({
             s;
         return this.getByEmail(object.email).then(function (user) {
             if (!user) {
-                return Promise.reject(new errors.NotFoundError('There is no user with that email address.'));
+                return Promise.reject(new errors.NotFoundError('此邮箱地址无对应的用户。'));
             }
             if (user.get('status') === 'invited' || user.get('status') === 'invited-pending' ||
                     user.get('status') === 'inactive'
                 ) {
-                return Promise.reject(new Error('The user with that email address is inactive.'));
+                return Promise.reject(new Error('此邮箱地址对应的用户未激活。'));
             }
             if (user.get('status') !== 'locked') {
                 return bcryptCompare(object.password, user.get('password')).then(function (matched) {
                     if (!matched) {
                         return Promise.resolve(self.setWarning(user, {validate: false})).then(function (remaining) {
                             s = (remaining > 1) ? 's' : '';
-                            return Promise.reject(new errors.UnauthorizedError('Your password is incorrect.<br>' +
-                                remaining + ' attempt' + s + ' remaining!'));
+                            return Promise.reject(new errors.UnauthorizedError('密码错误。<br>' +
+                                '还剩余' + remaining + ' 次尝试的机会！'));
 
                             // Use comma structure, not .catch, because we don't want to catch incorrect passwords
                         }, function (error) {
@@ -639,12 +639,12 @@ User = ghostBookshelf.Model.extend({
                         });
                 }, errors.logAndThrowError);
             }
-            return Promise.reject(new errors.NoPermissionError('Your account is locked due to too many ' +
-                'login attempts. Please reset your password to log in again by clicking ' +
-                'the "Forgotten password?" link!'));
+            return Promise.reject(new errors.NoPermissionError('由于你的账户多次尝试登陆未成功，已经被锁定。' +
+                '请点击”忘记密码？“链接，' +
+                '请重置密码并登陆！'));
         }, function (error) {
             if (error.message === 'NotFound' || error.message === 'EmptyResponse') {
-                return Promise.reject(new errors.NotFoundError('There is no user with that email address.'));
+                return Promise.reject(new errors.NotFoundError('此邮箱地址无对应的用户。'));
             }
 
             return Promise.reject(error);
@@ -664,7 +664,7 @@ User = ghostBookshelf.Model.extend({
             user = null;
 
         if (newPassword !== ne2Password) {
-            return Promise.reject(new Error('Your new passwords do not match'));
+            return Promise.reject(new Error('两次输入的新密码不匹配'));
         }
 
         return validatePasswordLength(newPassword).then(function () {
@@ -674,7 +674,7 @@ User = ghostBookshelf.Model.extend({
             return bcryptCompare(oldPassword, user.get('password'));
         }).then(function (matched) {
             if (!matched) {
-                return Promise.reject(new Error('Your password is incorrect'));
+                return Promise.reject(new Error('密码错误'));
             }
             return bcryptGenSalt();
         }).then(function (salt) {
@@ -688,7 +688,7 @@ User = ghostBookshelf.Model.extend({
     generateResetToken: function (email, expires, dbHash) {
         return this.getByEmail(email).then(function (foundUser) {
             if (!foundUser) {
-                return Promise.reject(new errors.NotFoundError('There is no user with that email address.'));
+                return Promise.reject(new errors.NotFoundError('此邮箱地址无对应的用户。'));
             }
 
             var hash = crypto.createHash('sha256'),
@@ -771,7 +771,7 @@ User = ghostBookshelf.Model.extend({
         var self = this;
 
         if (newPassword !== ne2Password) {
-            return Promise.reject(new Error('Your new passwords do not match'));
+            return Promise.reject(new Error('两次输入的新密码不匹配'));
         }
 
         return validatePasswordLength(newPassword).then(function () {
@@ -809,14 +809,14 @@ User = ghostBookshelf.Model.extend({
             // check if user has the owner role
             var currentRoles = ctxUser.toJSON().roles;
             if (!_.contains(currentRoles, ownerRole.id)) {
-                return Promise.reject(new errors.NoPermissionError('Only owners are able to transfer the owner role.'));
+                return Promise.reject(new errors.NoPermissionError('只有博客业主才可转移博客的所有权。'));
             }
             contextUser = ctxUser;
             return User.findOne({id: object.id});
         }).then(function (user) {
             var currentRoles = user.toJSON().roles;
             if (!_.contains(currentRoles, adminRole.id)) {
-                return Promise.reject(new errors.ValidationError('Only administrators can be assigned the owner role.'));
+                return Promise.reject(new errors.ValidationError('只有管理员才可以被指定为博客业主。'));
             }
 
             assignUser = user;

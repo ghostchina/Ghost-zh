@@ -297,11 +297,11 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
 
             // Validate new Published date
             if (!newPublishedAt.isValid()) {
-                errMessage = 'Published Date must be a valid date with format: ' +
-                    'DD MMM YY @ HH:mm (e.g. 6 Dec 14 @ 15:00)';
+                errMessage = '发布日期必须遵循以下日期格式：' +
+                    'YYYY-MM-DD @ HH:mm （例如：2013-09-27 @ 15:00）';
             }
             if (newPublishedAt.diff(new Date(), 'h') > 0) {
-                errMessage = 'Published Date cannot currently be in the future.';
+                errMessage = '发布日期不能是未来时间。';
             }
 
             //If errors, notify and exit.

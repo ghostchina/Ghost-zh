@@ -7,27 +7,27 @@
     <section class="content-list js-content-list">
         <header class="floatingheader">
             <section class="content-filter">
-                <small>All Posts</small>
+                <small>所有博文</small>
             </section>
-            {{#link-to "editor.new" class="btn btn-green" title="New Post"}}<span class="hidden">New Post</span>{{/link-to}}
+            {{#link-to "editor.new" class="btn btn-green" title="新建博文"}}<span class="hidden">新建博文</span>{{/link-to}}
         </header>
         {{#view "paginated-scroll-box" tagName="section" classNames="content-list-content"}}
         <ol class="posts-list">
             {{#each itemController="posts/post" itemView="post-item-view" itemTagName="li"}}
-            {{#link-to "posts.post" this class="permalink" title="Edit this post"}}
+            {{#link-to "posts.post" this class="permalink" title="编辑此博文"}}
             <h3 class="entry-title">{{title}}</h3>
             <section class="entry-meta">
                 <span class="status">
                     {{#if isPublished}}
                     {{#if page}}
-                    <span class="page">Page</span>
+                    <span class="page">静态页</span>
                     {{else}}
                     <time datetime="{{unbound published_at}}" class="date published">
-                        Published {{gh-format-timeago published_at}}
+                        发布于 {{gh-format-timeago published_at}}
                     </time>
                     {{/if}}
                     {{else}}
-                    <span class="draft">Draft</span>
+                    <span class="draft">草稿</span>
                     {{/if}}
                 </span>
             </section>
