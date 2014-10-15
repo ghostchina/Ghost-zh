@@ -37,7 +37,7 @@ UpyunStore.prototype.save = function (image) {
         targetFilename = path.join(targetDirRoot, md5.replace(/^(\w{1})(\w{2})(\w+)$/, '$1/$2/$3')) + ext;
         targetFilename = targetFilename.replace(/\\/g, '/');
 
-        return Promise.promisify(upyun.uploadFile)(targetFilename, data, '', false, {});
+        return Promise.promisify(upyun.uploadFile, upyun)(targetFilename, data, '', false, {});
     }).then(function(response) {
         console.log('Response code: ' + response.statusCode);
         // Remove temp file
