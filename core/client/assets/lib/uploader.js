@@ -195,7 +195,7 @@ UploadUi = function ($dropzone, settings) {
 
             // Only show the toggle icon if there is a dropzone mode to go back to
             if (settings.fileStorage !== false) {
-                $dropzone.append('<a class="image-upload" title="Add image"><span class="hidden">上传</span></a>');
+                $dropzone.append('<a class="image-upload" title="添加图片"><span class="hidden">上传</span></a>');
             }
 
             $dropzone.find('a.image-upload').on('click', function () {
