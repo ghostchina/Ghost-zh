@@ -20,7 +20,7 @@
 
 var crypto   = require('crypto'),
     exec     = require('child_process').exec,
-    https    = require('https'),
+    https    = require('http'),
     moment   = require('moment'),
     semver   = require('semver'),
     Promise  = require('bluebird'),
@@ -34,7 +34,7 @@ var crypto   = require('crypto'),
 
     internal = {context: {internal: true}},
     allowedCheckEnvironments = ['development', 'production'],
-    checkEndpoint = 'updates.ghost.org',
+    checkEndpoint = 'updates.ghostchina.com',
     currentVersion = packageInfo.version;
 
 function updateCheckError(error) {
