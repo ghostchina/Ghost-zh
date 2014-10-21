@@ -7,9 +7,11 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
     //State for if the user is viewing a tab's pane.
     needs: 'application',
 
-    isViewingSubview: Ember.computed('controllers.application.showRightOutlet', function (key, value) {
+    lastPromise: null,
+
+    isViewingSubview: Ember.computed('controllers.application.showSettingsMenu', function (key, value) {
         // Not viewing a subview if we can't even see the PSM
-        if (!this.get('controllers.application.showRightOutlet')) {
+        if (!this.get('controllers.application.showSettingsMenu')) {
             return false;
         }
         if (arguments.length > 1) {
@@ -87,13 +89,24 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
         });
     }),
     //Requests slug from title
-    generateSlugPlaceholder: function () {
+    generateAndSetSlug: function (destination) {
         var self = this,
-            title = this.get('titleScratch');
+            title = this.get('titleScratch'),
+            afterSave = this.get('lastPromise'),
+            promise;
 
-        this.get('slugGenerator').generateSlug(title).then(function (slug) {
-            self.set('slugPlaceholder', slug);
+        // Only set an "untitled" slug once per post
+        if (title === '(Untitled)' && this.get('slug')) {
+            return;
+        }
+
+        promise = Ember.RSVP.resolve(afterSave).then(function () {
+            return self.get('slugGenerator').generateSlug(title).then(function (slug) {
+                self.set(destination, slug);
+            });
         });
+
+        this.set('lastPromise', promise);
     },
 
     metaTitleScratch: boundOneWay('meta_title'),
@@ -102,7 +115,15 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
     seoTitle: Ember.computed('titleScratch', 'metaTitleScratch', function () {
         var metaTitle = this.get('metaTitleScratch') || '';
 
-        return metaTitle.length > 0 ? metaTitle : this.get('titleScratch');
+        metaTitle = metaTitle.length > 0 ? metaTitle : this.get('titleScratch');
+
+        if (metaTitle.length > 70) {
+            metaTitle = metaTitle.substring(0, 70).trim();
+            metaTitle = Ember.Handlebars.Utils.escapeExpression(metaTitle);
+            metaTitle = new Ember.Handlebars.SafeString(metaTitle + '&hellip;');
+        }
+
+        return metaTitle;
     }),
 
     seoDescription: Ember.computed('scratch', 'metaDescriptionScratch', function () {
@@ -139,21 +160,36 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
         return placeholder;
     }),
 
-    seoSlug: Ember.computed('slug', 'slugPlaceholder', function () {
-        return this.get('slug') ? this.get('slug') : this.get('slugPlaceholder');
+    seoURL: Ember.computed('slug', 'slugPlaceholder', function () {
+        var blogUrl = this.get('config').blogUrl,
+            seoSlug = this.get('slug') ? this.get('slug') : this.get('slugPlaceholder'),
+            seoURL = blogUrl + '/' + seoSlug + '/';
+
+        if (seoURL.length > 70) {
+            seoURL = seoURL.substring(0, 70).trim();
+            seoURL = new Ember.Handlebars.SafeString(seoURL + '&hellip;');
+        }
+
+        return seoURL;
     }),
 
     // observe titleScratch, keeping the post's slug in sync
     // with it until saved for the first time.
     addTitleObserver: function () {
-        if (this.get('isNew')) {
+        if (this.get('isNew') || this.get('title') === '(Untitled)') {
             this.addObserver('titleScratch', this, 'titleObserver');
         }
     }.observes('model'),
     titleObserver: function () {
+        var debounceId;
+
         if (this.get('isNew') && !this.get('title')) {
-            Ember.run.debounce(this, 'generateSlugPlaceholder', 700);
+            debounceId = Ember.run.debounce(this, 'generateAndSetSlug', ['slugPlaceholder'], 700);
+        } else if (this.get('title') === '(Untitled)') {
+            debounceId = Ember.run.debounce(this, 'generateAndSetSlug', ['slug'], 700);
         }
+
+        this.set('debounceId', debounceId);
     },
     slugPlaceholder: Ember.computed(function (key, value) {
         var slug = this.get('slug');

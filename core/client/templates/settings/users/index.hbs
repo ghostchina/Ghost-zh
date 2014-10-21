@@ -1,12 +1,12 @@
-<header class="settings-view-header">
-    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
-    <h2 class="page-title">用户列表</h2>
-    <section class="page-actions">
-        <button class="btn btn-green" {{action "openModal" "invite-new-user"}} >邀请新用户</button>
-    </section>
-</header>
-
 {{#view "settings/users/users-list-view" tagName="section" class="content settings-users" }}
+    <header class="settings-view-header user-list-header">
+        {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
+        <h2 class="page-title">用户列表</h2>
+        <section class="page-actions">
+            <button class="btn btn-green" {{action "openModal" "invite-new-user"}} >邀请新用户</button>
+        </section>
+    </header>
+
     {{#if invitedUsers}}
 
         <section class="user-list invited-users">

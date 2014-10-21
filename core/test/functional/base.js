@@ -82,12 +82,12 @@ screens = {
     },
     'settings.general': {
         url: 'ghost/settings/general',
-        selector: '.settings-menu-general.active'
+        selector: '.settings-nav-general.active'
     },
     'settings.users': {
         url: 'ghost/settings/users',
-        linkSelector: '.settings-menu-users a',
-        selector: '.settings-menu-users.active'
+        linkSelector: '.settings-nav-users a',
+        selector: '.settings-nav-users.active'
     },
     'settings.users.user': {
         url: 'ghost/settings/users/test',
@@ -126,6 +126,22 @@ screens = {
 casper.writeContentToCodeMirror = function (content) {
     var lines = content.split('\n');
 
+    // If we are on a new editor, the autosave is going to get triggered when we try to type, so we need to trigger
+    // that and wait for it to sort itself out
+    if (/ghost\/editor\/$/.test(casper.getCurrentUrl())) {
+        casper.waitForSelector('.CodeMirror-wrap textarea', function onSuccess() {
+            casper.click('.CodeMirror-wrap textarea');
+        }, function onTimeout() {
+            casper.test.fail('CodeMirror was not found on initial load.');
+        }, 2000);
+
+        casper.waitForUrl(/\/ghost\/editor\/\d+\/$/, function onSuccess() {
+            // do nothing
+        }, function onTimeout() {
+            casper.test.fail('The url didn\'t change: ' + casper.getCurrentUrl());
+        }, 2000);
+    }
+
     casper.waitForSelector('.CodeMirror-wrap textarea', function onSuccess() {
         casper.each(lines, function (self, line) {
             self.sendKeys('.CodeMirror-wrap textarea', line, {keepFocus: true});
@@ -136,7 +152,7 @@ casper.writeContentToCodeMirror = function (content) {
 
         return this;
     }, function onTimeout() {
-        casper.test.fail('CodeMirror was not found.');
+        casper.test.fail('CodeMirror was not found on main load.');
     }, 2000);
 };
 
@@ -231,7 +247,7 @@ casper.on('remote.message', function (msg) {
 // output any errors
 casper.on('error', function (msg, trace) {
     casper.echoConcise('ERROR, ' + msg, 'ERROR');
-    if (trace) {
+    if (trace && trace[0]) {
         casper.echoConcise('file:     ' + trace[0].file, 'WARNING');
         casper.echoConcise('line:     ' + trace[0].line, 'WARNING');
         casper.echoConcise('function: ' + trace[0]['function'], 'WARNING');
@@ -242,7 +258,7 @@ casper.on('error', function (msg, trace) {
 // output any page errors
 casper.on('page.error', function (msg, trace) {
     casper.echoConcise('PAGE ERROR: ' + msg, 'ERROR');
-    if (trace) {
+    if (trace && trace[0]) {
         casper.echoConcise('file:     ' + trace[0].file, 'WARNING');
         casper.echoConcise('line:     ' + trace[0].line, 'WARNING');
         casper.echoConcise('function: ' + trace[0]['function'], 'WARNING');

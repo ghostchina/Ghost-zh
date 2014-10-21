@@ -9,19 +9,19 @@ codeMirrorShortcuts.init();
 
 var onChangeHandler = function (cm, changeObj) {
     var line,
-        component = cm.component,
-        checkLine = _.bind(component.checkLine, component),
-        checkMarkers = _.bind(component.checkMarkers, component);
+        component = cm.component;
 
     // fill array with a range of numbers
     for (line = changeObj.from.line; line < changeObj.from.line + changeObj.text.length; line += 1) {
-        checkLine(line, changeObj.origin);
+        component.checkLine(line, changeObj.origin);
     }
 
     // Is this a line which may have had a marker on it?
-    checkMarkers();
+    component.checkMarkers();
 
     cm.component.set('value', cm.getValue());
+
+    component.sendAction('typingPause');
 };
 
 var onScrollHandler = function (cm) {
@@ -37,6 +37,14 @@ var onScrollHandler = function (cm) {
 };
 
 var Codemirror = Ember.TextArea.extend(MarkerManager, {
+    focus: true,
+
+    setFocus: function () {
+        if (this.focus) {
+            this.$().val(this.$().val()).focus();
+        }
+    }.on('didInsertElement'),
+
     didInsertElement: function () {
         Ember.run.scheduleOnce('afterRender', this, this.afterRenderEvent);
     },
@@ -88,6 +96,10 @@ var Codemirror = Ember.TextArea.extend(MarkerManager, {
             target: Ember.$('.js-entry-markdown'),
             offset: 10
         }));
+
+        codemirror.on('focus', function () {
+            codemirror.component.sendAction('onFocusIn');
+        });
 
         this.set('codemirror', codemirror);
     },

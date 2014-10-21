@@ -11,10 +11,10 @@ CasperTest.begin('Post settings menu', 10, function suite(test) {
 
     casper.then(function () {
         test.assertExists('.post-settings', 'icon toggle should exist');
-        test.assertExists('.post-settings-menu', 'popup menu should be rendered at startup');
-        test.assertExists('.post-settings-menu #url', 'url field exists');
-        test.assertExists('.post-settings-menu .post-setting-date', 'publication date field exists');
-        test.assertExists('.post-settings-menu .post-setting-static-page', 'static page checkbox field exists');
+        test.assertExists('.settings-menu', 'popup menu should be rendered at startup');
+        test.assertExists('.settings-menu #url', 'url field exists');
+        test.assertExists('.settings-menu .post-setting-date', 'publication date field exists');
+        test.assertExists('.settings-menu .post-setting-static-page', 'static page checkbox field exists');
     });
 
     // Enter a title and save draft so converting to/from static post
@@ -36,7 +36,7 @@ CasperTest.begin('Post settings menu', 10, function suite(test) {
 
     casper.thenClick('.post-settings');
 
-    casper.waitForOpaque('.post-settings-menu', function onSuccess() {
+    casper.waitForOpaque('.settings-menu', function onSuccess() {
         test.assert(true, 'post settings menu should be visible after clicking post-settings icon');
     });
 });
@@ -59,7 +59,7 @@ CasperTest.begin('Post url can be changed', 4, function suite(test) {
 
     // Test change permalink
     casper.then(function () {
-        this.fillSelectors('.post-settings-menu form', {
+        this.fillSelectors('.settings-menu form', {
             '#url': 'new-url'
         }, false);
 
@@ -97,7 +97,7 @@ CasperTest.begin('Post published date can be changed', 4, function suite(test) {
 
     // Test change published date
     casper.then(function () {
-        this.fillSelectors('.post-settings-menu form', {
+        this.fillSelectors('.settings-menu form', {
             '.post-setting-date': '22 May 14 @ 23:39'
         }, false);
 
@@ -117,7 +117,7 @@ CasperTest.begin('Post published date can be changed', 4, function suite(test) {
     });
 });
 
-CasperTest.begin('Post can be changed to static page', 6, function suite(test) {
+CasperTest.begin('Post can be changed to static page', 2, function suite(test) {
     // Create a sample post
     CasperTest.Routines.createTestPost.run(false);
 
@@ -135,19 +135,17 @@ CasperTest.begin('Post can be changed to static page', 6, function suite(test) {
 
     casper.thenClick('label[for=static-page]');
 
-    casper.waitForResource(/\/posts\/\d+\/\?include=tags/, function waitForSuccess(resource) {
-        test.assert(resource.status < 400);
+    casper.waitForSelector('.post-setting-static-page:checked', function onSuccess() {
+        casper.click('label[for=static-page]');
+    }, function onTimeout() {
+        casper.test.fail('Post was not changed to static page.');
+    }, 2000);
 
-        test.assertExists('.post-setting-static-page:checked', 'can turn on static page');
-    });
-
-    casper.thenClick('label[for=static-page]');
-
-    casper.waitForResource(/\/posts\/\d+\/\?include=tags/, function waitForSuccess(resource) {
-        test.assert(resource.status < 400);
-
-        test.assertDoesntExist('.post-setting-static-page:checked', 'can turn off static page');
-    });
+    casper.waitForSelector('.post-setting-static-page:not(checked)', function onSuccess() {
+        return;
+    }, function onTimeout() {
+        casper.test.fail('Static page was not changed to post.');
+    }, 2000);
 });
 
 CasperTest.begin('Post url input is reset from all whitespace back to original value', 3, function suite(test) {
@@ -175,7 +173,7 @@ CasperTest.begin('Post url input is reset from all whitespace back to original v
 
     // Test change permalink
     casper.then(function () {
-        this.fillSelectors('.post-settings-menu form', {
+        this.fillSelectors('.settings-menu form', {
             '#url': '    '
         }, false);
 
