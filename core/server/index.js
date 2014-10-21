@@ -31,7 +31,7 @@ function doFirstRun() {
 
         '博客网址被设置为',
         '<strong>' + config.url + '</strong>.',
-        '请参考 <a href="http://support.ghost.org/" target="_blank">http://support.ghost.org</a> 了解详情。'
+        '详情请参考 <a href="http://www.ghostchina.com/" target="_blank">Ghost中文文档</a>。'
     ];
 
     return api.notifications.add({notifications: [{
@@ -108,7 +108,7 @@ function initNotifications() {
             message: [
                 'Ghost 将尝试直接发送邮件。',
                 '建议为 Ghost 系统设置一个邮件服务。',
-                '请参考 <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> 了解更多信息'
+                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
@@ -117,7 +117,7 @@ function initNotifications() {
             type: 'warn',
             message: [
                 'Ghost 目前无法发送邮件。',
-                '请参考 <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> 了解更多信息'
+                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
