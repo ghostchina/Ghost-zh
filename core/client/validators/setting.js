@@ -7,27 +7,27 @@ var SettingValidator = Ember.Object.create({
             postsPerPage = model.get('postsPerPage');
 
         if (!validator.isLength(title, 0, 150)) {
-            validationErrors.push({ message: 'Title is too long' });
+            validationErrors.push({ message: '标题太长' });
         }
 
         if (!validator.isLength(description, 0, 200)) {
-            validationErrors.push({ message: 'Description is too long' });
+            validationErrors.push({ message: '描述信息太长' });
         }
 
         if (!validator.isEmail(email) || !validator.isLength(email, 0, 254)) {
-            validationErrors.push({ message: 'Supply a valid email address' });
+            validationErrors.push({ message: '请输入正确的邮箱地址' });
         }
 
         if (postsPerPage > 1000) {
-            validationErrors.push({ message: 'The maximum number of posts per page is 1000' });
+            validationErrors.push({ message: '每页最多展示博文数量是 1000' });
         }
 
         if (postsPerPage < 1) {
-            validationErrors.push({ message: 'The minimum number of posts per page is 1' });
+            validationErrors.push({ message: '每页最少展示博文数量是 1' });
         }
 
         if (!validator.isInt(postsPerPage)) {
-            validationErrors.push({ message: 'Posts per page must be a number' });
+            validationErrors.push({ message: '请为每页展示的博文数量输入一个数字' });
         }
 
         return validationErrors;

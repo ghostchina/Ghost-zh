@@ -47,7 +47,7 @@
         },
         {
             "name":             "Owner",
-            "description":      "博客业主"
+            "description":      "博客所有者"
         }
     ],
 

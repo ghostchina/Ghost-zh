@@ -43,8 +43,8 @@
             <ul class="nav-list nav-list-block">
                 {{#gh-tab tagName="li" classNames="nav-list-item"}}
                     <a href="#">
-                        <b>元数据</b>
-                        <span>针对搜索引擎优化（SEO）和社会媒体的内容。</span>
+                        <b>搜索引擎优化</b>
+                        <span>优化在搜索引擎中的呈现效果，提高访问量。</span>
                     </a>
                 {{/gh-tab}}
             </ul>
@@ -53,13 +53,13 @@
                 <label class="checkbox" for="static-page" {{action "togglePage" bubbles="false"}}>
                     {{input type="checkbox" name="static-page" id="static-page" class="post-setting-static-page" checked=page}}
                     <span class="input-toggle-component"></span>
-                    <p>设置为静态页面（不出现在博文列表中）</p>
+                    <p>设置为独立页面（不出现在博文列表中）</p>
                 </label>
 
                 <label class="checkbox" for="featured" {{action "toggleFeatured" bubbles="false"}}>
                     {{input type="checkbox" name="featured" id="featured" class="post-setting-featured" checked=featured}}
                     <span class="input-toggle-component"></span>
-                    <p>推荐此博文</p>
+                    <p>推荐此博文（可以设置特殊的展示效果）</p>
                 </label>
             </div>
             
@@ -70,26 +70,26 @@
     {{#gh-tab-pane}}
         <div class="post-settings-header subview">
             <button {{action "closeSubview"}} class="back icon-chevron-left post-settings-header-action"><span class="hidden">返回</span></button>
-            <h4>元数据</h4>
+            <h4>搜索引擎优化</h4>
         </div>
 
 
         <div class="post-settings-content">
             <form>
             <div class="form-group">
-                <label for="meta-title">标题（<meta>）</label>
+                <label for="meta-title">优化标题</label>
                 {{gh-input class="post-setting-meta-title" id="meta-title" value=metaTitleScratch name="post-setting-meta-title" focus-out="setMetaTitle" stopEnterKeyDownPropagation="true"}}
                 <p>建议：<b>70</b> 个字符以内。你已经输入了 {{gh-count-down-characters metaTitleScratch 70}} 个字符</p>
             </div>
 
             <div class="form-group">
-                <label for="meta-description">内容描述（<meta>）</label>
+                <label for="meta-description">优化博文摘要</label>
                 {{gh-textarea class="post-setting-meta-description" id="meta-description" value=metaDescriptionScratch name="post-setting-meta-description" focus-out="setMetaDescription" stopEnterKeyDownPropagation="true"}}
                 <p>建议：<b>156</b> 个字符以内。你已经输入了 {{gh-count-down-characters metaDescriptionScratch 156}} 个字符</p>
             </div>
 
             <div class="form-group">
-                <label>搜索引擎预览结果</label>
+                <label>搜索引擎呈现效果预览</label>
                 <div class="seo-preview">
                     <div class="seo-preview-title">{{seoTitle}}</div>
                     <div class="seo-preview-link">{{gh-blog-url}}/{{seoSlug}}{{#if seoSlug}}/{{/if}}</div>

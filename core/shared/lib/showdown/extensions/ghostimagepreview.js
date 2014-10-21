@@ -33,7 +33,7 @@ var Ghost = Ghost || {};
                                 result + '<div class="description">Mobile uploads coming soon</div></section>';
                         } else {
                             output = '<section id="image_upload_' + key + '" class="js-drop-zone image-uploader">' +
-                                result + '<div class="description">Add image of <strong>' + alt + '</strong></div>' +
+                                result + '<div class="description">为 <strong>' + alt + '</strong> 添加图片</div>' +
                                 '<input data-url="upload" class="js-fileupload main fileupload" type="file" name="uploadimage">' +
                                 '</section>';
                         }

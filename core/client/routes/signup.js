@@ -5,7 +5,7 @@ var SignupRoute = Ember.Route.extend(styleBody, loadingIndicator, {
     classNames: ['ghost-signup'],
     beforeModel: function () {
         if (this.get('session').isAuthenticated) {
-            this.notifications.showWarn('You need to sign out to register as a new user.', { delayed: true });
+            this.notifications.showWarn('你应该先退出登录然后再注册新用户。', { delayed: true });
             this.transitionTo(SimpleAuth.Configuration.routeAfterAuthentication);
         }
     },
@@ -39,7 +39,7 @@ var SignupRoute = Ember.Route.extend(styleBody, loadingIndicator, {
                 }
             }).then(function (response) {
                 if (response && response.invitation && response.invitation[0].valid === false) {
-                    self.notifications.showError('The invitation does not exist or is no longer valid.', { delayed: true });
+                    self.notifications.showError('邀请不存在或已经失效。', { delayed: true });
 
                     return resolve(self.transitionTo('signin'));
                 }
