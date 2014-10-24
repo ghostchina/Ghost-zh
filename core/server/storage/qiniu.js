@@ -14,13 +14,13 @@ var _       = require('lodash'),
     crypto = require('crypto'),
 
     qiniu        = require('qiniu'),
-    qiniuConfig  = config.qiniu,
+    qiniuConfig  = config.storage,
     
     qiniuStore;
 
     qiniu.conf.ACCESS_KEY = qiniuConfig.ACCESS_KEY;
     qiniu.conf.SECRET_KEY = qiniuConfig.SECRET_KEY;
-    qiniu.conf.USER_AGENT = 'Ghost 0.5.2';
+    qiniu.conf.USER_AGENT = 'Ghost 0.5.3';
 
 var putPolicy = new qiniu.rs.PutPolicy(qiniuConfig.bucketname),
     uptoken = putPolicy.token();
