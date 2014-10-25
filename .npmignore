@@ -7,7 +7,7 @@ _site/**
 content/images/**
 !content/images/README.md
 content/themes/**
-!content/themes/casper/**
+!content/themes/casper-zh/**
 content/apps/**
 !content/apps/README.md
 content/data/**
