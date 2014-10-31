@@ -1,6 +1,7 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import base from 'ghost/mixins/editor-route-base';
 
-var EditorNewRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, base, {
+var EditorNewRoute = AuthenticatedRoute.extend(base, {
     classNames: ['editor'],
 
     model: function () {
@@ -14,6 +15,13 @@ var EditorNewRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, base
 
     setupController: function (controller, model) {
         this._super(controller, model);
+
+        var psm = this.controllerFor('post-settings-menu');
+
+        // make sure there are no titleObserver functions hanging around
+        // from previous posts
+        psm.removeObserver('titleScratch', psm, 'titleObserver');
+
         controller.set('scratch', '');
         controller.set('titleScratch', '');
 

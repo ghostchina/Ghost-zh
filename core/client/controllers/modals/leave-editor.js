@@ -40,7 +40,6 @@ var LeaveEditorController = Ember.Controller.extend({
         },
 
         confirmReject: function () {
-
         }
     },
 

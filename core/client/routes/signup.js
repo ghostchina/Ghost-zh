@@ -19,7 +19,7 @@ var SignupRoute = Ember.Route.extend(styleBody, loadingIndicator, {
 
         return new Ember.RSVP.Promise(function (resolve) {
             if (!re.test(params.token)) {
-                self.notifications.showError('Invalid token.', { delayed: true });
+                self.notifications.showError('Invalid token.', {delayed: true});
 
                 return resolve(self.transitionTo('signin'));
             }
@@ -55,7 +55,7 @@ var SignupRoute = Ember.Route.extend(styleBody, loadingIndicator, {
         this._super();
 
         // clear the properties that hold the sensitive data from the controller
-        this.controllerFor('signup').setProperties({ email: '', password: '', token: '' });
+        this.controllerFor('signup').setProperties({email: '', password: '', token: ''});
     }
 });
 

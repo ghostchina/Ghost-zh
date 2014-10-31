@@ -1,7 +1,8 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import styleBody from 'ghost/mixins/style-body';
 import loadingIndicator from 'ghost/mixins/loading-indicator';
 
-var SignoutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleBody, loadingIndicator, {
+var SignoutRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, {
     classNames: ['ghost-signout'],
 
     afterModel: function (model, transition) {
@@ -12,7 +13,7 @@ var SignoutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleB
         } else {
             this.send('invalidateSession');
         }
-    },
+    }
 });
 
 export default SignoutRoute;

@@ -1,13 +1,17 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import PaginationRouteMixin from 'ghost/mixins/pagination-route';
 import styleBody from 'ghost/mixins/style-body';
 
-var paginationSettings = {
+var paginationSettings,
+    UsersIndexRoute;
+
+paginationSettings = {
     page: 1,
     limit: 20,
     status: 'active'
 };
 
-var UsersIndexRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleBody, PaginationRouteMixin, {
+UsersIndexRoute = AuthenticatedRoute.extend(styleBody, PaginationRouteMixin, {
     classNames: ['settings-view-users'],
 
     setupController: function (controller, model) {

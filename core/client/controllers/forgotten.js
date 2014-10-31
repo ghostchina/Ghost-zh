@@ -15,7 +15,7 @@ var ForgottenController = Ember.Controller.extend(ValidationEngine, {
                 data = self.getProperties('email');
 
             this.toggleProperty('submitting');
-            this.validate({ format: false }).then(function () {
+            this.validate({format: false}).then(function () {
                 ajax({
                     url: self.get('ghostPaths.url').api('authentication', 'passwordreset'),
                     type: 'POST',
@@ -31,7 +31,7 @@ var ForgottenController = Ember.Controller.extend(ValidationEngine, {
                     self.transitionToRoute('signin');
                 }).catch(function (resp) {
                     self.toggleProperty('submitting');
-                    self.notifications.showAPIError(resp, { defaultErrorText: '登录出现故障，请重试。' });
+                    self.notifications.showAPIError(resp, {defaultErrorText: '登录出现故障，请重试。'});
                 });
             }).catch(function (errors) {
                 self.toggleProperty('submitting');

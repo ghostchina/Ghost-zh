@@ -1,7 +1,8 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
-var AppsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleBody, CurrentUserSettings, {
+var AppsRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     classNames: ['settings-view-apps'],
 
     beforeModel: function () {
@@ -13,7 +14,7 @@ var AppsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleBody
             .then(this.transitionAuthor())
             .then(this.transitionEditor());
     },
-    
+
     model: function () {
         return this.store.find('app');
     }

@@ -1,6 +1,9 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import base from 'ghost/mixins/editor-route-base';
+import isNumber from 'ghost/utils/isNumber';
+import isFinite from 'ghost/utils/isFinite';
 
-var EditorEditRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, base, {
+var EditorEditRoute = AuthenticatedRoute.extend(base, {
     classNames: ['editor'],
 
     model: function (params) {
@@ -11,7 +14,7 @@ var EditorEditRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, bas
 
         postId = Number(params.post_id);
 
-        if (!_.isNumber(postId) || !_.isFinite(postId) || postId % 1 !== 0 || postId <= 0) {
+        if (!isNumber(postId) || !isFinite(postId) || postId % 1 !== 0 || postId <= 0) {
             return this.transitionTo('error404', 'editor/' + params.post_id);
         }
 

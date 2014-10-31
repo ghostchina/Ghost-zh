@@ -1,8 +1,9 @@
+import AuthenticatedRoute from 'ghost/routes/authenticated';
 import loadingIndicator from 'ghost/mixins/loading-indicator';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
-var SettingsGeneralRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, styleBody, loadingIndicator, CurrentUserSettings, {
+var SettingsGeneralRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, CurrentUserSettings, {
     classNames: ['settings-view-general'],
 
     beforeModel: function () {
@@ -12,7 +13,7 @@ var SettingsGeneralRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin
     },
 
     model: function () {
-        return this.store.find('setting', { type: 'blog,theme' }).then(function (records) {
+        return this.store.find('setting', {type: 'blog,theme'}).then(function (records) {
             return records.get('firstObject');
         });
     }

@@ -3,7 +3,7 @@ var EditorSaveButtonView = Ember.View.extend({
     tagName: 'section',
     classNames: ['splitbtn', 'js-publish-splitbutton'],
 
-    //Tracks whether we're going to change the state of the post on save
+    // Tracks whether we're going to change the state of the post on save
     isDangerous: Ember.computed('controller.isPublished', 'controller.willPublish', function () {
         return this.get('controller.isPublished') !== this.get('controller.willPublish');
     }),
@@ -16,7 +16,7 @@ var EditorSaveButtonView = Ember.View.extend({
         return this.get('controller.isPublished') ? '撤销发布' : '保存草稿';
     }),
 
-    'saveText': Ember.computed('controller.willPublish', function () {
+    saveText: Ember.computed('controller.willPublish', function () {
         return this.get('controller.willPublish') ? this.get('publishText') : this.get('draftText');
     })
 });

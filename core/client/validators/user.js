@@ -50,8 +50,8 @@ var UserValidator = Ember.Object.create({
                 validationErrors.push({ message: '所在地太长' });
             }
 
-            if (!_.isEmpty(website) &&
-                (!validator.isURL(website, { protocols: ['http', 'https'], require_protocol: true }) ||
+            if (!Ember.isEmpty(website) &&
+                (!validator.isURL(website, {protocols: ['http', 'https'], require_protocol: true}) ||
                 !validator.isLength(website, 0, 2000))) {
 
                 validationErrors.push({ message: '个人网站不是有效的网址' });

@@ -11,13 +11,13 @@ var DeleteUserController = Ember.Controller.extend({
             }, function () {
                 self.notifications.showError('删除用户失败，请重试。');
             });
-
         },
 
         confirmReject: function () {
             return false;
         }
     },
+
     confirm: {
         accept: {
             text: 'Delete User',
