@@ -6,3 +6,5 @@ function wordCount(s) {
     s = s.replace(/\n+/gi, '\n');
     return s.length;
 }
+
+export default wordCount;
