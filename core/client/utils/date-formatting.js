@@ -14,7 +14,6 @@ parseDateFormats = ['DD MMM YY @ HH:mm', 'DD MMM YY HH:mm',
                         'DD-MM-YY @ HH:mm', 'DD-MM-YY HH:mm',
                         'DD-MM-YYYY @ HH:mm', 'DD-MM-YYYY HH:mm',
                         'YYYY-MM-DD @ HH:mm', 'YYYY-MM-DD HH:mm',
-
                         'DD MMM @ HH:mm', 'DD MMM HH:mm'];
 
 displayDateFormat = 'YYYY-MM-DD @ HH:mm';
