@@ -32,7 +32,8 @@ config = {
             provider: 'local-file-store'
         }
 
-        //or
+        // or
+        // 参考文档： http://www.ghostchina.com/qiniu-cdn-for-ghost/
         // storage: {
         //     provider: 'qiniu',
         //     bucketname: 'your-bucket-name',
@@ -42,7 +43,8 @@ config = {
         //     prefix: 'http://your-bucket-name.qiniudn.com'
         // }
 
-        //or
+        // or
+        // 参考文档： http://www.ghostchina.com/upyun-cdn-for-ghost/ 
         // storage: {
         //     provider: 'upyun',
         //     bucketname: 'your-bucket-name',
