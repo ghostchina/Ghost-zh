@@ -1,5 +1,5 @@
-// # qiniu CDN support
-// GhostChina.com
+// Qiniu CDN support
+// Copyright: GhostChina.com
 
 var _       = require('lodash'),
     express = require('express'),
