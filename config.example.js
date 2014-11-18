@@ -27,7 +27,7 @@ config = {
             port: '2368'
         },
 
-        //Storage.Now,we can support `qiniu`,`upyun` and `local-file-store`
+        //Storage.Now,we can support `qiniu`,`upyun`, `aliyun oss` and `local-file-store`
         storage: {
             provider: 'local-file-store'
         }
@@ -52,6 +52,17 @@ config = {
         //     password: 'your password',
         //     root: '/image/',
         //     prefix: 'http://your-bucket-name.b0.upaiyun.com'
+        // }
+
+        // or
+        // 参考文档： http://www.ghostchina.com/aliyun-oss-for-ghost/ 
+        // storage: {
+        //     provider: 'oss',
+        //     bucketname: 'your-bucket-name',
+        //     ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        //     SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        //     root: '/image/',
+        //     prefix: 'http://your-bucket-name.oss-cn-hangzhou.aliyuncs.com'
         // }
     },
 
