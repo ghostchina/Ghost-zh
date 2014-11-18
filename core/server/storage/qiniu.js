@@ -9,6 +9,7 @@ var _       = require('lodash'),
     utils   = require('../utils'),
     Promise = require('bluebird'),
     config = require('../config'),
+    packageInfo   = require('../../../package.json'),
     errors  = require('../errors'),
     baseStore   = require('./base'),
     crypto = require('crypto'),
@@ -20,7 +21,7 @@ var _       = require('lodash'),
 
     qiniu.conf.ACCESS_KEY = qiniuConfig.ACCESS_KEY;
     qiniu.conf.SECRET_KEY = qiniuConfig.SECRET_KEY;
-    qiniu.conf.USER_AGENT = 'Ghost 0.5.3';
+    qiniu.conf.USER_AGENT = packageInfo.version;
 
 var putPolicy = new qiniu.rs.PutPolicy(qiniuConfig.bucketname);
 
