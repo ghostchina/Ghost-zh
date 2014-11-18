@@ -64,7 +64,8 @@
         "validator": "3.22.1",
         "xml": "0.0.12",
         "qiniu": "6.1.5",
-        "upyun": "1.0.1"
+        "upyun": "1.0.1",
+        "aliyun-oss": "0.5.0"
     },
     "optionalDependencies": {
         "mysql": "2.5.2",
