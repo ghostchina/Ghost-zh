@@ -824,14 +824,14 @@ User = ghostBookshelf.Model.extend({
             // check if user has the owner role
             var currentRoles = ctxUser.toJSON().roles;
             if (!_.contains(currentRoles, ownerRole.id)) {
-                return Promise.reject(new errors.NoPermissionError('只有博客业主才可转移博客的所有权。'));
+                return Promise.reject(new errors.NoPermissionError('只有博客所有者才可转移博客的所有权。'));
             }
             contextUser = ctxUser;
             return User.findOne({id: object.id});
         }).then(function (user) {
             var currentRoles = user.toJSON().roles;
             if (!_.contains(currentRoles, adminRole.id)) {
-                return Promise.reject(new errors.ValidationError('只有管理员才可以被指定为博客业主。'));
+                return Promise.reject(new errors.ValidationError('只有管理员才可以被指定为博客所有者。'));
             }
 
             assignUser = user;
@@ -862,7 +862,7 @@ User = ghostBookshelf.Model.extend({
             request({url: 'http:' + gravatarUrl, timeout: 2000}, function (err, response) {
                 if (err) {
                     // just resolve with no image url
-                    resolve(userData);
+                    return resolve(userData);
                 }
 
                 if (response.statusCode !== 404) {
