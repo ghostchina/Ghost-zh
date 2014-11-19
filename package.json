@@ -68,7 +68,7 @@
         "aliyun-oss": "0.5.0"
     },
     "optionalDependencies": {
-        "mysql": "2.5.2",
+        "mysql": "2.1.1",
         "pg.js": "3.6.2"
     },
     "devDependencies": {
