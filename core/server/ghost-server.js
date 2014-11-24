@@ -138,6 +138,10 @@ GhostServer.prototype.start = function (externalApp) {
 
             fs.chmod(config.getSocket(), '0660');
         } else {
+            if(global.ACESDK) {
+                config.server.host = '0.0.0.0';
+            }
+            
             self.httpServer = rootApp.listen(
                 config.server.port,
                 config.server.host

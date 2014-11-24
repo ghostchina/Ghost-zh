@@ -21,7 +21,7 @@
             "url": "https://raw.github.com/TryGhost/Ghost/master/LICENSE"
         }
     ],
-    "main": "./core/index",
+    "main": "index.js",
     "scripts": {
         "start": "node index",
         "test": "./node_modules/.bin/grunt validate --verbose"
@@ -102,5 +102,8 @@
         "sinon": "~1.10.3",
         "supertest": "~0.13.0",
         "top-gh-contribs": "0.0.2"
+    },
+    "aceenv": {
+        "NODE_ENV": "production"
     }
 }
