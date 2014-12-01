@@ -862,7 +862,7 @@ User = ghostBookshelf.Model.extend({
 
         return new Promise(function (resolve) {
             if (config.isPrivacyDisabled('useGravatar')) {
-                resolve(userData);
+                return resolve(userData);
             }
 
             request({url: 'http:' + gravatarUrl, timeout: 2000}, function (err, response) {

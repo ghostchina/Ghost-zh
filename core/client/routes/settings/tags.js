@@ -4,6 +4,14 @@ import PaginationRouteMixin from 'ghost/mixins/pagination-route';
 
 var TagsRoute = AuthenticatedRoute.extend(CurrentUserSettings, PaginationRouteMixin, {
 
+    actions: {
+        willTransition: function () {
+            this.send('closeSettingsMenu');
+        }
+    },
+
+    titleToken: 'Tags',
+
     beforeModel: function () {
         if (!this.get('config.tagsUI')) {
             return this.transitionTo('settings.general');
