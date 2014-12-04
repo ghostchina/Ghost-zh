@@ -5,8 +5,9 @@ var _              = require('lodash'),
     errors         = require('../errors'),
     Showdown       = require('showdown-ghost'),
     ghostgfm       = require('../../shared/lib/showdown/extensions/ghostgfm'),
-    ghostfootnotes      = require('../../shared/lib/showdown/extensions/ghostfootnotes'),
-    converter      = new Showdown.converter({extensions: [ghostgfm, ghostfootnotes]}),
+    footnotes      = require('../../shared/lib/showdown/extensions/ghostfootnotes'),
+    highlight      = require('../../shared/lib/showdown/extensions/ghosthighlight'),
+    converter      = new Showdown.converter({extensions: [ghostgfm, footnotes, highlight]}),
     ghostBookshelf = require('./base'),
     xmlrpc         = require('../xmlrpc'),
     sitemap        = require('../data/sitemap'),
@@ -320,7 +321,7 @@ Post = ghostBookshelf.Model.extend({
             tagInstance = options.tag !== undefined ? ghostBookshelf.model('Tag').forge({slug: options.tag}) : false,
             authorInstance = options.author !== undefined ? ghostBookshelf.model('User').forge({slug: options.author}) : false;
 
-        if (options.limit) {
+        if (options.limit && options.limit !== 'all') {
             options.limit = parseInt(options.limit, 10) || 15;
         }
 
@@ -400,9 +401,14 @@ Post = ghostBookshelf.Model.extend({
                     postCollection
                         .query('where', 'author_id', '=', authorInstance.id);
                 }
+
+                if (_.isNumber(options.limit)) {
+                    postCollection
+                        .query('limit', options.limit)
+                        .query('offset', options.limit * (options.page - 1));
+                }
+
                 return postCollection
-                    .query('limit', options.limit)
-                    .query('offset', options.limit * (options.page - 1))
                     .query('orderBy', 'status', 'ASC')
                     .query('orderBy', 'published_at', 'DESC')
                     .query('orderBy', 'updated_at', 'DESC')
@@ -437,7 +443,7 @@ Post = ghostBookshelf.Model.extend({
             // Format response of data
             .then(function (resp) {
                 var totalPosts = parseInt(resp[0].aggregate, 10),
-                    calcPages = Math.ceil(totalPosts / options.limit),
+                    calcPages = Math.ceil(totalPosts / options.limit) || 0,
                     pagination = {},
                     meta = {},
                     data = {};
