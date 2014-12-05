@@ -9,7 +9,7 @@ var shortcuts = {},
 shortcuts[ctrlOrCmd + '+s'] = {action: 'save'};
 
 SettingsUserRoute = AuthenticatedRoute.extend(styleBody, ShortcutsRoute, {
-    titleToken: 'User',
+    titleToken: '用户管理',
 
     classNames: ['settings-view-user'],
 

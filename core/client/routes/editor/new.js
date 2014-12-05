@@ -2,7 +2,7 @@ import AuthenticatedRoute from 'ghost/routes/authenticated';
 import base from 'ghost/mixins/editor-base-route';
 
 var EditorNewRoute = AuthenticatedRoute.extend(base, {
-    titleToken: 'Editor',
+    titleToken: '编辑器',
 
     model: function () {
         var self = this;

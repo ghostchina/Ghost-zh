@@ -11,7 +11,7 @@ var shortcuts = {},
 shortcuts[ctrlOrCmd + '+s'] = {action: 'save'};
 
 SettingsGeneralRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, CurrentUserSettings, ShortcutsRoute, {
-    titleToken: 'General',
+    titleToken: '全局设置',
 
     classNames: ['settings-view-general'],
 

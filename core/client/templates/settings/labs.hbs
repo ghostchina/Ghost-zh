@@ -1,7 +1,7 @@
 <header class="settings-view-header">
-    <h2 class="page-title">Labs</h2>
+    <h2 class="page-title">实验功能</h2>
     <div class="js-settings-header-inner settings-header-inner">
-        {{#link-to 'settings' class='btn btn-default btn-back'}}Back{{/link-to}}
+        {{#link-to 'settings' class='btn btn-default btn-back'}}返回{{/link-to}}
     </div>
 </header>
 
@@ -10,37 +10,37 @@
     <form id="settings-export">
         <fieldset>
             <div class="form-group">
-                <label>Export</label>
-                <button type="button" class="btn btn-blue" {{action "exportData"}}>Export</button>
-                <p>Export the blog settings and data.</p>
+                <label>导出数据</label>
+                <button type="button" class="btn btn-blue" {{action "exportData"}}>导出</button>
+                <p>导出博客设置和数据。</p>
             </div>
         </fieldset>
     </form>
     {{#gh-form id="settings-import" enctype="multipart/form-data"}}
         <fieldset>
             <div class="form-group">
-                <label>Import</label>
+                <label>导入数据</label>
                 {{partial "import-errors"}}
                 {{gh-file-upload id="importfile" uploadButtonText=uploadButtonText}}
-                <p>Import from another Ghost installation. If you import a user, this will replace the current user & log you out.</p>
+                <p>导入以前备份的博客数据。如果导入的数据中包含用户信息，当前用户和记录也将被替换。</p>
             </div>
         </fieldset>
     {{/gh-form}}
     <form id="settings-resetdb">
         <fieldset>
             <div class="form-group">
-                <label>Delete all Content</label>
-                <button type="button" class="btn btn-red js-delete" {{action "openModal" "deleteAll"}}>Delete</button>
-                <p>Delete all posts and tags from the database.</p>
+                <label>删除所有博客内容</label>
+                <button type="button" class="btn btn-red js-delete" {{action "openModal" "deleteAll"}}>删除</button>
+                <p>从数据库中删除所有博文和标签数据。</p>
             </div>
         </fieldset>
     </form>
     <form id="settings-testmail">
         <fieldset>
             <div class="form-group">
-                <label>Send a test email</label>
-                <button type="button" id="sendtestmail" class="btn btn-blue" {{action "sendTestEmail"}}>Send</button>
-                <p>Sends a test email to your address.</p>
+                <label>发送测试邮件</label>
+                <button type="button" id="sendtestmail" class="btn btn-blue" {{action "sendTestEmail"}}>发送</button>
+                <p>向你的邮箱地址发送测试邮件。</p>
             </div>
         </fieldset>
     </form>

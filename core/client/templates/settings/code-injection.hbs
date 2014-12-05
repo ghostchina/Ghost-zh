@@ -1,8 +1,8 @@
 <header class="settings-view-header">
-    {{#link-to "settings" class="btn btn-default btn-back"}}Back{{/link-to}}
-    <h2 class="page-title">Code Injection</h2>
+    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
+    <h2 class="page-title">插入代码</h2>
     <section class="page-actions">
-        <button type="button" class="btn btn-blue" {{action "save"}}>Save</button>
+        <button type="button" class="btn btn-blue" {{action "save"}}>保存</button>
     </section>
 </header>
 
@@ -11,19 +11,19 @@
         <fieldset>
             <div class="form-group">
                 <p>
-                    Ghost allows you to inject code into the top and bottom of your template files without editing them. This allows for quick modifications to insert useful things like tracking codes and meta data.
+                    Ghost 可以帮你在主题模板的页头和页脚插入额外的代码，从而免去直接修改模板文件的麻烦。这一功能允许你快速插入或修改比如“统计代码”和“元数据”等。
                 </p>
             </div>
 
             <div class="form-group">
-                <label for="ghost-head">Blog Header</label>
-                <p>Code here will be injected to the \{{ghost_head}} helper at the top of your page</p>
+                <label for="ghost-head">页头</label>
+                <p>在这里输入的代码将通过 \{{ghost_head}} 助手函数插入到页头位置</p>
                 {{textarea id="ghost-head" name="codeInjection[ghost_head]" type="text" value=ghost_head}}
             </div>
 
             <div class="form-group">
-                <label for="ghost-foot">Blog Footer</label>
-                <p>Code here will be injected to the \{{ghost_foot}} helper at the bottom of your page</p>
+                <label for="ghost-foot">页脚</label>
+                <p>在这里输入的代码将通过 \{{ghost_foot}} 助手函数插入到页脚位置</p>
                 {{textarea id="ghost-foot" name="codeInjection[ghost_foot]" type="text" value=ghost_foot}}
             </div>
         </fieldset>

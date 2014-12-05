@@ -10,7 +10,7 @@ var TagsRoute = AuthenticatedRoute.extend(CurrentUserSettings, PaginationRouteMi
         }
     },
 
-    titleToken: 'Tags',
+    titleToken: '标签管理',
 
     beforeModel: function () {
         if (!this.get('config.tagsUI')) {

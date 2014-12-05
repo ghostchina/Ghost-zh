@@ -14,7 +14,7 @@ paginationSettings = {
 };
 
 PostsRoute = AuthenticatedRoute.extend(ShortcutsRoute, styleBody, loadingIndicator, PaginationRouteMixin, {
-    titleToken: 'Content',
+    titleToken: '博文列表',
 
     classNames: ['manage'],
 

@@ -20,15 +20,15 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
                 contentType: false,
                 processData: false
             }).then(function () {
-                self.notifications.showSuccess('Import successful.');
+                self.notifications.showSuccess('已成功导入。');
             }).catch(function (response) {
                 if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                     self.set('importErrors', response.jqXHR.responseJSON.errors);
                 }
 
-                self.notifications.showError('Import Failed');
+                self.notifications.showError('导入失败。');
             }).finally(function () {
-                self.set('uploadButtonText', 'Import');
+                self.set('uploadButtonText', '导入');
                 self.trigger('reset');
             });
         },
@@ -51,7 +51,7 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
             ic.ajax.request(this.get('ghostPaths.url').api('mail', 'test'), {
                 type: 'POST'
             }).then(function () {
-                self.notifications.showSuccess('Check your email for the test message.');
+                self.notifications.showSuccess('请检查邮箱查看测试邮件。');
             }).catch(function (error) {
                 if (typeof error.jqXHR !== 'undefined') {
                     self.notifications.showAPIError(error);

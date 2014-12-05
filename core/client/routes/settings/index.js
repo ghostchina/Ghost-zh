@@ -3,7 +3,7 @@ import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import mobileQuery from 'ghost/utils/mobile';
 
 var SettingsIndexRoute = MobileIndexRoute.extend(SimpleAuth.AuthenticatedRouteMixin, CurrentUserSettings, {
-    titleToken: 'Settings',
+    titleToken: '博客设置',
 
     // Redirect users without permission to view settings,
     // and show the settings.general route unless the user

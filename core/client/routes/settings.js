@@ -3,7 +3,7 @@ import styleBody from 'ghost/mixins/style-body';
 import loadingIndicator from 'ghost/mixins/loading-indicator';
 
 var SettingsRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, {
-    titleToken: 'Settings',
+    titleToken: '博客设置',
 
     classNames: ['settings']
 });

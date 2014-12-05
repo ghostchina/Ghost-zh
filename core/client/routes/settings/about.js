@@ -3,7 +3,7 @@ import loadingIndicator from 'ghost/mixins/loading-indicator';
 import styleBody from 'ghost/mixins/style-body';
 
 var SettingsAboutRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, {
-    titleToken: 'About',
+    titleToken: '关于我们',
 
     classNames: ['settings-view-about'],
 

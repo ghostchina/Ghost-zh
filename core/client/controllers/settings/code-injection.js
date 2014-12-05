@@ -5,7 +5,7 @@ var SettingsCodeInjectionController = Ember.ObjectController.extend({
 
             return this.get('model').save().then(function (model) {
                 self.notifications.closePassive();
-                self.notifications.showSuccess('Settings successfully saved.');
+                self.notifications.showSuccess('已成功保存设置。');
 
                 return model;
             }).catch(function (errors) {
