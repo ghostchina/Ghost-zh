@@ -13,7 +13,7 @@ var _       = require('lodash'),
     baseStore   = require('./base'),
     crypto  = require('crypto');
     storageConfig = config.storage,
-    storageConfig.root = '',
+    storageConfig.root = '/',
     storageConfig.bucketname = storageConfig.bucketname || 'default';
 
 var aceStorage = new global.ACESDK.STORAGE(storageConfig.bucketname);
@@ -43,7 +43,7 @@ AceStorage.prototype.save = function (image) {
             aceStorage.putObject({
                 Key: targetFilename.replace(/^\/(.*)/g, '$1'),
                 Body: data,
-                Expires: 60 
+                Expires: 60
             },
             function (err, data) {
                 if (err) {
