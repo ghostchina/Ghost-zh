@@ -63,9 +63,9 @@
         "unidecode": "0.1.3",
         "validator": "3.22.1",
         "xml": "0.0.12",
-        "qiniu": "6.1.5",
-        "upyun": "1.0.1",
-        "aliyun-oss": "0.5.0"
+        "qiniu": "6.1.6",
+        "upyun": "1.1.2",
+        "aliyun-sdk": "1.0.1"
     },
     "optionalDependencies": {
         "mysql": "2.1.1",

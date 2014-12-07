@@ -9,19 +9,22 @@ var _       = require('lodash'),
     utils   = require('../utils'),
     Promise = require('bluebird'),
     config = require('../config'),
-    packageInfo   = require('../../../package.json'),
     errors  = require('../errors'),
     baseStore   = require('./base'),
     crypto = require('crypto'),
 
-    OSS        = require('aliyun-oss'),
-    ossConfig  = config.storage,
-    option = {
-        accessKeyId: ossConfig.ACCESS_KEY,
-        accessKeySecret: ossConfig.SECRET_KEY
-    };
+    ALY        = require('aliyun-sdk'),
+    ossConfig  = config.storage;
 
-var oss = OSS.createClient(option);
+ALY.config.update({
+  accessKeyId: ossConfig.ACCESS_KEY,
+  secretAccessKey: ossConfig.SECRET_KEY
+});
+
+var oss = new ALY.OSS({
+  endpoint: ossConfig.prefix.replace(ossConfig.bucketname + '.', ''),
+  apiVersion: '2013-10-15'
+});
 
 function OssStore () {
 }
@@ -47,10 +50,21 @@ OssStore.prototype.save = function (image) {
         targetFilename = targetFilename.replace(/\\/g, '/');
         key = targetFilename.replace(/^\//, '');
 
-        return Promise.promisify(oss.putObject, oss)({
-            bucket: ossConfig.bucketname,
-            object: key, 
-            source: data});
+        return new Promise(function(resolve, reject){
+            oss.putObject({
+                Bucket: ossConfig.bucketname,
+                Key: key,
+                Body: data,
+                Expires: 60
+            },
+            function (err, data) {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(data);
+            });
+        });
     }).then(function() {
         // Remove temp file
         return Promise.promisify(fs.unlink)(savedpath);
