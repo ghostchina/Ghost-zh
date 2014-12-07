@@ -2,3 +2,6 @@
 [submodule "content/themes/casper-zh"]
 	path = content/themes/casper-zh
 	url = https://github.com/ghostchina/Casper-zh
+[submodule "content/themes/roon-zh"]
+	path = content/themes/roon-zh
+	url = https://github.com/ghostchina/Roon-zh
