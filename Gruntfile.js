@@ -32,6 +32,12 @@ var _              = require('lodash'),
         });
     }()),
 
+    fullGlob = (function () {
+        return _.keys(JSON.parse(fs.readFileSync('package.json', {encoding: 'utf8'})).dependencies).map(function (package) {
+            return 'node_modules/' + package + '/**';
+        });
+    }()),
+
     // ## List of files we want to lint through jshint and jscs to make sure
     // they conform to our desired code styles.
     lintFiles = {
@@ -332,6 +338,24 @@ var _              = require('lodash'),
                     execOptions: {
                         env: 'NODE_ENV=' + process.env.NODE_ENV
                     }
+                },
+
+                'sqlite-bindings': {
+                    command: [
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin'
+                        ].join('&&').replace(/\//g, '\\'),
+                    options: {
+                        stdout: true,
+                        stdin: false,
+                        stderr: true,
+                        execOptions: {
+                            cwd: 'node_modules/sqlite3/'
+                        }
+                    }
                 }
             },
 
@@ -497,6 +521,9 @@ var _              = require('lodash'),
                 },
                 tmp: {
                     src: ['.tmp/**']
+                },
+                all: {
+                    src: ['.build/**', '.tmp/**', '.dist/**']
                 }
             },
 
@@ -539,7 +566,14 @@ var _              = require('lodash'),
                         src: buildGlob,
                         dest: '<%= paths.releaseBuild %>/'
                     }]
-                }
+                },
+                full: {
+                    files: [{
+                        expand: true,
+                        src: fullGlob,
+                        dest: '<%= paths.releaseBuild %>/'
+                    }]
+                },
             },
 
             // ### grunt-contrib-compress
@@ -547,7 +581,16 @@ var _              = require('lodash'),
             compress: {
                 release: {
                     options: {
-                        archive: '<%= paths.releaseDist %>/Ghost-<%= pkg.version %>.zip'
+                        archive: '<%= paths.releaseDist %>/Ghost-<%= pkg.version %>-zh.zip'
+                    },
+                    expand: true,
+                    cwd: '<%= paths.releaseBuild %>/',
+                    src: ['**']
+                },
+
+                'release-full': {
+                    options: {
+                        archive: '<%= paths.releaseDist %>/Ghost-<%= pkg.version %>-zh-full.zip'
                     },
                     expand: true,
                     cwd: '<%= paths.releaseBuild %>/',
@@ -1112,6 +1155,9 @@ var _              = require('lodash'),
             ' - Clean out unnecessary files (travis, .git*, etc)\n' +
             ' - Zip files in release-folder to dist-folder/#{version} directory',
             ['init', 'concat:prod', 'copy:prod', 'emberBuildProd', 'uglify:release', 'clean:release', 'copy:release', 'compress:release']);
+        
+        grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
+           ['clean:all', 'init', 'concat:prod', 'copy:prod', 'emberBuildProd', 'uglify:release', 'copy:release', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
     };
 
 // Export the configuration
