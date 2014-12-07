@@ -22,7 +22,7 @@
                 <label>导入数据</label>
                 {{partial "import-errors"}}
                 {{gh-file-upload id="importfile" uploadButtonText=uploadButtonText}}
-                <p>导入以前备份的博客数据。如果导入的数据中包含用户信息，当前用户和记录也将被替换。</p>
+                <p>导入以前备份的博客数据。如果导入的数据中包含用户信息，用户信息将被覆盖，可能导致无法登陆。</p>
             </div>
         </fieldset>
     {{/gh-form}}
