@@ -9,8 +9,8 @@ var SettingsController = Ember.Controller.extend({
         return this.get('session.user.isAuthor') || !this.get('config.tagsUI') ? false : true;
     }),
 
-    showCodeInjection: Ember.computed('session.user.name', 'config.codeInjectionUI', function () {
-        return this.get('session.user.isAuthor') || this.get('session.user.isEditor') || !this.get('config.codeInjectionUI') ? false : true;
+    showCodeInjection: Ember.computed('session.user.name', function () {
+        return this.get('session.user.isAuthor') || this.get('session.user.isEditor') || this.get('config.codeInjectionUI') ? false : true;
     }),
 
     showLabs: Ember.computed('session.user.name', function () {
