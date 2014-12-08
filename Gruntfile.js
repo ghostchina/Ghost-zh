@@ -33,7 +33,11 @@ var _              = require('lodash'),
     }()),
 
     fullGlob = (function () {
-        return _.keys(JSON.parse(fs.readFileSync('package.json', {encoding: 'utf8'})).dependencies).map(function (package) {
+        var packagejson = JSON.parse(fs.readFileSync('package.json', {encoding: 'utf8'}));
+        var pkgs = _.keys(packagejson.dependencies);
+        pkgs = pkgs.concat(_.keys(packagejson.optionalDependencies));
+        
+        return pkgs.map(function (package) {
             return 'node_modules/' + package + '/**';
         });
     }()),
