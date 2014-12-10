@@ -44,7 +44,7 @@ var TagsController = Ember.ArrayController.extend(PaginationMixin, {
         }
 
         activeTag.save().then(function () {
-            self.notifications.showSuccess('Saved ' + tagName);
+            self.notifications.showSuccess('已保存：' + tagName);
         }).catch(function (error) {
             self.notifications.showAPIError(error);
         });
@@ -68,7 +68,7 @@ var TagsController = Ember.ArrayController.extend(PaginationMixin, {
             this.send('closeSettingsMenu');
 
             tag.destroyRecord().then(function () {
-                self.notifications.showSuccess('Deleted ' + name);
+                self.notifications.showSuccess('已删除：' + name);
             }).catch(function (error) {
                 self.notifications.showAPIError(error);
             });
