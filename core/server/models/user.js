@@ -24,7 +24,7 @@ var _              = require('lodash'),
 function validatePasswordLength(password) {
     try {
         if (!validator.isLength(password, 8)) {
-            throw new Error('密码至少8个字符。');
+            throw new errors.ValidationError('密码至少8个字符。');
         }
     } catch (error) {
         return Promise.reject(error);
@@ -687,25 +687,33 @@ User = ghostBookshelf.Model.extend({
      * @param {String} oldPassword
      * @param {String} newPassword
      * @param {String} ne2Password
+     * @param {Integer} userId
      * @param {Object} options
      */
-    changePassword: function (oldPassword, newPassword, ne2Password, options) {
+    changePassword: function (oldPassword, newPassword, ne2Password, userId, options) {
         var self = this,
-            userid = options.context.user,
             user = null;
 
         if (newPassword !== ne2Password) {
-            return Promise.reject(new Error('两次输入的新密码不匹配'));
+            return Promise.reject(new errors.ValidationError('两次输入的新密码不匹配'));
+        }
+
+        if (userId === options.context.user && _.isEmpty(oldPassword)) {
+            return Promise.reject(new errors.ValidationError('此操作必须输入密码'));
         }
 
         return validatePasswordLength(newPassword).then(function () {
-            return self.forge({id: userid}).fetch({require: true});
+            return self.forge({id: userId}).fetch({require: true});
         }).then(function (_user) {
             user = _user;
-            return bcryptCompare(oldPassword, user.get('password'));
+            if (userId === options.context.user) {
+                return bcryptCompare(oldPassword, user.get('password'));
+            }
+            // if user is admin, password isn't compared
+            return true;
         }).then(function (matched) {
-            if (!matched) {
-                return Promise.reject(new Error('密码错误'));
+            if (!matched) 
+                return Promise.reject(new errors.ValidationError('密码错误'));
             }
             return bcryptGenSalt();
         }).then(function (salt) {

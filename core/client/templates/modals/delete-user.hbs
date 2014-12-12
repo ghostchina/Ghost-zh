@@ -1,7 +1,12 @@
 {{#gh-modal-dialog action="closeModal" showClose=true type="action" style="wide,centered" animation="fade"
     title="是否真的要删除此用户？" confirm=confirm}}
 
-    <p>所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！
-    </p>
+    {{#unless userPostCount.isPending}}
+        {{#if userPostCount.count}}
+            <strong>警告：</strong> <span class="red">T此用户是 {{userPostCount.count}} 篇 {{userPostCount.inflection}} 的作者。</span> 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！
+        {{else}}
+            <strong>警告：</strong> 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！
+        {{/if}}
+    {{/unless}}
 
 {{/gh-modal-dialog}}

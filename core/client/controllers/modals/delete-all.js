@@ -7,6 +7,8 @@ var DeleteAllController = Ember.Controller.extend({
                 type: 'DELETE'
             }).then(function () {
                 self.notifications.showSuccess('所有内容都已经从数据库中删掉了。');
+                self.store.unloadAll('post');
+                self.store.unloadAll('tag');
             }).catch(function (response) {
                 self.notifications.showErrors(response);
             });
