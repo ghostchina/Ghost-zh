@@ -712,7 +712,7 @@ User = ghostBookshelf.Model.extend({
             // if user is admin, password isn't compared
             return true;
         }).then(function (matched) {
-            if (!matched) 
+            if (!matched) {
                 return Promise.reject(new errors.ValidationError('密码错误'));
             }
             return bcryptGenSalt();
