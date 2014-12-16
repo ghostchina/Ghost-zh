@@ -5,12 +5,11 @@
 var Promise         = require('bluebird'),
     _               = require('lodash'),
     hbs             = require('express-hbs'),
+    template        = require('./template'),
     config          = require('../config'),
     api             = require('../api'),
     dataProvider    = require('../models'),
     tag_cloud;
-
-var linkTemplate = _.template('<a href="<%= url %>" class="tag-item"><%= text %><span class="post-count"><%= count %></span></a>');
 
 tag_cloud = function (options) {
     var limit = (options && options.hash.limit) || 'all';
@@ -35,15 +34,15 @@ tag_cloud = function (options) {
     }).fetch().then(function(collection) {
         var tags = collection.toJSON();
 
-        var output = _.map(tags, function (tag) {
-            return linkTemplate({
-                url: config.urlFor('tag', {tag: tag}),
+        tags = _.map(tags, function (tag) {
+            return {
+                href: config.urlFor('tag', {tag: tag}),
                 text: _.escape(tag.name),
                 count: tag.post_count
-            });
-        }).join('');
+            };
+        });
 
-        return new hbs.handlebars.SafeString(output);
+        return template.execute('tag_cloud',  {tags:tags});
     });
 };
 
