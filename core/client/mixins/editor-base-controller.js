@@ -186,14 +186,14 @@ EditorControllerMixin = Ember.Mixin.create(MarkerManager, {
             path = this.get('ghostPaths.url').join(this.get('config.blogUrl'), this.get('url'));
 
         if (status === 'published') {
-            message += '&nbsp;<a href="' + path + '">View Post</a>';
+            message += '&nbsp;<a href="' + path + '">查看博文</a>';
         }
         this.notifications.showSuccess(message, {delayed: delay});
     },
 
     showErrorNotification: function (prevStatus, status, errors, delay) {
         var message = this.messageMap.errors.post[prevStatus][status],
-            error = (errors && errors[0] && errors[0].message) || 'Unknown Error';
+            error = (errors && errors[0] && errors[0].message) || '未知错误';
 
         message += '<br />' + error;
 
