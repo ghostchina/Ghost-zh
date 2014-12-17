@@ -61,7 +61,7 @@ AceStorage.prototype.save = function (image) {
         // The src for the image must be in URI format, not a file system path, which in Windows uses \
         // For local file system storage can use relative path so add a slash
         var fullUrl = (config.paths.subdir + '/' + config.paths.imagesRelPath + '/' +
-            targetFilename).replace(new RegExp('\\' + path.sep, 'g'), '/');
+            targetFilename).replace(new RegExp('\\' + path.sep, 'g'), '/').replace(new RegExp('/+', 'g'), '/');
         return fullUrl;
     }).catch(function (e) {
         return Promise.reject(e);
