@@ -114,19 +114,6 @@ var TagsController = Ember.ArrayController.extend(PaginationMixin, {
             this.send('openSettingsMenu');
         },
 
-        deleteTag: function (tag) {
-            var name = tag.get('name'),
-                self = this;
-
-            this.send('closeSettingsMenu');
-
-            tag.destroyRecord().then(function () {
-                self.notifications.showSuccess('已删除：' + name);
-            }).catch(function (error) {
-                self.notifications.showAPIError(error);
-            });
-        },
-
         saveActiveTagName: function (name) {
             this.saveActiveTagProperty('name', name);
         },
