@@ -1,26 +1,12 @@
 /* global moment */
 import {parseDateString, formatDate} from 'ghost/utils/date-formatting';
+import SettingsMenuMixin from 'ghost/mixins/settings-menu-controller';
 import SlugGenerator from 'ghost/models/slug-generator';
 import boundOneWay from 'ghost/utils/bound-one-way';
 import isNumber from 'ghost/utils/isNumber';
 
-var PostSettingsMenuController = Ember.ObjectController.extend({
-    // State for if the user is viewing a tab's pane.
-    needs: 'application',
-
+var PostSettingsMenuController = Ember.ObjectController.extend(SettingsMenuMixin, {
     lastPromise: null,
-
-    isViewingSubview: Ember.computed('controllers.application.showSettingsMenu', function (key, value) {
-        // Not viewing a subview if we can't even see the PSM
-        if (!this.get('controllers.application.showSettingsMenu')) {
-            return false;
-        }
-        if (arguments.length > 1) {
-            return value;
-        }
-
-        return false;
-    }),
 
     selectedAuthor: null,
     initializeSelectedAuthor: function () {
@@ -74,8 +60,15 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
             .create(deferred);
     }),
 
-    publishedAtValue: Ember.computed('published_at', function () {
+    /*jshint unused:false */
+    publishedAtValue: Ember.computed('published_at', function (key, value) {
         var pubDate = this.get('published_at');
+
+        // We're using a fake setter to reset
+        // the cache for this property
+        if (arguments.length > 1) {
+            return formatDate(moment());
+        }
 
         if (pubDate) {
             return formatDate(pubDate);
@@ -83,6 +76,7 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
 
         return formatDate(moment());
     }),
+    /*jshint unused:true */
 
     slugValue: boundOneWay('slug'),
 
@@ -449,20 +443,16 @@ var PostSettingsMenuController = Ember.ObjectController.extend({
             });
         },
 
-        showSubview: function () {
-            this.set('isViewingSubview', true);
-        },
-
-        closeSubview: function () {
-            this.set('isViewingSubview', false);
-        },
-
         resetUploader: function () {
             var uploader = this.get('uploaderReference');
 
             if (uploader && uploader[0]) {
                 uploader[0].uploaderUi.reset();
             }
+        },
+
+        resetPubDate: function () {
+            this.set('publishedAtValue', '');
         }
     }
 });
