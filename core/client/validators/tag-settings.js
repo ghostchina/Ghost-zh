@@ -5,19 +5,19 @@ var TagSettingsValidator = Ember.Object.create({
 
         if (validator.empty(data.name)) {
             validationErrors.push({
-                message: 'You must specify a name for the tag.'
+                message: '未设置标签名。'
             });
         }
 
         if (!validator.isLength(data.meta_title, 0, 150)) {
             validationErrors.push({
-                message: 'Meta Title cannot be longer than 150 characters.'
+                message: '优化标题不能超过 150 个字符。'
             });
         }
 
         if (!validator.isLength(data.meta_description, 0, 200)) {
             validationErrors.push({
-                message: 'Meta Description cannot be longer than 200 characters.'
+                message: '优化描述不能超过 200 个字符。'
             });
         }
 
