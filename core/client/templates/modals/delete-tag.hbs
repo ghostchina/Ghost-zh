@@ -1,10 +1,10 @@
 {{#gh-modal-dialog action="closeModal" showClose=true type="action" style="wide,centered" animation="fade"
-    title="Are you sure you want to delete this tag?" confirm=confirm}}
+    title="是否确定删除此标签？" confirm=confirm}}
 
-    <p>You're about to delete "<strong>{{model.name}}</strong>".<br /> 
+    <p>你将要删除标签 "<strong>{{model.name}}</strong>"。<br /> 
     {{#if model.post_count}}
-    <span class="red">This tag will be removed from {{model.post_count}} {{inflection}}.</span>
+    <span class="red">共有 {{model.post_count}} 篇 {{inflection}} 被标记为此标签。</span>
     {{/if}}
-    This is permanent! No backups, no restores, no magic undo button. <br /> We warned you, ok?</p>
+    此删除操作不可逆！没有备份、不可恢复。<br /> 确定要删除吗？</p>
 
 {{/gh-modal-dialog}}
