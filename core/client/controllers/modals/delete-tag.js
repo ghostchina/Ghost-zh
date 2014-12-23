@@ -1,7 +1,7 @@
-var DeleteTagController = Ember.Controller.extend({
-    inflection: function () {
-        return this.get('model').get('post_count') > 1 ? 'posts' : 'post';
-    }.property('model'),
+var DeleteTagController = Ember.ObjectController.extend({
+    postInflection: Ember.computed('post_count', function () {
+        return this.get('post_count') > 1 ? 'posts' : 'post';
+    }),
 
     actions: {
         confirmAccept: function () {
@@ -12,7 +12,7 @@ var DeleteTagController = Ember.Controller.extend({
             this.send('closeSettingsMenu');
 
             tag.destroyRecord().then(function () {
-                self.notifications.showSuccess('Deleted ' + name);
+                self.notifications.showSuccess('已删除 ' + name);
             }).catch(function (error) {
                 self.notifications.showAPIError(error);
             });
@@ -25,11 +25,11 @@ var DeleteTagController = Ember.Controller.extend({
 
     confirm: {
         accept: {
-            text: 'Delete',
+            text: '删除',
             buttonClass: 'btn btn-red'
         },
         reject: {
-            text: 'Cancel',
+            text: '取消',
             buttonClass: 'btn btn-default btn-minor'
         }
     }
