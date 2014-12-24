@@ -11,13 +11,12 @@
             {{gh-uploader uploaded="setCoverImage" canceled="clearCoverImage" description="为标签设置图片" image=activeTag.image uploaderReference=uploaderReference tagName="section"}}
             <form>
                 <div class="form-group">
-
-                    <label>标签名称</label>
+                    <label>Name</label>
                     {{gh-input type="text" value=activeTagNameScratch focus-out="saveActiveTagName"}}
                 </div>
 
                 <div class="form-group">
-                    <label>网址链接</label>
+                    <label>URL</label>
                     {{gh-input type="text" value=activeTagSlugScratch focus-out="saveActiveTagSlug"}}
                     {{gh-url-preview prefix="tag" slug=activeTagSlugScratch tagName="p" classNames="description"}}
                 </div>
