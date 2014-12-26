@@ -334,6 +334,13 @@ var _              = require('lodash'),
                     }
                 },
 
+                test: {
+                    command: function (test) {
+                        var mochaPath = path.resolve(cwd + '/node_modules/grunt-mocha-cli/node_modules/mocha/bin/mocha');
+                        return mochaPath  + ' --timeout=15000 --ui=bdd --reporter=spec core/test/' + test;
+                    }
+                },
+
                 // #### Generate coverage report
                 // See the `grunt test-coverage` task in the section on [Testing](#testing) for more information.
                 coverage: {
@@ -845,6 +852,14 @@ var _              = require('lodash'),
             });
         });
 
+        grunt.registerTask('test', function (test) {
+            if (!test) {
+                grunt.log.write('no test provided');
+            }
+
+            grunt.task.run('setTestEnv', 'shell:test:' + test);
+        });
+
         // ### Validate
         // **Main testing task**
         //
@@ -855,7 +870,7 @@ var _              = require('lodash'),
         //
         // `grunt validate` is called by `npm test` and is used by Travis.
         grunt.registerTask('validate', 'Run tests and lint code',
-            ['init', 'test']);
+            ['init', 'test-all']);
 
         // ### Test
         // **Main testing task**
@@ -865,7 +880,7 @@ var _              = require('lodash'),
         // `grunt test` runs jshint and jscs as well as the 4 test suites. See the individual sub tasks below for
         // details of each of the test suites.
         //
-        grunt.registerTask('test', 'Run tests and lint code',
+        grunt.registerTask('test-all', 'Run tests and lint code',
             ['jshint', 'jscs', 'test-routes', 'test-module', 'test-unit', 'test-integration', 'test-functional', 'shell:testem']);
 
         // ### Lint
