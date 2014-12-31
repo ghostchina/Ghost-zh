@@ -16,12 +16,9 @@ var _       = require('lodash'),
     ALY        = require('aliyun-sdk'),
     ossConfig  = config.storage;
 
-ALY.config.update({
+var oss = new ALY.OSS({
   accessKeyId: ossConfig.ACCESS_KEY,
   secretAccessKey: ossConfig.SECRET_KEY
-});
-
-var oss = new ALY.OSS({
   endpoint: ossConfig.prefix.replace(ossConfig.bucketname + '.', ''),
   apiVersion: '2013-10-15'
 });
