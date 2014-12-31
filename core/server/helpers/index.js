@@ -95,6 +95,8 @@ registerHelpers = function (adminHbs) {
     registerThemeHelper('pagination', coreHelpers.pagination);
     registerThemeHelper('tags', coreHelpers.tags);
     registerThemeHelper('plural', coreHelpers.plural);
+    registerThemeHelper('url', coreHelpers.url);
+    registerThemeHelper('image', coreHelpers.image);
 
     // Async theme helpers
     registerAsyncThemeHelper('body_class', coreHelpers.body_class);
@@ -103,8 +105,6 @@ registerHelpers = function (adminHbs) {
     registerAsyncThemeHelper('meta_description', coreHelpers.meta_description);
     registerAsyncThemeHelper('meta_title', coreHelpers.meta_title);
     registerAsyncThemeHelper('post_class', coreHelpers.post_class);
-    registerAsyncThemeHelper('url', coreHelpers.url);
-    registerAsyncThemeHelper('image', coreHelpers.image);
     registerAsyncThemeHelper('tag_cloud', coreHelpers.tag_cloud);
 
     // Register admin helpers
