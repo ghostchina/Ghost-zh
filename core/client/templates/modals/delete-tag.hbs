@@ -1,9 +1,9 @@
 {{#gh-modal-dialog action="closeModal" showClose=true type="action" style="wide"
     title="是否确定删除此标签？" confirm=confirm}}
 
-    {{#if post_count}}
-        <strong>警告：</strong> <span class="red">共有 {{post_count}} 篇 {{postInflection}} 被标记为此标签。</span> 你将要删除的标签是 "<strong>{{name}}</strong>"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？
+    {{#if model.post_count}}
+        <strong>警告：</strong> <span class="red">共有 {{model.post_count}} 篇 {{postInflection}} 被标记为此标签。</span> 你将要删除的标签是 "<strong>{{model.name}}</strong>"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？
     {{else}}
-        <strong>警告：</strong> 你将要删除的标签是 "<strong>{{name}}</strong>"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？
+        <strong>警告：</strong> 你将要删除的标签是 "<strong>{{model.name}}</strong>"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？
     {{/if}}
 {{/gh-modal-dialog}}

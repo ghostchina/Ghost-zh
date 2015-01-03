@@ -26,10 +26,10 @@
 
                     <div class="user-list-item-body">
                         <span class="name">{{user.email}}</span><br>
-                            {{#if user.pending}}
+                            {{#if user.model.pending}}
                                 <span class="red">邀请邮件未能发送 - 请重试</span>
                             {{else}}
-                                <span class="description">邀请邮件已经发送：{{user.created_at}}</span>
+                                <span class="description">邀请邮件已经发送：{{user.model.created_at}}</span>
                             {{/if}}
                     </div>
                     <aside class="user-list-item-aside">
@@ -50,19 +50,19 @@
         {{#each user in activeUsers itemController="settings/users/user"}}
             {{#link-to 'settings.users.user' user class="user-list-item" }}
                 <span class="user-list-item-figure" {{bind-attr style=user.image}}>
-                    <span class="hidden">{{unbound user.name}}的头像</span>
+                    <span class="hidden">{{unbound user.model.name}}的头像</span>
                 </span>
 
                 <div class="user-list-item-body">
                     <span class="name">
-                        {{user.name}}
+                        {{user.model.name}}
                     </span>
                     <br>
                     <span class="description">上次登录：{{unbound user.last_login}}</span>
                 </div>
                 <aside class="user-list-item-aside">
-                    {{#unless user.isAuthor}}
-                        {{#each role in user.roles}}
+                    {{#unless user.model.isAuthor}}
+                        {{#each role in user.model.roles}}
                             <span class="role-label {{unbound role.lowerCaseName}}">{{role.name}}</span>
                         {{/each}}
                     {{/unless}}

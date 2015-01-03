@@ -213,13 +213,15 @@ var _              = require('lodash'),
                     client: {
                         options: {
                             config: '.jscsrc',
-                            esnext: true
+                            esnext: true,
+                            disallowObjectController: true
                         }
                     },
                     clientTests: {
                         options: {
                             config: '.jscsrc',
-                            esnext: true
+                            esnext: true,
+                            disallowObjectController: true
                         }
                     },
                     test: {
