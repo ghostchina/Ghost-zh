@@ -21,23 +21,8 @@ TagsRoute = AuthenticatedRoute.extend(CurrentUserSettings, PaginationRouteMixin,
     titleToken: '标签管理',
 
     beforeModel: function () {
-        var feature = this.controllerFor('feature'),
-            self = this;
-
-        if (!feature) {
-            this.generateController('feature');
-            feature = this.controllerFor('feature');
-        }
-
         return this.currentUser()
-            .then(this.transitionAuthor())
-            .then(function () {
-                return feature.then(function () {
-                    if (!feature.get('tagsUI')) {
-                        return self.transitionTo('settings.general');
-                    }
-                });
-            });
+            .then(this.transitionAuthor());
     },
 
     model: function () {
