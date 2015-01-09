@@ -50,6 +50,10 @@ EditorControllerMixin = Ember.Mixin.create(MarkerManager, {
         return this.get('model.tags').mapBy('name');
     }),
 
+    postOrPage: Ember.computed('model.page', function () {
+        return this.get('model.page') ? '独立页面' : '博文';
+    }),
+
     // compares previousTagNames to tagNames
     tagNamesEqual: function () {
         var tagNames = this.get('tagNames'),
@@ -191,7 +195,7 @@ EditorControllerMixin = Ember.Mixin.create(MarkerManager, {
             path = this.get('ghostPaths.url').join(this.get('config.blogUrl'), this.get('model.url'));
 
         if (status === 'published') {
-            message += '&nbsp;<a href="' + path + '">查看博文</a>';
+            message += '&nbsp;<a href="' + path + '">查看 ' + this.get('postOrPage') + '</a>';
         }
         this.notifications.showSuccess(message, {delayed: delay});
     },
