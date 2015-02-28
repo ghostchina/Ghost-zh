@@ -104,7 +104,7 @@ NavigationController = Ember.Controller.extend({
 
             // Don't save if there's a blank label.
             if (navItems.find(function (item) { return !item.get('isComplete') && !item.get('last');})) {
-                self.notifications.showErrors(['某个导航条目的标题为空，<br>请为其添加标题或删除此条目才能保存。']);
+                self.notifications.showErrors(['某个导航项的标题为空，<br>请为其添加标题或将其删除才能保存。']);
                 return;
             }
 
@@ -146,7 +146,7 @@ NavigationController = Ember.Controller.extend({
             this.notifications.closePassive();
 
             this.get('model').save().then(function () {
-                self.notifications.showSuccess('导航条目已保存。');
+                self.notifications.showSuccess('导航项已保存。');
             }).catch(function (err) {
                 self.notifications.showErrors(err);
             });
