@@ -367,6 +367,7 @@ var _              = require('lodash'),
                             cwd: 'node_modules/sqlite3/'
                         }
                     }
+                },
 
                 shrinkwrap: {
                     command: 'npm shrinkwrap'
