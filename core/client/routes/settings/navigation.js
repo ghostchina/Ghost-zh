@@ -1,15 +1,14 @@
 import AuthenticatedRoute from 'ghost/routes/authenticated';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
+import styleBody from 'ghost/mixins/style-body';
 
-var NavigationRoute = AuthenticatedRoute.extend(CurrentUserSettings, {
+var NavigationRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
 
     titleToken: 'Navigation',
 
-    beforeModel: function () {
-        if (!this.get('config.navigationUI')) {
-            return this.transitionTo('settings.general');
-        }
+    classNames: ['settings-view-navigation'],
 
+    beforeModel: function () {
         return this.currentUser().then(this.transitionAuthor());
     },
 
@@ -21,6 +20,10 @@ var NavigationRoute = AuthenticatedRoute.extend(CurrentUserSettings, {
 
     actions: {
         save: function () {
+            // since shortcuts are run on the route, we have to signal to the components
+            // on the page that we're about to save.
+            $('.page-actions .btn-blue').focus();
+
             this.get('controller').send('save');
         }
     }

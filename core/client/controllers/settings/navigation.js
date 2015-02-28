@@ -4,14 +4,21 @@ var NavigationController,
 NavItem = Ember.Object.extend({
     label: '',
     url: '',
+    last: false,
 
-    isBlank: Ember.computed('label', 'url', function () {
-        return Ember.isBlank(this.get('label')) && Ember.isBlank(this.get('url'));
+    isComplete: Ember.computed('label', 'url', function () {
+        return !(Ember.isBlank(this.get('label').trim()) || Ember.isBlank(this.get('url')));
     })
 });
 
 NavigationController = Ember.Controller.extend({
-     navigationItems: Ember.computed('model.navigation', function () {
+    blogUrl: Ember.computed('config.blogUrl', function () {
+        var url = this.get('config.blogUrl');
+
+        return url.slice(-1) !== '/' ? url + '/' : url;
+    }),
+
+    navigationItems: Ember.computed('model.navigation', function () {
         var navItems,
             lastItem;
 
@@ -26,14 +33,14 @@ NavigationController = Ember.Controller.extend({
         });
 
         lastItem = navItems.get('lastObject');
-        if (!lastItem || !lastItem.get('isBlank')) {
-            navItems.addObject(NavItem.create());
+        if (!lastItem || lastItem.get('isComplete')) {
+            navItems.addObject(NavItem.create({last: true}));
         }
 
         return navItems;
     }),
 
-    navigationItemsObserver: Ember.observer('navigationItems.[]', function () {
+    updateLastNavItem: Ember.observer('navigationItems.[]', function () {
         var navItems = this.get('navigationItems');
 
         navItems.forEach(function (item, index, items) {
@@ -50,8 +57,8 @@ NavigationController = Ember.Controller.extend({
             var navItems = this.get('navigationItems'),
                 lastItem = navItems.get('lastObject');
 
-            if (lastItem && !lastItem.get('isBlank')) {
-                navItems.addObject(NavItem.create());
+            if (lastItem && lastItem.get('isComplete')) {
+                navItems.addObject(NavItem.create({last: true})); // Adds new blank navItem
             }
         },
 
@@ -60,7 +67,31 @@ NavigationController = Ember.Controller.extend({
                 return;
             }
 
-            this.get('navigationItems').removeObject(item);
+            var navItems = this.get('navigationItems');
+
+            navItems.removeObject(item);
+        },
+
+        moveItem: function (index, newIndex) {
+            var navItems = this.get('navigationItems'),
+                item = navItems.objectAt(index);
+
+            navItems.removeAt(index);
+            navItems.insertAt(newIndex, item);
+        },
+
+        updateUrl: function (url, navItem) {
+            if (!navItem) {
+                return;
+            }
+
+            if (Ember.isBlank(url)) {
+                navItem.set('url', this.get('blogUrl'));
+
+                return;
+            }
+
+            navItem.set('url', url);
         },
 
         save: function () {
@@ -68,26 +99,36 @@ NavigationController = Ember.Controller.extend({
                 navSetting,
                 blogUrl = this.get('config').blogUrl,
                 blogUrlRegex = new RegExp('^' + blogUrl + '(.*)', 'i'),
+                navItems = this.get('navigationItems'),
                 match;
 
-            navSetting = this.get('navigationItems').map(function (item) {
+            // Don't save if there's a blank label.
+            if (navItems.find(function (item) { return !item.get('isComplete') && !item.get('last');})) {
+                self.notifications.showErrors(['One of your navigation items has an empty label.<br>Please enter a new label or delete the item before saving.']);
+                return;
+            }
+
+            navSetting = navItems.map(function (item) {
                 var label,
                     url;
 
-                if (!item || item.get('isBlank')) {
+                if (!item || !item.get('isComplete')) {
                     return;
                 }
 
                 label = item.get('label').trim();
                 url = item.get('url').trim();
 
+                // is this an internal URL?
                 match = url.match(blogUrlRegex);
 
                 if (match) {
-                    if (match[1] === '') {
-                        url = '/';
-                    } else {
-                        url = match[1];
+                    url = match[1];
+
+                    // if the last char is not a slash, then add one,
+                    // this also handles the empty case for the homepage
+                    if (url[url.length - 1] !== '/') {
+                        url += '/';
                     }
                 } else if (!validator.isURL(url) && url !== '' && url[0] !== '/') {
                     url = '/' + url;
