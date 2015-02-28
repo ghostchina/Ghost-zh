@@ -22,6 +22,18 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
         });
     },
 
+    codeUIFlag: Ember.computed.alias('config.codeInjectionUI'),
+
+    useCodeInjectionUI: Ember.computed('controllers.feature.codeInjectionUI', function (key, value) {
+        // setter
+        if (arguments.length > 1) {
+            this.saveLabs('codeInjectionUI', value);
+        }
+
+        // getter
+        return this.get('controllers.feature.codeInjectionUI') || false;
+    }),
+
     actions: {
         onUpload: function (file) {
             var self = this,
@@ -48,15 +60,15 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
                 self.store.unloadAll('role');
                 self.store.unloadAll('setting');
                 self.store.unloadAll('notification');
-                self.notifications.showSuccess('已成功导入。');
+                self.notifications.showSuccess('Import successful.');
             }).catch(function (response) {
                 if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                     self.set('importErrors', response.jqXHR.responseJSON.errors);
                 }
 
-                self.notifications.showError('导入失败。');
+                self.notifications.showError('Import Failed');
             }).finally(function () {
-                self.set('uploadButtonText', '导入');
+                self.set('uploadButtonText', 'Import');
                 self.trigger('reset');
             });
         },
@@ -79,7 +91,7 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
             ic.ajax.request(this.get('ghostPaths.url').api('mail', 'test'), {
                 type: 'POST'
             }).then(function () {
-                self.notifications.showSuccess('请检查邮箱查看测试邮件。');
+                self.notifications.showSuccess('Check your email for the test message.');
             }).catch(function (error) {
                 if (typeof error.jqXHR !== 'undefined') {
                     self.notifications.showAPIError(error);
