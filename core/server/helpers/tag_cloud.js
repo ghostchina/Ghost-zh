@@ -10,16 +10,21 @@ var _               = require('lodash'),
 
 tag_cloud = function (options) {
     var tagCloudOptions = (options || {}).hash || {};
+    var limit = (_.has(tagCloudOptions, 'limit') && !/all/i.test(tagCloudOptions.limit))? parseInt(tagCloudOptions.limit, 10) : 'all';
 
     tagCloudOptions = _.pick(tagCloudOptions, ['limit']);
     tagCloudOptions = {
-        limit: (_.has(tagCloudOptions, 'limit') && !/all/i.test(tagCloudOptions.limit))? parseInt(tagCloudOptions.limit, 10) : 'all',
+        limit: 'all',
         include: ['post_count'].join(','),
         context: 'internal'
     };
 
     return api.tags.browse(tagCloudOptions).then(function(tags){
         var sortedTags = _.sortBy(tags.tags, 'post_count').reverse();
+
+        if(limit !== 'all') {
+            sortedTags = sortedTags.slice(0, limit);
+        }
 
         sortedTags.forEach(function(){
             this.url = config.urlFor('tag', {tag: this}, false);
