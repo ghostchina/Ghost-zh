@@ -323,7 +323,7 @@ frontendControllers = {
             // Sanitize params we're going to use to lookup the post.
             postLookup = _.pick(params, 'slug', 'id');
             // Add author, tag and fields
-            postLookup.include = 'author,tags,fields';
+            postLookup.include = 'author,tags,fields,next,previous';
 
             // Query database to find post
             return api.posts.read(postLookup);
@@ -335,7 +335,7 @@ frontendControllers = {
             if (!post) {
                 return next();
             }
-
+console.log(post);
             function render() {
                 // If we're ready to render the page but the last param is 'edit' then we'll send you to the edit page.
                 if (params.edit) {
