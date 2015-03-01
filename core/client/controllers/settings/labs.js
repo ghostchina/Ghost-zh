@@ -91,7 +91,7 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
             ic.ajax.request(this.get('ghostPaths.url').api('mail', 'test'), {
                 type: 'POST'
             }).then(function () {
-                self.notifications.showSuccess('Check your email for the test message.');
+                self.notifications.showSuccess('请检查邮箱中是否有测试邮件。');
             }).catch(function (error) {
                 if (typeof error.jqXHR !== 'undefined') {
                     self.notifications.showAPIError(error);
