@@ -100,11 +100,13 @@ NavigationController = Ember.Controller.extend({
                 blogUrl = this.get('config').blogUrl,
                 blogUrlRegex = new RegExp('^' + blogUrl + '(.*)', 'i'),
                 navItems = this.get('navigationItems'),
+                message = '某个导航项的标题为空，' +
+                    '<br /> 请为其添加标题或将其删除才能保存。',
                 match;
 
             // Don't save if there's a blank label.
             if (navItems.find(function (item) { return !item.get('isComplete') && !item.get('last');})) {
-                self.notifications.showErrors(['某个导航项的标题为空，<br>请为其添加标题或将其删除才能保存。']);
+                self.notifications.showErrors([message.htmlSafe()]);
                 return;
             }
 
