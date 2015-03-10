@@ -1,7 +1,7 @@
 var LabsController = Ember.Controller.extend(Ember.Evented, {
     needs: ['feature'],
 
-    uploadButtonText: 'Import',
+    uploadButtonText: '导入',
     importErrors: '',
     labsJSON: Ember.computed('model.labs', function () {
         return JSON.parse(this.get('model.labs') || {});
@@ -39,7 +39,7 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
             var self = this,
                 formData = new FormData();
 
-            this.set('uploadButtonText', 'Importing');
+            this.set('uploadButtonText', '导入中');
             this.set('importErrors', '');
             this.notifications.closePassive();
 
@@ -60,15 +60,15 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
                 self.store.unloadAll('role');
                 self.store.unloadAll('setting');
                 self.store.unloadAll('notification');
-                self.notifications.showSuccess('Import successful.');
+                self.notifications.showSuccess('导入成功。');
             }).catch(function (response) {
                 if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                     self.set('importErrors', response.jqXHR.responseJSON.errors);
                 }
 
-                self.notifications.showError('Import Failed');
+                self.notifications.showError('导入失败');
             }).finally(function () {
-                self.set('uploadButtonText', 'Import');
+                self.set('uploadButtonText', '导入');
                 self.trigger('reset');
             });
         },
