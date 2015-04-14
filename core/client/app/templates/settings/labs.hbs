@@ -1,0 +1,69 @@
+<header class="settings-view-header">
+    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
+    <h2 class="page-title">实验室</h2>
+</header>
+
+
+<section class="content settings-debug">
+    <p><strong>Important note:</strong> Labs is a testing ground for experimental features which aren't quite ready for primetime. They may change, break or inexplicably disappear at any time.</p>
+    <form id="settings-export">
+        <fieldset>
+            <div class="form-group">
+                <label>导出数据</label>
+                <button type="button" class="btn btn-blue" {{action "exportData"}}>导出</button>
+                <p>导出博客设置和数据。</p>
+            </div>
+        </fieldset>
+    </form>
+    {{#gh-form id="settings-import" enctype="multipart/form-data"}}
+        <fieldset>
+            <div class="form-group">
+                <label>导入数据</label>
+                {{partial "import-errors"}}
+                {{gh-file-upload id="importfile" uploadButtonText=uploadButtonText}}
+                <p>导入以前备份的博客数据。如果导入的数据中包含用户信息，用户信息将被覆盖，可能导致无法登陆。</p>
+            </div>
+        </fieldset>
+    {{/gh-form}}
+    <form id="settings-resetdb">
+        <fieldset>
+            <div class="form-group">
+                <label>删除所有博客内容</label>
+                <button type="button" class="btn btn-red js-delete" {{action "openModal" "deleteAll"}}>删除</button>
+                <p>从数据库中删除所有博文和标签数据。</p>
+            </div>
+        </fieldset>
+    </form>
+    <form id="settings-testmail">
+        <fieldset>
+            <div class="form-group">
+                <label>发送测试邮件</label>
+                <button type="button" id="sendtestmail" class="btn btn-blue" {{action "sendTestEmail"}}>发送</button>
+                <p>向你的邮箱地址发送测试邮件。</p>
+            </div>
+        </fieldset>
+    </form>
+
+<<<<<<< HEAD:core/client/templates/settings/labs.hbs
+    <hr>
+
+    <form>
+        <fieldset>
+            {{#unless codeUIFlag}}
+            <div class="form-group for-checkbox">
+                <label for="labs-codeInjectionUI">插入代码</label>
+                <label class="check box" for="labs-codeInjectionUI">
+                    {{input id="labs-codeInjectionUI" name="labs[codeInjectionUI]" type="checkbox"
+                    checked=useCodeInjectionUI}}
+                    <span class="input-toggle-component"></span>
+                    <p>启用插入代码功能</p>
+                </label>
+                <p>此功能用于为主题页面插入代码（完善中）。</p>
+            </div>
+            {{/unless}}
+        </fieldset>
+    </form>
+
+=======
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/labs.hbs
+</section>

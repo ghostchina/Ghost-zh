@@ -1,0 +1,15 @@
+<section class="reset-box js-reset-box fade-in">
+    <form id="reset" class="reset-form" method="post" novalidate="novalidate" {{action "submit" on="submit"}}>
+        <div class="password-wrap">
+            {{input value=newPassword class="password" type="password" placeholder="密码" name="newpassword" autofocus="autofocus" }}
+        </div>
+        <div class="password-wrap">
+            {{input value=ne2Password class="password" type="password" placeholder="验证密码" name="ne2password" }}
+        </div>
+<<<<<<< HEAD:core/client/templates/reset.hbs
+        <button class="btn btn-blue" type="submit" {{bind-attr disabled='submitting'}}>重置密码</button>
+=======
+        <button class="btn btn-blue" type="submit" disabled={{submitting}}>Reset Password</button>
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/reset.hbs
+    </form>
+</section>

@@ -1,0 +1,28 @@
+<div class="publish-bar-tags-icon">
+<<<<<<< HEAD:core/client/templates/post-tags-input.hbs
+    <label class="tag-label icon-tag" for="tags" title="标签">
+        <span class="hidden">标签</span>
+=======
+    <label class="tag-label icon-tag" for="tags" title="Tags">
+        <span class="sr-only">Tags</span>
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/post-tags-input.hbs
+    </label>
+</div>
+<div class="publish-bar-tags">
+    <div class="tags-wrapper tags">
+        {{#each tag in controller.tags}}
+           <span class="tag" {{action "deleteTag" tag target=view}}>{{tag.name}}</span>
+        {{/each}}
+    </div>
+</div>
+<div class="publish-bar-tags-input">
+    <input type="hidden" class="tags-holder" id="tags-holder">
+    {{view view.tagInputView class="tag-input js-tag-input" id="tags" value=newTagText}}
+    <ul class="suggestions dropdown-menu dropdown-triangle-bottom" style={{view.overlayStyles}}>
+        {{#each suggestion in suggestions}}
+            {{#view view.suggestionView suggestion=suggestion}}
+                <a href="javascript:void(0);">{{view.suggestion.highlightedName}}</a>
+            {{/view}}
+        {{/each}}
+    </ul>
+</div>

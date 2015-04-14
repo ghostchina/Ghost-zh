@@ -38,8 +38,8 @@ coreHelpers.title = require('./title');
 coreHelpers.url = require('./url');
 coreHelpers.image = require('./image');
 coreHelpers.tag_cloud = require('./tag_cloud');
-
-coreHelpers.ghost_script_tags = require('./ghost_script_tags');
+coreHelpers.prev_post = require('./prev_next');
+coreHelpers.next_post = require('./prev_next');
 
 coreHelpers.helperMissing = function (arg) {
     if (arguments.length === 2) {
@@ -50,10 +50,15 @@ coreHelpers.helperMissing = function (arg) {
 
 // Register an async handlebars helper for a given handlebars instance
 function registerAsyncHelper(hbs, name, fn) {
-    hbs.registerAsyncHelper(name, function (options, cb) {
-        // Wrap the function passed in with a when.resolve so it can
-        // return either a promise or a value
-        Promise.resolve(fn.call(this, options)).then(function (result) {
+    hbs.registerAsyncHelper(name, function (context, options, cb) {
+        // Handle the case where we only get context and cb
+        if (!cb) {
+            cb = options;
+            options = undefined;
+        }
+
+        // Wrap the function passed in with a when.resolve so it can return either a promise or a value
+        Promise.resolve(fn.call(this, context, options)).then(function (result) {
             cb(result);
         }).catch(function (err) {
             errors.logAndThrowError(err, 'registerAsyncThemeHelper: ' + name);
@@ -108,9 +113,10 @@ registerHelpers = function (adminHbs) {
     registerAsyncThemeHelper('meta_title', coreHelpers.meta_title);
     registerAsyncThemeHelper('post_class', coreHelpers.post_class);
     registerAsyncThemeHelper('tag_cloud', coreHelpers.tag_cloud);
+    registerAsyncThemeHelper('next_post', coreHelpers.next_post);
+    registerAsyncThemeHelper('prev_post', coreHelpers.prev_post);
 
     // Register admin helpers
-    registerAdminHelper('ghost_script_tags', coreHelpers.ghost_script_tags);
     registerAdminHelper('asset', coreHelpers.asset);
 };
 
@@ -118,4 +124,3 @@ module.exports = coreHelpers;
 module.exports.loadCoreHelpers = registerHelpers;
 module.exports.registerThemeHelper = registerThemeHelper;
 module.exports.registerAsyncThemeHelper = registerAsyncThemeHelper;
-module.exports.scriptFiles = utils.scriptFiles;

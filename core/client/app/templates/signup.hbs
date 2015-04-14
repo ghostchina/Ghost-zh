@@ -1,0 +1,37 @@
+<section class="setup-box js-signup-box fade-in">
+    <div class="vertical">
+        <form id="signup" class="setup-form" method="post" novalidate="novalidate">
+
+            {{!-- Horrible hack to prevent Chrome from incorrectly auto-filling inputs --}}
+            <input style="display:none;" type="text" name="fakeusernameremembered"/>
+            <input style="display:none;" type="password" name="fakepasswordremembered"/>
+
+            <header>
+                <h1>欢迎使用 Ghost 博客系统</h1>
+                <h2>创建账户并开始创作吧！</h2>
+            </header>
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                {{input type="email" name="email" autocorrect="off" value=model.email }}
+                <p>用于接收重要通知</p>
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label>
+                {{gh-trim-focus-input type="text" name="name" autofocus="autofocus" autocorrect="off" value=model.name }}
+                <p>你所创作的博文都将署此姓名</p>
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                {{input type="password" name="password" autofocus="autofocus" autocorrect="off" value=model.password }}
+                <p>至少8个字符</p>
+            </div>
+            <footer>
+<<<<<<< HEAD:core/client/templates/signup.hbs
+                <button type="submit" class="btn btn-green btn-lg" {{action "signup"}} {{bind-attr disabled=submitting}}>创建账户</button>
+=======
+                <button type="submit" class="btn btn-green btn-lg" {{action "signup"}} disabled={{submitting}}>Create Account</button>
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/signup.hbs
+            </footer>
+        </form>
+    </div>
+</section>

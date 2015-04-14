@@ -1,0 +1,24 @@
+<section class="login-box js-login-box fade-in">
+    <form id="login" class="login-form" method="post" novalidate="novalidate" {{action 'validateAndAuthenticate' on='submit'}}>
+        <div class="email-wrap">
+            <span class="input-icon icon-mail">
+                {{gh-trim-focus-input class="email" type="email" placeholder="邮箱地址" name="identification" autocapitalize="off" autocorrect="off" value=model.identification}}
+            </span>
+        </div>
+        <div class="password-wrap">
+            <span class="input-icon icon-lock">
+                {{input class="password" type="password" placeholder="密码" name="password" value=model.password}}
+            </span>
+        </div>
+<<<<<<< HEAD:core/client/templates/signin.hbs
+        <button class="btn btn-blue" type="submit" {{action "validateAndAuthenticate"}} {{bind-attr disabled=submitting}}>登录</button>
+        <section class="meta">
+            {{#link-to 'forgotten' class="forgotten-password"}}忘记密码？{{/link-to}}
+=======
+        <button class="btn btn-blue" type="submit" {{action "validateAndAuthenticate"}} disabled={{submitting}}>Log in</button>
+        <section class="meta">
+            <button {{action 'forgotten'}} class="forgotten-link btn btn-link">Forgotten password?</button>
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/signin.hbs
+        </section>
+    </form>
+</section>

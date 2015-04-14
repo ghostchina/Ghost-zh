@@ -1,0 +1,94 @@
+<header class="settings-view-header">
+    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
+    <h2 class="page-title">全局设置</h2>
+    <section class="page-actions">
+        <button type="button" class="btn btn-blue" {{action "save"}}>保存</button>
+    </section>
+</header>
+
+<section class="content settings-general">
+    <form id="settings-general" novalidate="novalidate">
+        <fieldset>
+
+            <div class="form-group">
+                <label for="blog-title">博客名称</label>
+                {{input id="blog-title" name="general[title]" type="text" value=model.title}}
+                <p>为你的博客取一个响亮的名字</p>
+            </div>
+
+            <div class="form-group description-container">
+                <label for="blog-description">博客简介</label>
+                {{textarea id="blog-description" name="general[description]" value=model.description}}
+                <p>
+                    简单介绍一下你的博客
+                    {{gh-count-characters model.description}}
+                </p>
+
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <label>博客 Logo</label>
+            {{#if model.logo}}
+                <img class="blog-logo" src="{{model.logo}}" alt="logo" role="button" {{action "openModal" "upload" this "logo"}}>
+            {{else}}
+                <button type="button" class="btn btn-green js-modal-logo" {{action "openModal" "upload" this "logo"}}>上传图片</button>
+            {{/if}}
+            <p>上传一个漂亮的 Logo，秀出你的品牌</p>
+        </div>
+
+        <div class="form-group">
+            <label>博客封面</label>
+            {{#if model.cover}}
+                <img class="blog-cover" src="{{model.cover}}" alt="cover photo" role="button" {{action "openModal" "upload" this "cover"}}>
+            {{else}}
+                <button type="button" class="btn btn-green js-modal-cover" {{action "openModal" "upload" this "cover"}}>上传图片</button>
+            {{/if}}
+            <p>为你的博客设置一个个性的封面</p>
+        </div>
+
+        <fieldset>
+            <div class="form-group">
+                <label for="email-address">邮箱地址</label>
+                {{input id="email-address" name="general[email-address]" type="email" value=model.email autocapitalize="off" autocorrect="off"}}
+                <p>用来接收 Ghost 博客发出的重要通知</p>
+            </div>
+
+            <div class="form-group">
+                <label for="postsPerPage">每页显示博文数</label>
+                {{! `pattern` brings up numeric keypad allowing any number of digits}}
+                {{input id="postsPerPage" name="general[postsPerPage]" focus-out="checkPostsPerPage" value=model.postsPerPage min="1" max="1000" type="number" pattern="[0-9]*"}}
+                <p>设置每页显示博文的数量</p>
+            </div>
+
+            <div class="form-group for-checkbox">
+                <label for="permalinks">博文地址</label>
+                <label class="checkbox" for="permalinks">
+                    {{input id="permalinks" name="general[permalinks]" type="checkbox" checked=isDatedPermalinks}}
+                    <span class="input-toggle-component"></span>
+                    <p>在博文地址中加入日期 ( 例如: http://my-ghost-blog.com/2013/09/27/welcome-to-ghost/ )</p>
+                </label>
+            </div>
+
+            <div class="form-group for-select">
+<<<<<<< HEAD:core/client/templates/settings/general.hbs
+                <label for="activeTheme">博客主题</label>
+                <span class="gh-select" {{bind-attr data-select-text=selectedTheme.label}} tabindex="0">
+=======
+                <label for="activeTheme">Theme</label>
+                <span class="gh-select" data-select-text="{{selectedTheme.label}}" tabindex="0">
+>>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/general.hbs
+                   {{view "select"
+                       id="activeTheme"
+                       name="general[activeTheme]"
+                       content=themes
+                       optionValuePath="content.name"
+                       optionLabelPath="content.label"
+                       value=model.activeTheme
+                       selection=selectedTheme}}
+               </span>
+                <p>为你的博客选择一个喜欢的主题</p>
+            </div>
+        </fieldset>
+    </form>
+</section>
