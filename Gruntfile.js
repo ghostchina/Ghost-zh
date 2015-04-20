@@ -331,6 +331,12 @@ var _              = require('lodash'),
 
                 'sqlite-bindings': {
                     command: [
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.10.38',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux --target=0.10.38',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=0.10.38',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=0.10.38',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=0.10.38',
+
                         'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux',
                         'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux',
                         'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32',
