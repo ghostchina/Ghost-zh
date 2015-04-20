@@ -3,12 +3,8 @@ var errors  = require('../errors'),
     storage = {};
 
 function getStorage(storageChoice) {
-    var storagePath,
-        storageConfig;
-
-    storageChoice = config.storage.active;
-    storagePath = config.paths.storage;
-    storageConfig = config.storage[storageChoice];
+    
+    storageChoice = (config.storage && config.storage.provider) || 'local-file-store';
 
     if (storage[storageChoice]) {
         return storage[storageChoice];
@@ -16,13 +12,13 @@ function getStorage(storageChoice) {
 
     try {
         // TODO: determine if storage has all the necessary methods.
-        storage[storageChoice] = require(storagePath);
+        storage[storageChoice] = require('./' + storagePath);
     } catch (e) {
         errors.logError(e);
     }
 
     // Instantiate and cache the storage module instance.
-    storage[storageChoice] = new storage[storageChoice](storageConfig);
+    storage[storageChoice] = new storage[storageChoice]();
 
     return storage[storageChoice];
 }
