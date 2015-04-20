@@ -3,6 +3,9 @@ import SlugGenerator from 'ghost/models/slug-generator';
 import isNumber from 'ghost/utils/isNumber';
 import boundOneWay from 'ghost/utils/bound-one-way';
 
+
+moment.locale("zh-cn");
+
 var SettingsUserController = Ember.Controller.extend({
 
     user: Ember.computed.alias('model'),
@@ -36,13 +39,13 @@ var SettingsUserController = Ember.Controller.extend({
     last_login: Ember.computed('user.last_login', function () {
         var lastLogin = this.get('user.last_login');
 
-        return lastLogin ? lastLogin.fromNow() : '(Never)';
+        return lastLogin ? moment(lastLogin.toDate()).fromNow() : '（从未登陆过）';
     }),
 
     created_at: Ember.computed('user.created_at', function () {
         var createdAt = this.get('user.created_at');
 
-        return createdAt ? createdAt.fromNow() : '';
+        return createdAt ? moment(createdAt.toDate()).fromNow() : '';
     }),
 
     // Lazy load the slug generator for slugPlaceholder
