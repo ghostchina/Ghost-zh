@@ -19,7 +19,7 @@ var ApplicationController = Ember.Controller.extend({
     userImageAlt: Ember.computed('session.user.name', function () {
         var name = this.get('session.user.name');
 
-        return (name) ? name + '\'s profile picture' : 'Profile picture';
+        return (name) ? name + '的头像' : '头像';
     }),
 
     actions: {

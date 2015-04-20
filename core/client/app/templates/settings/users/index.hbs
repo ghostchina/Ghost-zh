@@ -48,15 +48,9 @@
         <h4 class="user-list-title">已接受邀请的用户</h4>
 
         {{#each user in activeUsers itemController="settings/users/user"}}
-<<<<<<< HEAD:core/client/templates/settings/users/index.hbs
-            {{#link-to 'settings.users.user' user class="user-list-item" }}
-                <span class="user-list-item-figure" {{bind-attr style=user.image}}>
-                    <span class="hidden">{{unbound user.model.name}}的头像</span>
-=======
             {{#link-to 'settings.users.user' user.model class="user-list-item" }}
                 <span class="user-list-item-figure" style={{user.userImageBackground}}>
-                    <span class="hidden">Photo of {{user.model.name}}</span>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/users/index.hbs
+                    <span class="hidden">{{user.model.name}} 的头像</span>
                 </span>
 
                 <div class="user-list-item-body">
@@ -64,11 +58,7 @@
                         {{user.model.name}}
                     </span>
                     <br>
-<<<<<<< HEAD:core/client/templates/settings/users/index.hbs
-                    <span class="description">上次登录：{{unbound user.last_login}}</span>
-=======
-                    <span class="description">Last seen: {{user.last_login}}</span>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/users/index.hbs
+                    <span class="description">上次登录：{{user.last_login}}</span>
                 </div>
                 <aside class="user-list-item-aside">
                     {{#unless user.model.isAuthor}}

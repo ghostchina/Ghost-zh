@@ -22,13 +22,8 @@
 
 <div class="content settings-user">
 
-<<<<<<< HEAD:core/client/templates/settings/users/user.hbs
-    <figure class="user-cover" {{bind-attr style=cover}}>
-        <button class="btn btn-default user-cover-edit js-modal-cover" {{action "openModal" "upload" user "cover"}}>更换封面</button>
-=======
     <figure class="user-cover" style={{coverImageBackground}}>
-        <button class="btn btn-default user-cover-edit js-modal-cover" {{action "openModal" "upload" user "cover"}}>Change Cover</button>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/users/user.hbs
+        <button class="btn btn-default user-cover-edit js-modal-cover" {{action "openModal" "upload" user "cover"}}>更换封面</button>
     </figure>
 
     <form class="user-profile" novalidate="novalidate" autocomplete="off">
@@ -40,13 +35,8 @@
         <fieldset class="user-details-top">
 
             <figure class="user-image">
-<<<<<<< HEAD:core/client/templates/settings/users/user.hbs
-                <div id="user-image" class="img" {{bind-attr style=image}} href="#"><span class="hidden">{{model.name}}的头像</span></div>
+                <div id="user-image" class="img" style={{userImageBackground}}><span class="hidden">{{user.name}} 的头像</span></div>
                 <button type="button" {{action "openModal" "upload" user "image"}} class="edit-user-image js-modal-image">编辑头像</button>
-=======
-                <div id="user-image" class="img" style={{userImageBackground}}><span class="hidden">{{user.name}}"s Picture</span></div>
-                <button type="button" {{action "openModal" "upload" user "image"}} class="edit-user-image js-modal-image">Edit Picture</button>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/settings/users/user.hbs
             </figure>
 
             <div class="form-group first-form-group">

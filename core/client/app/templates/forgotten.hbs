@@ -1,16 +1,9 @@
 <section class="forgotten-box js-forgotten-box fade-in">
     <form id="forgotten" class="forgotten-form" method="post" novalidate="novalidate">
         <div class="email-wrap">
-<<<<<<< HEAD:core/client/templates/forgotten.hbs
-            {{gh-trim-focus-input value=email class="email" type="email" placeholder="邮箱" name="email" 
+            {{gh-trim-focus-input value=email class="email" type="email" placeholder="邮箱地址" name="email"
             autofocus="autofocus" autocapitalize="off" autocorrect="off"}}
         </div>
-        <button class="btn btn-blue" type="submit" {{action "submit"}} {{bind-attr disabled=submitting}}>发送新密码</button>
-=======
-            {{gh-trim-focus-input value=email class="email" type="email" placeholder="Email Address" name="email"
-            autofocus="autofocus" autocapitalize="off" autocorrect="off"}}
-        </div>
-        <button class="btn btn-blue" type="submit" {{action "submit"}} disabled={{submitting}}>Send new password</button>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/forgotten.hbs
+        <button class="btn btn-blue" type="submit" {{action "submit"}} disabled={{submitting}}>发送新密码</button>
     </form>
 </section>

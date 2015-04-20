@@ -1,37 +1,22 @@
 <header class="post-preview-header clearfix">
-<<<<<<< HEAD:core/client/templates/posts/post.hbs
     {{#link-to "posts" tagName="button" class="btn btn-default btn-back"}}返回{{/link-to}}
     <h2 class="page-title">预览</h2>
-    <button type="button" {{bind-attr class="model.featured:featured:unfeatured"}} title="推荐此博文" {{action "toggleFeatured"}}>
-        <span class="hidden">Star</span>
-    </button>
-    <small class="post-published-by">
-        <span class="normal">由</span>
-=======
-    {{#link-to "posts" tagName="button" class="btn btn-default btn-back"}}Back{{/link-to}}
-    <h2 class="page-title">Preview</h2>
-    <button type="button" class="{{if model.featured 'featured' 'unfeatured'}}" title="Feature this post" {{action "toggleFeatured"}}>
+    <button type="button" class="{{if model.featured 'featured' 'unfeatured'}}" title="推荐此博文" {{action "toggleFeatured"}}>
         <span class="sr-only">Star</span>
     </button>
     <small class="post-published-by">
+        <span class="normal">by</span>
+        <span class="author">{{#if model.author.name}}{{model.author.name}}{{else}}{{model.author.email}}{{/if}}</span>
         <span class="status">
             {{#if isPublished}}
-                <a title="{{model.title}}" href="{{model.absoluteUrl}}">Published</a>
+                <a title="{{model.title}}" href="{{model.absoluteUrl}}">发布</a>
             {{else}}
-                Written
+                撰写
             {{/if}}
         </span>
-        <span class="normal">by</span>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/posts/post.hbs
-        <span class="author">{{#if model.author.name}}{{model.author.name}}{{else}}{{model.author.email}}{{/if}}</span>
-        <span class="status">{{#if isPublished}}发布{{else}}撰写{{/if}}</span>
     </small>
     <section class="post-controls">
-<<<<<<< HEAD:core/client/templates/posts/post.hbs
-        {{#link-to "editor.edit" this class="btn btn-default post-edit"}} 编辑{{/link-to}}
-=======
-        {{#link-to "editor.edit" model class="btn btn-default post-edit"}} Edit{{/link-to}}
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/posts/post.hbs
+        {{#link-to "editor.edit" model class="btn btn-default post-edit"}} 编辑{{/link-to}}
     </section>
 </header>
 

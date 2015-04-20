@@ -40,7 +40,7 @@ app.import('bower_components/showdown-ghost/src/extensions/ghostgfm.js');
 app.import('bower_components/showdown-ghost/src/extensions/ghostimagepreview.js');
 app.import('bower_components/showdown-ghost/src/extensions/footnotes.js');
 app.import('bower_components/showdown-ghost/src/extensions/highlight.js');
-app.import('bower_components/moment/moment.js');
+app.import('bower_components/moment/min/moment-with-locales.js');
 app.import('bower_components/keymaster/keymaster.js');
 app.import('bower_components/device/lib/device.js');
 app.import('bower_components/jquery-ui/ui/jquery-ui.js');

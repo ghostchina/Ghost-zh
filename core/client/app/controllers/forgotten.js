@@ -29,11 +29,7 @@ var ForgottenController = Ember.Controller.extend(ValidationEngine, {
                     }
                 }).then(function () {
                     self.toggleProperty('submitting');
-<<<<<<< HEAD:core/client/controllers/forgotten.js
-                    self.notifications.showSuccess('请查看邮箱中的邮件。', {delayed: true});
-=======
-                    self.notifications.showSuccess('Please check your email for instructions.', {delayed: delay});
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/controllers/forgotten.js
+                    self.notifications.showSuccess('请查看邮箱中的邮件。', {delayed: delay});
                     self.set('email', '');
                     self.transitionToRoute('signin');
                 }).catch(function (resp) {

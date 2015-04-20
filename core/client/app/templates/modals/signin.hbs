@@ -5,11 +5,7 @@
             <div class="password-wrap">
                 {{input class="password" type="password" placeholder="密码" name="password" value=password}}
             </div>
-<<<<<<< HEAD:core/client/templates/modals/signin.hbs
-            <button class="btn btn-blue" type="submit" {{action "validateAndAuthenticate"}} {{bind-attr disabled=submitting}}>登录</button>
-=======
-            <button class="btn btn-blue" type="submit" {{action "validateAndAuthenticate"}} disabled={{submitting}}>Log in</button>
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/modals/signin.hbs
+            <button class="btn btn-blue" type="submit" {{action "validateAndAuthenticate"}} disabled={{submitting}}>登录</button>
        </form>
 
 {{/gh-modal-dialog}}

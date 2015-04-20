@@ -209,11 +209,7 @@ EditorControllerMixin = Ember.Mixin.create({
             type = this.get('postOrPage');
 
         if (status === 'published') {
-<<<<<<< HEAD:core/client/mixins/editor-base-controller.js
-            message += '&nbsp;<a href="' + path + '">查看 ' + this.get('postOrPage') + '</a>';
-=======
-            message += `&nbsp;<a href="${path}">View ${type}</a>`;
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/mixins/editor-base-controller.js
+            message += `&nbsp;<a href="${path}">查看 ${type}</a>`;
         }
         this.notifications.showSuccess(message.htmlSafe(), {delayed: delay});
     },

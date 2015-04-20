@@ -14,7 +14,7 @@
         {{#view "paginated-scroll-box" tagName="section" classNames="content-list-content js-content-scrollbox"}}
         <ol class="posts-list">
             {{#each post in controller itemController="posts/post" itemView="post-item-view" itemTagName="li"}}
-                {{#link-to "posts.post" post.model class="permalink" alternateActive=view.active title="Edit this post"}}
+                {{#link-to "posts.post" post.model class="permalink" alternateActive=view.active title="编辑此博文"}}
                     <h3 class="entry-title">{{post.model.title}}</h3>
                     <section class="entry-meta">
                         <span class="avatar" style={{post.authorAvatarBackground}}>
@@ -26,13 +26,8 @@
                                 {{#if post.model.page}}
                                     <span class="page">独立页面</span>
                                 {{else}}
-<<<<<<< HEAD:core/client/templates/posts.hbs
-                                    <time datetime="{{unbound post.model.published_at}}" class="date published">
-                                        发布于 {{gh-format-timeago post.model.published_at}}
-=======
                                     <time datetime="{{post.model.published_at}}" class="date published">
-                                        Published {{gh-format-timeago post.model.published_at}}
->>>>>>> c2650a05c7f3c2b8280a34ea1eb9aaf3a6fc0c5f:core/client/app/templates/posts.hbs
+                                        发布于 {{gh-format-timeago post.model.published_at}}
                                     </time>
                                 {{/if}}
                             {{else}}
