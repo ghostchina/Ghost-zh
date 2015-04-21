@@ -12,7 +12,7 @@ function getStorage(storageChoice) {
 
     try {
         // TODO: determine if storage has all the necessary methods.
-        storage[storageChoice] = require('./' + storagePath);
+        storage[storageChoice] = require('./' + storageChoice);
     } catch (e) {
         errors.logError(e);
     }
