@@ -41,14 +41,6 @@ function getPostPage(options) {
  * @return {Object} containing page variables
  */
 function formatPageResponse(posts, page, extraValues) {
-    // Delete email from author for frontend output
-    // TODO: do this on API level if no context is available
-    posts = _.each(posts, function (post) {
-        if (post.author) {
-            delete post.author.email;
-        }
-        return post;
-    });
     extraValues = extraValues || {};
 
     var resp = {
@@ -63,12 +55,6 @@ function formatPageResponse(posts, page, extraValues) {
  * @return {Object} containing page variables
  */
 function formatResponse(post) {
-    // Delete email from author for frontend output
-    // TODO: do this on API level if no context is available
-    if (post.author) {
-        delete post.author.email;
-    }
-
     return {
         post: post
     };
@@ -159,7 +145,7 @@ frontendControllers = {
             setReqCtx(req, page.posts);
 
             // Render the page of posts
-            filters.doFilter('prePostsRender', page.posts).then(function (posts) {
+            filters.doFilter('prePostsRender', page.posts, res.locals).then(function (posts) {
                 getActiveThemePaths().then(function (paths) {
                     var view = paths.hasOwnProperty('home.hbs') ? 'home' : 'index';
 
@@ -211,7 +197,7 @@ frontendControllers = {
             }
 
             // Render the page of posts
-            filters.doFilter('prePostsRender', page.posts).then(function (posts) {
+            filters.doFilter('prePostsRender', page.posts, res.locals).then(function (posts) {
                 getActiveThemePaths().then(function (paths) {
                     var view = template.getThemeViewForTag(paths, options.tag),
                     // Format data for template
@@ -265,7 +251,7 @@ frontendControllers = {
             }
 
             // Render the page of posts
-            filters.doFilter('prePostsRender', page.posts).then(function (posts) {
+            filters.doFilter('prePostsRender', page.posts, res.locals).then(function (posts) {
                 getActiveThemePaths().then(function (paths) {
                     var view = paths.hasOwnProperty('author.hbs') ? 'author' : 'index',
                         // Format data for template
@@ -350,7 +336,7 @@ console.log(post);
 
                 setReqCtx(req, post);
 
-                filters.doFilter('prePostsRender', post).then(function (post) {
+                filters.doFilter('prePostsRender', post, res.locals).then(function (post) {
                     getActiveThemePaths().then(function (paths) {
                         var view = template.getThemeViewForPost(paths, post),
                             response = formatResponse(post);
@@ -416,7 +402,7 @@ console.log(post);
             // If we've thrown an error message
             // of type: 'NotFound' then we found
             // no path match.
-            if (err.type === 'NotFoundError') {
+            if (err.errorType === 'NotFoundError') {
                 return next();
             }
 

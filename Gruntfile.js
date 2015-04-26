@@ -140,6 +140,7 @@ var _              = require('lodash'),
                     'core/server/**/*.js',
                     'core/shared/**/*.js',
                     'core/test/**/*.js',
+                    '!core/test/coverage/**',
                     '!core/shared/vendor/**/*.js'
                 ]
             },
@@ -176,6 +177,7 @@ var _              = require('lodash'),
                             'core/server/**/*.js',
                             'core/shared/**/*.js',
                             'core/test/**/*.js',
+                            '!core/test/coverage/**',
                             '!core/shared/vendor/**/*.js'
                         ]
                     }
@@ -250,15 +252,32 @@ var _              = require('lodash'),
                 // #### All Route tests
                 routes: {
                     src: [
-                        'core/test/functional/routes/**/*_test.js'
+                        'core/test/functional/routes/**/*_spec.js'
                     ]
                 },
 
                 // #### All Module tests
                 module: {
                     src: [
-                        'core/test/functional/module/**/*_test.js'
+                        'core/test/functional/module/**/*_spec.js'
                     ]
+                }
+            },
+
+            // ### grunt-mocha-istanbul
+            // Configuration for the mocha test coverage generator
+            // `grunt coverage`.
+            mocha_istanbul: {
+                coverage: {
+                    // TODO fix the timing/async & cleanup issues with the route and integration tests so that
+                    // they can also have coverage generated for them & the order doesn't matter
+                    src: ['core/test/integration', 'core/test/unit'],
+                    options: {
+                        mask: '**/*_spec.js',
+                        coverageFolder: 'core/test/coverage',
+                        mochaOptions: ['--timeout=15000'],
+                        excludes: ['core/client/**']
+                    }
                 }
             },
 
@@ -322,13 +341,6 @@ var _              = require('lodash'),
                     }
                 },
 
-                // #### Generate coverage report
-                // See the `grunt test-coverage` task in the section on [Testing](#testing) for more information.
-                coverage: {
-                    command: 'node ' + mochaPath + ' --timeout 15000 --reporter html-cov > coverage.html ' +
-                    path.resolve(cwd + '/core/test/blanket_coverage.js')
-                },
-
                 'sqlite-bindings': {
                     command: [
                         'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.10.38',
@@ -367,7 +379,7 @@ var _              = require('lodash'),
                     options: {
                         onlyUpdated: true,
                         exclude: 'node_modules,.git,.tmp,bower_components,content,*built,*test,*doc*,*vendor,' +
-                            'config.js,coverage.html,.travis.yml,*.min.css,screen.css',
+                            'config.js,.travis.yml,*.min.css,screen.css',
                         extras: ['fileSearch']
                     }
                 }
@@ -545,7 +557,7 @@ var _              = require('lodash'),
         // * [Building assets](#building%20assets):
         //     `grunt init`, `grunt` & `grunt prod` or live reload with `grunt dev`
         // * [Testing](#testing):
-        //     `grunt validate`, the `grunt test-*` sub-tasks or generate a coverage report with `grunt test-coverage`.
+        //     `grunt validate`, the `grunt test-*` sub-tasks or generate a coverage report with `grunt coverage`.
 
         // ### Help
         // Run `grunt help` on the commandline to get a print out of the available tasks and details of
@@ -630,7 +642,7 @@ var _              = require('lodash'),
         //
         // `grunt validate` is called by `npm test` and is used by Travis.
         grunt.registerTask('validate', 'Run tests and lint code',
-            ['init', 'test-all']);
+            ['init', 'lint', 'test-all']);
 
         // ### Test-All
         // **Main testing task**
@@ -641,7 +653,7 @@ var _              = require('lodash'),
         // details of each of the test suites.
         //
         grunt.registerTask('test-all', 'Run tests and lint code',
-            ['lint', 'test-routes', 'test-module', 'test-unit', 'test-integration', 'shell:ember:test', 'test-functional']);
+            ['test-routes', 'test-module', 'test-unit', 'test-integration', 'shell:ember:test', 'test-functional']);
 
         // ### Lint
         //
@@ -713,7 +725,7 @@ var _              = require('lodash'),
         // If you need to run an individual route test file, you can do so, providing you have a `config.js` file and
         // mocha installed globally by using a command in the form:
         //
-        // `NODE_ENV=testing mocha --timeout=15000 --ui=bdd --reporter=spec core/test/functional/routes/admin_test.js`
+        // `NODE_ENV=testing mocha --timeout=15000 --ui=bdd --reporter=spec core/test/functional/routes/admin_spec.js`
         //
         // Route tests are run with [mocha](http://mochajs.org/) using
         // [should](https://github.com/visionmedia/should.js) and [supertest](https://github.com/visionmedia/supertest)
@@ -776,7 +788,7 @@ var _              = require('lodash'),
         );
 
         // ### Coverage
-        // `grunt test-coverage` will generate a report for the Unit and Integration Tests.
+        // `grunt coverage` will generate a report for the Unit Tests.
         //
         // This is not currently done as part of CI or any build, but is a tool we have available to keep an eye on how
         // well the unit and integration tests are covering the code base.
@@ -784,8 +796,9 @@ var _              = require('lodash'),
         // of the codebase are covered, than that the whole codebase is covered to a particular level.
         //
         // Key areas for coverage are: helpers and theme elements, apps / GDK, the api and model layers.
-        grunt.registerTask('test-coverage', 'Generate unit and integration (mocha) tests coverage report',
-            ['test-setup', 'shell:coverage']
+
+        grunt.registerTask('coverage', 'Generate unit and integration (mocha) tests coverage report',
+            ['test-setup', 'mocha_istanbul:coverage']
         );
 
         // #### Master Warning *(Utility Task)*
@@ -955,11 +968,12 @@ var _              = require('lodash'),
             ' - Copy files to release-folder/#/#{version} directory\n' +
             ' - Clean out unnecessary files (travis, .git*, etc)\n' +
             ' - Zip files in release-folder to dist-folder/#{version} directory',
-            ['init', 'shell:ember:prod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release']);
+            ['init', 'shell:ember:prod', 'uglify:release', 'clean:release',  'shell:shrinkwrap', 'copy:release', 'compress:release']);
         
 
         grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
            ['clean:all', 'init', 'shell:ember:prod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
+
     };
 
 // Export the configuration
