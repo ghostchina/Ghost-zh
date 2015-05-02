@@ -10,7 +10,7 @@ var db = {
             featured: {type: 'bool', nullable: false, defaultTo: false, validations: {isIn: [[0, 1, false, true]]}},
             page: {type: 'bool', nullable: false, defaultTo: false, validations: {isIn: [[0, 1, false, true]]}},
             status: {type: 'string', maxlength: 150, nullable: false, defaultTo: 'draft'},
-            language: {type: 'string', maxlength: 6, nullable: false, defaultTo: 'en_US'},
+            language: {type: 'string', maxlength: 6, nullable: false, defaultTo: 'zh_CN'},
             meta_title: {type: 'string', maxlength: 150, nullable: true},
             meta_description: {type: 'string', maxlength: 200, nullable: true},
             author_id: {type: 'integer', nullable: false},
