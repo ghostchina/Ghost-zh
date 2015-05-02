@@ -15,7 +15,7 @@ var Post = DS.Model.extend(NProgressSaveMixin, ValidationEngine, {
     featured: DS.attr('boolean', {defaultValue: false}),
     page: DS.attr('boolean', {defaultValue: false}),
     status: DS.attr('string', {defaultValue: 'draft'}),
-    language: DS.attr('string', {defaultValue: 'en_US'}),
+    language: DS.attr('string', {defaultValue: 'zh_CN'}),
     meta_title: DS.attr('string'),
     meta_description: DS.attr('string'),
     author: DS.belongsTo('user',  {async: true}),
