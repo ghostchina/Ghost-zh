@@ -22,7 +22,7 @@ var SettingValidator = Ember.Object.create({
         }
 
         if (isPrivate && password === '') {
-            validationErrors.push({message: 'Password must be supplied'});
+            validationErrors.push({message: '必须填写密码'});
         }
 
         if (postsPerPage > 1000) {
