@@ -11,7 +11,10 @@
             </span>
             <span class="version blue">v{{model.version}}</span>
         </h1>
-        <p>一个简单、纯粹的内容写作和发布平台。</p>
+        {{gh-notifications location="settings-about-upgrade" notify="updateNotificationChange"}}
+        {{#unless updateNotificationCount}}
+            <p>一个简单、纯粹的内容写作和发布平台。</p>
+        {{/unless}}
 
         <div class="about-environment-help clearfix">
             <div class="about-environment">
@@ -31,6 +34,8 @@
             <div class="about-help">
                 <a href="http://www.ghostchina.com" class="btn"  target="_blank">中文文档</a>
                 <a href="http://wenda.ghostchina.com/" class="btn"  target="_blank">问答社区</a>
+                <a href="http://support.ghost.org" class="btn">用户手册(英文)</a>
+                <a href="https://ghost.org/slack/" class="btn">获取帮助(英文)</a>
             </div>
         </div>
     </section>

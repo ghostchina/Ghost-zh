@@ -33,8 +33,8 @@ adminControllers = {
             }
 
             var notification = {
-                type: 'success',
-                location: 'top',
+                type: 'upgrade',
+                location: 'settings-about-upgrade',
                 dismissible: false,
                 status: 'persistent',
                 message: '有 <a href="http://www.ghostchina.com/download/" target="_blank">Ghost ' + updateVersion +

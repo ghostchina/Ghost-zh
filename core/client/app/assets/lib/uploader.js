@@ -133,9 +133,9 @@ UploadUi = function ($dropzone, settings) {
             if (!$dropzone.find('a.image-url')[0]) {
                 $dropzone.append('<a class="image-url" title="添加图片地址（URL）"><span class="hidden">URL</span></a>');
             }
-           // if (!$dropzone.find('a.image-webcam')[0]) {
-           //     $dropzone.append('<a class="image-webcam" title="Add image from webcam"><span class="hidden">Webcam</span></a>');
-           // }
+            // if (!$dropzone.find('a.image-webcam')[0]) {
+            //     $dropzone.append('<a class="image-webcam" title="Add image from webcam"><span class="hidden">Webcam</span></a>');
+            // }
         },
 
         removeExtras: function () {
