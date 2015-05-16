@@ -1,11 +1,11 @@
 <!doctype html>
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if (gte IE 9)| IEMobile |!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="zh-CN"><![endif]-->
+<!--[if (gte IE 9)| IEMobile |!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
     <head>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-        <title>Ghost - Private Blog Access</title>
+        <title>Ghost - 私密博客访问授权</title>
 
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
@@ -15,7 +15,6 @@
         <link rel="shortcut icon" href="{{asset "favicon.ico"}}">
         <meta http-equiv="cleartype" content="on">
 
-        <link rel="stylesheet" type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
         <link rel="stylesheet" href="{{asset "ghost.css" ghost="true" minifyInProduction="true"}}" />
     </head>
     <body class="ghost-setup">
@@ -23,13 +22,13 @@
             <section class="setup-box js-setup-box fade-in">
                 <div class="vertical">
                     <form id="setup" class="setup-form private-login" method="post" novalidate="novalidate">
-                        <h1>This blog is private</h1>
+                        <h1>此博客处于私密模式</h1>
                         <div class="form-group">
                             <span class="input-icon icon-lock">
                                  {{input_password}}
                             </span>
                             <button class="btn btn-green private-login-button" type="submit">
-                                Enter
+                                进入
                             </button>
                         </div>
                     </form>

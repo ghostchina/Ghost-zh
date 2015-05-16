@@ -86,19 +86,19 @@
             </div>
 
             <div class="form-group for-checkbox">
-                <label for="isPrivate">Make this blog private</label>
+                <label for="isPrivate">开启私密博客模式</label>
                 <label class="checkbox" for="isPrivate">
                     {{input id="isPrivate" name="general[isPrivate]" type="checkbox"
                     checked=model.isPrivate}}
                     <span class="input-toggle-component"></span>
-                    <p>Enable password protection</p>
+                    <p>设置用密码保护</p>
                 </label>
             </div>
 
             {{#if model.isPrivate}}
             <div class="form-group">
                 {{input name="general[password]" type="text" value=model.password}}
-                <p>This password will be needed to access your blog. All search engine optimization and social features are now disabled. This password is stored in plaintext.</p>
+                <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
             </div>
             {{/if}}
         </fieldset>
