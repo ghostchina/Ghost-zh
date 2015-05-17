@@ -1,11 +1,13 @@
-# Privacy
+# 隐私
 
-This is a plain English summary of all of the components within Ghost which may affect your privacy in some way. Please keep in mind that if you use third party Themes or Apps with Ghost, there may be additional things not listed here.
+此份中文文档列出了 Ghost 以及 Ghost 中文版中可能影响到你的隐私的组件。请注意，此文档将不会涉及也有可能影响到你的隐私的第三方主题或 App 。
 
 本文档中列出的每项服务都可以通过修改 Ghost 的 `config.js` 配置文件来禁用。请查看 [配置指南](http://support.ghost.org/config/) 了解详情。
 ## 官方服务
 
 Ghost 官方提供的某些服务是默认开启的。这些服务需要连接到 Ghost.org 并且由 Ghost 基金会（Ghost Foundation -- 实际运作 Ghost 项目的非盈利组织）管控。
+
+Ghost 中文版只修改了自动检查更新服务，需要连接到 ghostchina.com。
 
 
 ### 自动更新检查
@@ -13,6 +15,8 @@ Ghost 官方提供的某些服务是默认开启的。这些服务需要连接�
 每次登录后台时，Ghost 都会向 Ghost.org 发起一次请求用于检查当前运行的是不是最新的 Ghost 版本。如果有新版本可以更新，Ghost 会在后台页面展示一个提示框通知你升级新版本。Ghost.org 通过每次的更新检查来收集基本的匿名使用信息。
 
 此项服务可以被随时禁止。所有关于此项服务的信息和代码都可以在 [update-check.js](https://github.com/TryGhost/Ghost/blob/master/core/server/update-check.js) 文件中找到。
+
+由于 Ghost 官方还没有完成国际化版本的开发工作，因此，Ghost 中文网所发布的中文版 Ghost 目前还不能纳入 Ghost 官方的版本发布列表中，因此，我们（Ghost 中文网）将 Ghost 自动检查更新服务的目标地主修改为 `updates.ghostchina.com` 网址，以便使用中文版的用户能够及时收到中文版的更新通知。如果你希望禁止检查更新，请参考 [隐私设置](http://support.ghost.org/config/#privacy) 文档关闭更新检查。所有关于此项服务的信息和代码都可以在 [update-check.js](https://github.com/ghostchina/Ghost-zh/blob/master/core/server/update-check.js) 文件中找到。
 
 
 ## 第三方服务
@@ -26,24 +30,24 @@ Ghost 使用了 Open Sans [Google Font](https://www.google.com/fonts) 字体，�
 
 ### Gravatar
 
-To automatically populate your profile picture, Ghost pings [Gravatar](http://gravatar.com) to see if your email address is associated with a profile there. If it is, we pull in your profile picture. If not: nothing happens.
+为了自动为新用户设置头像图片，Ghost 向 [Gravatar](http://gravatar.com) 查询是否用户的邮箱地址有关联的头像可用。如果有，我们就用 Gravatar 上的头像图片，如果没有，就设置为默认图片。
 
 ### RPC Pings
 
-When you publish a new post, Ghost sends out an RPC ping to let third party services know that new content is available on your blog. This enables search engines and other services to discover and index content on your blog more quickly. At present Ghost sends an RPC ping to the following services when you publish a new post:
+每当你发布了一篇新博文，Ghost 都会发送一个 RPC ping 向第三方服务通知此新博文诞生了。这将帮助搜索引擎和其他索引服务能够快速索引你的博客上的内容。目前，Ghost 只向如下列出的服务发送 RPC ping：
 
 - http://blogsearch.google.com
 - http://rpc.pingomatic.com
 
-RPC pings only happen when Ghost is running in the `production` environment.
+RPC ping 只在 Ghost 运行在 `production` 环境时才会开启。
 
-### Sharing Buttons
+### 分享按钮
 
-The default theme which comes with Ghost contains three sharing buttons to [Twitter](http://twitter.com), [Facebook](http://facebook.com), and [Google Plus](http://plus.google.com). No resources are loaded from any services, however the buttons do allow visitors to your blog to share your content publicly on these respective networks.
+Ghost 自带的默认主题包含了三个分享按钮，分别是：[Twitter](http://twitter.com)、[Facebook](http://facebook.com) 和 [Google Plus](http://plus.google.com)。没有从这三个网站加载任何资源，然而，这些分享按钮能够帮助你的访客向这三个网站分享你所发布的内容。
 
 ### 结构化数据
 
-Ghost outputs basic meta tags to allow rich snippets of your content to be recognised by popular social networks. Currently there are 3 supported rich data protocols which are output in `{{ghost_head}}`:
+Ghost 会输出一些基本的元数据标签以便被流行的社交网络识别博客上的内容。目前 `{{ghost_head}}` 助手函数所输出的元数据符合以下三个数据协议标准：
 
 - Schema.org - http://schema.org/docs/documents.html
 - Open Graph - http://ogp.me/
