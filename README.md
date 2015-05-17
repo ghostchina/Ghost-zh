@@ -4,15 +4,15 @@
 
 ![Ghost is a simple, powerful publishing platform that allows you to share your stories with the world.](https://cloud.githubusercontent.com/assets/120485/6626501/b2bb072c-c8ff-11e4-8e1a-2e78e68fd5c3.png)
 
-本项目由非盈利性组织 **Ghost Foundation** 和一群可爱的独立[贡献者](https://github.com/TryGhost/Ghost/contributors)共同维护。我们正在尽最大努力让在线内容创作变得更好。
+Ghost 目由非盈利性组织 **Ghost Foundation** 和一群优秀的独立[贡献者](https://github.com/TryGhost/Ghost/contributors)共同维护。我们正在尽最大努力让在线内容创作变得更好。
 
-- [Ghost.org](https://ghost.org)
-- [下载最新版本](https://ghost.org/download/)
-- [技术支持](http://support.ghost.org/)
+- [Ghost 官网（英文）](https://ghost.org) & [Ghost 中国](http://www.ghostchina.com/)
+- [最新版本（英文）](https://ghost.org/download/) & [最新版本（中文）](http://www.ghostchina.com/download/)
+- [技术支持（英文）](http://support.ghost.org/) & [问答社区（中文）](http://wenda.ghostchina.com/)
 - [主题文档](http://themes.ghost.org)
 - [贡献指南](https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md)
 - [心愿列表](http://ideas.ghost.org/)
-- [开发者博客](http://dev.ghost.org)
+- [技术博客](http://dev.ghost.org)
 
 
 # 快速安装
@@ -101,9 +101,9 @@ npm start
 
 当 Ghost 有新版本发布时，请参考 [升级指南](http://support.ghost.org/how-to-upgrade/) 以了解如何升级 Ghost。
 
-你可以在 [我们的论坛](https://ghost.org/forum) 和其他 Ghost 用户交流，或者在 [public Slack team](https://ghost.org/slack/) 与 Ghost 开发者沟通。我们每周二下午 5:30 都会在 Slack 上开碰头会。请注意，我们说的是`伦敦时间`。
+你可以在 [我们的论坛（英文）](https://ghost.org/forum) & [问答社区（中文）](http://wenda.ghostchina.com/) 和其他 Ghost 用户交流，或者在 [public Slack team](https://ghost.org/slack/) 与 Ghost 开发者沟通。我们每周二下午 5:30 都会在 Slack 上开碰头会。请注意，我们说的是`伦敦时间`。
 
-每次有新版本都会在 [开发者博客](http://dev.ghost.org/tag/releases/) 上公布。你可以通过邮件订阅或者在 Twitter 上关注 [@TryGhost_Dev](https://twitter.com/tryghost_dev)。
+每次有新版本都会在 [技术博客](http://dev.ghost.org/tag/releases/) 上公布。你可以通过邮件订阅或者在 Twitter 上关注 [@TryGhost_Dev](https://twitter.com/tryghost_dev)。
 
 :saxophone::turtle:
 
