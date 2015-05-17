@@ -16,49 +16,49 @@ The project is maintained by a non-profit organisation called the **Ghost Founda
 - [Dev Blog](http://dev.ghost.org)
 
 
-# Quick Start Install
+# 快速安装
 
-Make sure you've installed Node.js - We recommend the latest **Node v0.10.x** release.
+安装前请确保已经安装了 Node.js - 我们建议使用 **Node v0.10.x** 的最新版本。
 
-Ghost is also compatible with **Node v0.12** and **io.js v1.2**, but please note that these versions are more likely to run into installation problems. May contain nuts. Please use the [forum](https://ghost.org/forum/installation/) for help.
+Ghost 同时还支持 **Node v0.12** 和 **io.js v1.2**，但是这些版本可能会导致安装失败，请自行斟酌。获取帮助请到 [论坛](https://ghost.org/forum/installation/)。
 
-1. Download the [latest release](https://ghost.org/download/) of Ghost
-1. Unzip in the location you want to install
-1. Fire up a terminal
-1. `npm install --production`
-1. Start Ghost!
-    - Local environment: `npm start`
-    - On a server: `npm start --production`
-1. `http://localhost:2368/ghost` :tada:
+1. 下载 [最新版本](https://ghost.org/download/) 的 Ghost
+1. 解压文件至你所希望的安装位置
+1. 启动一个命令行窗口
+1. 执行 `npm install --production` 命令
+1. 启动 Ghost
+    - 本地环境：`npm start`
+    - 生产环境：`npm start --production`
+1. 启动浏览器，打开 `http://localhost:2368/ghost` 链接
 
-More [install docs](http://support.ghost.org/installation/) here in case you got stuck.
+还可以参考详细的 [安装指南](http://support.ghost.org/installation/) 。
 
 <a name="getting-started"></a>
-# Developer Install (from git)
+# 开发者(从 git 下载 Ghost)
 
-Install Node.js. 
+安装 Node.js。
 
 ```bash
-# Node v0.10.x - full support
-# Node v0.12.x and io.js v1.2 - partial support
+# Node v0.10.x - 完全支持
+# Node v0.12.x and io.js v1.2 - 部分支持
 #
-# Choose wisely
+# 自行斟酌吧
 ```
 
-Clone :ghost:
+克隆 ghost:
 
 ```bash
 git clone git://github.com/tryghost/ghost.git
 cd ghost
 ```
 
-Install grunt. No prizes here.
+安装 grunt。
 
 ```bash
 npm install -g grunt-cli
 ```
 
-Install Ghost. If you're running locally, use [master](https://github.com/TryGhost/Ghost/tree/master). For production, use [stable](https://github.com/TryGhost/Ghost/tree/stable). :no_entry_sign::rocket::microscope:
+安装 Ghost。 If you're running locally, use [master](https://github.com/TryGhost/Ghost/tree/master). For production, use [stable](https://github.com/TryGhost/Ghost/tree/stable). :no_entry_sign::rocket::microscope:
 
 ```bash
 npm install

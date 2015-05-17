@@ -1,7 +1,7 @@
-# Reporting Security Issues
+# 报告安全故障
 
-If you discover a security issue in Ghost, please report it by sending an email to security[at]ghost[dot]org
+如果你发现了 Ghost 安全方面的故障，请发送邮件到 security[at]ghost[dot]org 向我们报告。
 
-This will allow us to assess the risk, and make a fix available before we add a bug report to the GitHub repository.
+这将帮助我们评估风险并在向 Github 仓库提交 bug 报告前修复故障。
 
-Thanks for helping make Ghost safe for everyone.
+感谢帮助 Ghost 变得更安全的每一个人。

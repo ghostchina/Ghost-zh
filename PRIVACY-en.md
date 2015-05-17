@@ -2,27 +2,28 @@
 
 This is a plain English summary of all of the components within Ghost which may affect your privacy in some way. Please keep in mind that if you use third party Themes or Apps with Ghost, there may be additional things not listed here.
 
-本文档中列出的每项服务都可以通过修改 Ghost 的 `config.js` 配置文件来禁用。请查看 [配置指南](http://support.ghost.org/config/) 了解详情。
-## 官方服务
+Each of the items listed in this document can be disabled via Ghost's `config.js` file. Check out the [configuration guide](http://support.ghost.org/config/) for details.
 
-Ghost 官方提供的某些服务是默认开启的。这些服务需要连接到 Ghost.org 并且由 Ghost 基金会（Ghost Foundation -- 实际运作 Ghost 项目的非盈利组织）管控。
+## Official Services
 
-
-### 自动更新检查
-
-每次登录后台时，Ghost 都会向 Ghost.org 发起一次请求用于检查当前运行的是不是最新的 Ghost 版本。如果有新版本可以更新，Ghost 会在后台页面展示一个提示框通知你升级新版本。Ghost.org 通过每次的更新检查来收集基本的匿名使用信息。
-
-此项服务可以被随时禁止。所有关于此项服务的信息和代码都可以在 [update-check.js](https://github.com/TryGhost/Ghost/blob/master/core/server/update-check.js) 文件中找到。
+Some official services for Ghost are enabled by default. These services connect to Ghost.org and are managed by the Ghost Foundation: the Non-Profit organisation which runs the Ghost project.
 
 
-## 第三方服务
+### Automatic Update Checks
 
-Ghost 使用了一些第三方服务来提供某些特定功能。
+When a new session is started, Ghost pings a Ghost.org endpoint to check if the current version of Ghost is the latest version of Ghost. If an update is available, a notification appears inside Ghost to let you know. Ghost.org collects basic anonymised usage statistics from update check requests.
+
+This service can be disabled at any time. All of the information and code related to this service is available in the [update-check.js](https://github.com/TryGhost/Ghost/blob/master/core/server/update-check.js) file.
 
 
-### Google 字体服务
+## Third Party Services
 
-Ghost 使用了 Open Sans [Google Font](https://www.google.com/fonts) 字体，并在 Ghost 后台页面中加载此字体用于更好的排版。
+Ghost uses a number of third party services for specific functionality within Ghost.
+
+
+### Google Fonts
+
+Ghost makes use of the Open Sans [Google Font](https://www.google.com/fonts), which is loaded into the Ghost admin area to provide a typographically stimulating experience.
 
 ### Gravatar
 
@@ -41,7 +42,7 @@ RPC pings only happen when Ghost is running in the `production` environment.
 
 The default theme which comes with Ghost contains three sharing buttons to [Twitter](http://twitter.com), [Facebook](http://facebook.com), and [Google Plus](http://plus.google.com). No resources are loaded from any services, however the buttons do allow visitors to your blog to share your content publicly on these respective networks.
 
-### 结构化数据
+### Structured Data
 
 Ghost outputs basic meta tags to allow rich snippets of your content to be recognised by popular social networks. Currently there are 3 supported rich data protocols which are output in `{{ghost_head}}`:
 
