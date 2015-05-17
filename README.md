@@ -32,8 +32,23 @@ Ghost 同时还支持 **Node v0.12** 和 **io.js v1.2**，但是这些版本可�
 
 还可以参考详细的 [安装指南](http://support.ghost.org/installation/) 。
 
+# 安装中文版
+
+Node.js 是必须的，同样也是建议使用  **Node v0.10.x** 的最新版本。如果你使用的是 **Node v0.12** 或 **io.js v1.2** 版本，请小心！遇到问题可以到 [问答社区](http://wenda.ghostchina.com/) 讨论。
+
+1. 下载[最新的 Ghost 中文版](http://www.ghostchina.com/download/) 。建议下载**集成安装包**，大概20M左右。
+1. 解压所有文件到你所希望的安装目录
+1. 启动一个命令行窗口
+1. 如果你下载的不是**集成安装包**（也就是没有 `node_modules` 目录），清闲执行 `npm install --production` 命令
+1. 启动 Ghost
+    - 本地环境：`npm start`
+    - 生产环境：`npm start --production`
+1. 启动浏览器，打开 `http://localhost:2368/ghost` 链接
+
 <a name="getting-started"></a>
 # 开发者(从 git 下载 Ghost)
+
+> 一般用户不建议这种方式！
 
 安装 Node.js。
 
@@ -95,6 +110,8 @@ npm start
 另外，采用 Ghost 官方所提供的服务可以让你只需点几下鼠标就能完成 Ghost 部署，然后就可以开始享受你的创作时光了。
 
 如果你希望自己部署 Ghost，可以参考[这里](http://support.ghost.org/deploying-ghost/)。
+
+如果你使用的是**阿里云主机**，还可以参考我们撰写的[系列文章](http://www.ghostchina.com/tag/aliyun-ecs/)，按照文中指引一步步安装 Ghost 以及依赖的各个组件。
 
 
 # 保持更新
