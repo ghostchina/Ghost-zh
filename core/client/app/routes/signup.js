@@ -1,13 +1,15 @@
 import Ember from 'ember';
+import Configuration from 'simple-auth/configuration';
 import styleBody from 'ghost/mixins/style-body';
 import loadingIndicator from 'ghost/mixins/loading-indicator';
 
 var SignupRoute = Ember.Route.extend(styleBody, loadingIndicator, {
     classNames: ['ghost-signup'],
+
     beforeModel: function () {
         if (this.get('session').isAuthenticated) {
-            this.notifications.showWarn('你应该先退出登录然后再注册新用户。', { delayed: true });
-            this.transitionTo(SimpleAuth.Configuration.routeAfterAuthentication);
+            this.notifications.showWarn('你应该先退出登录然后再注册新用户。', {delayed: true});
+            this.transitionTo(Configuration.routeAfterAuthentication);
         }
     },
 

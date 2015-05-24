@@ -1,53 +1,35 @@
-<header class="settings-view-header">
-    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
-    <h2 class="page-title">关于我们</h2>
-</header>
+<section class="view-content">
 
-<section class="content settings-about">
-    <section class="about-ghost-intro">
-        <h1>
-            <span class="ghost_logo">
-                <span class="hidden">Ghost</span>
-            </span>
-            <span class="version blue">v{{model.version}}</span>
-        </h1>
+    <header class="gh-about-header">
+        <img class="gh-logo" src="{{gh-path 'admin' '/img/ghost-logo.png'}}" alt="Ghost" />
+        <!-- TODO: fix about notifications -->
         {{gh-notifications location="settings-about-upgrade" notify="updateNotificationChange"}}
-        {{#unless updateNotificationCount}}
-            <p>一个简单、纯粹的内容写作和发布平台。</p>
-        {{/unless}}
+    </header>
 
-        <div class="about-environment-help clearfix">
-            <div class="about-environment">
-                <dl>
-                    <dt>当前版本:</dt>
-                    <dd class="about-environment-detail">{{model.version}}</dd>
-                    <dt>运行环境:</dt>
-                    <dd class="about-environment-detail">{{model.environment}}</dd>
-                    <dt>数据库:</dt>
-                    <dd class="about-environment-detail about-environment-database">{{model.database}}</dd>
-                    <dt>邮件服务:</dt>
-                    <dd class="about-environment-detail">{{#if model.mail}}{{model.mail}}{{else}}Native{{/if}}</dd>
-                    <dt>文件存储:</dt>
-                    <dd class="about-environment-detail">{{model.storage}}</dd>
-                </dl>
-            </div>
-            <div class="about-help">
-                <a href="http://www.ghostchina.com" class="btn"  target="_blank">中文文档</a>
-                <a href="http://wenda.ghostchina.com/" class="btn"  target="_blank">问答社区</a>
-            </div>
+    <section class="gh-env-details">
+        <ul class="gh-env-list">
+            <li class="gh-env-list-version"><strong>当前版本</strong> {{model.version}}</li>
+            <li><strong>运行环境</strong> {{model.environment}}</li>
+            <li class="gh-env-list-database-type"><strong>数据库</strong> {{model.database}}</li>
+            <li><strong>邮件服务</strong> {{#if model.mail}}{{model.mail}}{{else}}Native{{/if}}</li>
+            <li><strong>文件存储</strong> {{model.storage}}</li>
+        </ul>
+        <div class="gh-env-help">
+            <a href="http://www.ghostchina.com"" class="btn btn-minor" target="_blank">中文文档</a>
+            <a href="http://wenda.ghostchina.com/" class="btn btn-minor" target="_blank">问答社区</a>
         </div>
     </section>
 
-    <section class="about-credits">
-        <h1>主创团队</h1>
+    <section class="gh-credits">
+        <h2>主创团队</h2>
 
-        <ul class="top-contributors clearfix">
+        <section class="gh-contributors">
             {{partial "contributors"}}
-        </ul>
+        </section>
 
-        <p class="about-contributors-info">Ghost的开发者来自全球各地，这里列出的只是当前版本的主要开发者。</p>
+        <p>Ghost的开发者来自全球各地，这里列出的只是当前版本的主要开发者。</p>
 
-        <a href="https://ghost.org/about/contribute/" class="about-get-involved btn-blue btn-lg btn">你的帮助让我们做得更好</a>
+        <a href="https://ghost.org/about/contribute/" class="btn btn-blue btn-lg"你的帮助让我们做得更好</a>
 
         <h1 style="margin-top: 45px;">Ghost中文化团队</h1>
 
@@ -58,10 +40,12 @@
         问答社区：<a href="http://wenda.ghostchina.com"  target="_blank">wenda.ghostchina.com</a>
         </p>
 
-        <p class="about-copyright">
-            Copyright 2013 - 2015 Ghost Foundation, released under the <a href="https://github.com/TryGhost/Ghost/blob/master/LICENSE">MIT license</a>.
-            <br>
-            <a href="https://ghost.org/">Ghost</a> is a trademark of the <a href="https://ghost.org/about/">Ghost Foundation</a>.
-        </p>
     </section>
+
+    <footer class="gh-copyright-info">
+        Copyright 2013 - 2015 Ghost Foundation, released under the <a href="https://github.com/TryGhost/Ghost/blob/master/LICENSE">MIT license</a>.
+        <br>
+        <a href="https://ghost.org/">Ghost</a> is a trademark of the <a href="https://ghost.org/about/">Ghost Foundation</a>.
+    </footer>
+
 </section>

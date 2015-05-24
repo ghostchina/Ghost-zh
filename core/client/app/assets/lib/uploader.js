@@ -6,7 +6,7 @@ var UploadUi,
 
 UploadUi = function ($dropzone, settings) {
     var $url = '<div class="js-url"><input class="url js-upload-url" type="url" placeholder="http://"/></div>',
-        $cancel = '<a class="image-cancel js-cancel" title="删除"><span class="hidden">删除</span></a>',
+        $cancel = '<a class="image-cancel icon-trash js-cancel" title="删除"><span class="hidden">删除</span></a>',
         $progress =  $('<div />', {
             class: 'js-upload-progress progress progress-success active',
             role: 'progressbar',
@@ -131,7 +131,7 @@ UploadUi = function ($dropzone, settings) {
                 $dropzone.append('<button class="js-fail btn btn-green" style="display: none">重试</button>');
             }
             if (!$dropzone.find('a.image-url')[0]) {
-                $dropzone.append('<a class="image-url" title="添加图片地址（URL）"><span class="hidden">URL</span></a>');
+                $dropzone.append('<a class="image-url" title="添加图片地址（URL）"><i class="icon-link"><span class="hidden">URL</span></i></a>');
             }
             // if (!$dropzone.find('a.image-webcam')[0]) {
             //     $dropzone.append('<a class="image-webcam" title="Add image from webcam"><span class="hidden">Webcam</span></a>');

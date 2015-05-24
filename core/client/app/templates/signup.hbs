@@ -1,33 +1,52 @@
-<section class="setup-box js-signup-box fade-in">
-    <div class="vertical">
-        <form id="signup" class="setup-form" method="post" novalidate="novalidate">
+<div class="gh-flow">
 
-            {{!-- Horrible hack to prevent Chrome from incorrectly auto-filling inputs --}}
-            <input style="display:none;" type="text" name="fakeusernameremembered"/>
-            <input style="display:none;" type="password" name="fakepasswordremembered"/>
-
+    <div class="gh-flow-content-wrap">
+        <section class="gh-flow-content">
             <header>
-                <h1>欢迎使用 Ghost 博客系统</h1>
-                <h2>创建账户并开始创作吧！</h2>
+                <h1>创建账户</h1>
             </header>
-            <div class="form-group">
-                <label for="email">邮箱</label>
-                {{input type="email" name="email" autocorrect="off" value=model.email }}
-                <p>用于接收重要通知</p>
-            </div>
-            <div class="form-group">
-                <label for="name">姓名</label>
-                {{gh-trim-focus-input type="text" name="name" autofocus="autofocus" autocorrect="off" value=model.name }}
-                <p>你所创作的博文都将署此姓名</p>
-            </div>
-            <div class="form-group">
-                <label for="password">密码</label>
-                {{input type="password" name="password" autofocus="autofocus" autocorrect="off" value=model.password }}
-                <p>至少8个字符</p>
-            </div>
-            <footer>
-                <button type="submit" class="btn btn-green btn-lg" {{action "signup"}} disabled={{submitting}}>创建账户</button>
-            </footer>
-        </form>
+
+            <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate">
+                {{!-- Hack to stop Chrome's broken auto-fills --}}
+                <input style="display:none;" type="text" name="fakeusernameremembered"/>
+                <input style="display:none;" type="password" name="fakepasswordremembered"/>
+
+                <figure class="account-image">
+                    <div  id="account-image" class="img"  style="background-image: url(http://www.gravatar.com/avatar/75e958a6674a7d68fe0d575fb235116c?d=404&s=250)">
+                        <!-- fallback to: Ghost/core/shared/img/ghosticon.jpg -->
+                        <span class="sr-only"用户头像</span>
+                    </div>
+                    <a class="edit-account-image" href="#"><i class="icon-image "><span class="sr-only">上传头像</span></i></a>
+                </figure>
+                <div class="form-group">
+                    <label for="email-address">邮箱地址</label>
+                    <span class="input-icon icon-mail">
+                        {{input class="gh-input" type="email" name="email" autocorrect="off" value=model.email }}
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="full-name">姓名</label>
+                    <span class="input-icon icon-user">
+                        {{gh-trim-focus-input class="gh-input" type="text" name="name" autofocus="autofocus" autocorrect="off" value=model.name }}
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <span class="input-icon icon-lock">
+                        {{input class="gh-input" type="password" name="password" autofocus="autofocus" autocorrect="off" value=model.password }}
+                        <div class="pw-strength">
+                            <div class="pw-strength-dot"></div>
+                            <div class="pw-strength-dot"></div>
+                            <div class="pw-strength-dot"></div>
+                            <div class="pw-strength-dot"></div>
+                            <div class="pw-strength-dot <!--pw-strength-activedot-->"></div>
+                        </div>
+                    </span>
+                </div>
+            </form>
+
+            <button type="submit" class="btn btn-green btn-lg btn-block" {{action "signup"}} disabled={{submitting}}>创建账户</button>
+        </section>
     </div>
-</section>
+
+</div>

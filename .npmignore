@@ -16,7 +16,6 @@ content/data/**
 node_modules/**
 **/*.db*
 *.db*
-.sass*
 .af*
 .git*
 .groc*

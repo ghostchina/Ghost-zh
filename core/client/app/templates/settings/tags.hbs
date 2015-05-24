@@ -1,12 +1,11 @@
-<header class="settings-view-header">
-    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
-    <h2 class="page-title">标签管理</h2>
-    <section class="page-actions">
+<header class="view-header">
+    <h2 class="view-title">标签管理</h2>
+    <section class="view-actions">
         <button type="button" class="btn btn-green" {{action "newTag"}}>新建标签</button>
     </section>
 </header>
 
-<section class="content settings-tags">
+<section class="view-container settings-tags">
     {{#each tag in tags}}
         <div class="settings-tag">
             <button class="tag-edit-button" {{action "editTag" tag}}>

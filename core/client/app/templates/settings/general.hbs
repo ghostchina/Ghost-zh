@@ -1,24 +1,23 @@
-<header class="settings-view-header">
-    {{#link-to "settings" class="btn btn-default btn-back"}}返回{{/link-to}}
-    <h2 class="page-title">全局设置</h2>
-    <section class="page-actions">
+<header class="view-header">
+    <h2 class="view-title">全局设置</h2>
+    <section class="view-actions">
         <button type="button" class="btn btn-blue" {{action "save"}}>保存</button>
     </section>
 </header>
 
-<section class="content settings-general">
+<section class="view-content">
     <form id="settings-general" novalidate="novalidate">
         <fieldset>
 
             <div class="form-group">
                 <label for="blog-title">博客名称</label>
-                {{input id="blog-title" name="general[title]" type="text" value=model.title}}
+                {{input id="blog-title" class="gh-input" name="general[title]" type="text" value=model.title}}
                 <p>为你的博客取一个响亮的名字</p>
             </div>
 
             <div class="form-group description-container">
                 <label for="blog-description">博客简介</label>
-                {{textarea id="blog-description" name="general[description]" value=model.description}}
+                {{textarea id="blog-description" class="gh-input" name="general[description]" value=model.description}}
                 <p>
                     简单介绍一下你的博客
                     {{gh-count-characters model.description}}
@@ -50,21 +49,21 @@
         <fieldset>
             <div class="form-group">
                 <label for="email-address">邮箱地址</label>
-                {{input id="email-address" name="general[email-address]" type="email" value=model.email autocapitalize="off" autocorrect="off"}}
+                {{input id="email-address" class="gh-input" name="general[email-address]" type="email" value=model.email autocapitalize="off" autocorrect="off"}}
                 <p>用来接收 Ghost 博客发出的重要通知</p>
             </div>
 
             <div class="form-group">
                 <label for="postsPerPage">每页显示博文数</label>
                 {{! `pattern` brings up numeric keypad allowing any number of digits}}
-                {{input id="postsPerPage" name="general[postsPerPage]" focus-out="checkPostsPerPage" value=model.postsPerPage min="1" max="1000" type="number" pattern="[0-9]*"}}
+                {{input id="postsPerPage" class="gh-input" name="general[postsPerPage]" focus-out="checkPostsPerPage" value=model.postsPerPage min="1" max="1000" type="number" pattern="[0-9]*"}}
                 <p>设置每页显示博文的数量</p>
             </div>
 
             <div class="form-group for-checkbox">
                 <label for="permalinks">博文地址</label>
                 <label class="checkbox" for="permalinks">
-                    {{input id="permalinks" name="general[permalinks]" type="checkbox" checked=isDatedPermalinks}}
+                    {{input id="permalinks" class="gh-input" name="general[permalinks]" type="checkbox" checked=isDatedPermalinks}}
                     <span class="input-toggle-component"></span>
                     <p>在博文地址中加入日期 ( 例如: http://my-ghost-blog.com/2013/09/27/welcome-to-ghost/ )</p>
                 </label>
