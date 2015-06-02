@@ -1,35 +1,36 @@
+import Ember from 'ember';
+import {request as ajax} from 'ic-ajax';
 import AuthenticatedRoute from 'ghost/routes/authenticated';
-import loadingIndicator from 'ghost/mixins/loading-indicator';
 import styleBody from 'ghost/mixins/style-body';
 
-var SettingsAboutRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, {
+export default AuthenticatedRoute.extend(styleBody, {
     titleToken: '关于我们',
 
-    classNames: ['settings-view-about'],
+    classNames: ['view-about'],
+
+    ghostPaths: Ember.inject.service('ghost-paths'),
 
     cachedConfig: false,
+
     model: function () {
         var cachedConfig = this.get('cachedConfig'),
             self = this;
+
         if (cachedConfig) {
             return cachedConfig;
         }
 
-        return ic.ajax.request(this.get('ghostPaths.url').api('configuration'))
+        return ajax(this.get('ghostPaths.url').api('configuration'))
             .then(function (configurationResponse) {
                 var configKeyValues = configurationResponse.configuration;
+
                 cachedConfig = {};
                 configKeyValues.forEach(function (configKeyValue) {
                     cachedConfig[configKeyValue.key] = configKeyValue.value;
                 });
                 self.set('cachedConfig', cachedConfig);
+
                 return cachedConfig;
             });
-    },
-
-    renderTemplate: function () {
-        this.render('settings/about', {into: 'application'});
     }
 });
-
-export default SettingsAboutRoute;

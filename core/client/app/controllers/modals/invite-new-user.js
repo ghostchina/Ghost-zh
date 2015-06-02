@@ -1,5 +1,8 @@
 import Ember from 'ember';
-var InviteNewUserController = Ember.Controller.extend({
+
+export default Ember.Controller.extend({
+    notifications: Ember.inject.service(),
+
     // Used to set the initial value for the dropdown
     authorRole: Ember.computed(function () {
         var self = this;
@@ -45,9 +48,9 @@ var InviteNewUserController = Ember.Controller.extend({
 
                 if (invitedUser) {
                     if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
-                        self.notifications.showWarn('已经邀请了此邮箱的持有人。');
+                        self.get('notifications').showWarn('已经邀请了此邮箱的持有人。');
                     } else {
-                        self.notifications.showWarn('此邮箱已存在。');
+                        self.get('notifications').showWarn('此邮箱已存在。');
                     }
                 } else {
                     newUser = self.store.createRecord('user', {
@@ -62,13 +65,13 @@ var InviteNewUserController = Ember.Controller.extend({
                         // If sending the invitation email fails, the API will still return a status of 201
                         // but the user's status in the response object will be 'invited-pending'.
                         if (newUser.get('status') === 'invited-pending') {
-                            self.notifications.showWarn('邀请邮件未能发送！请重新发送。');
+                            self.get('notifications').showWarn('邀请邮件未能发送！请重新发送。');
                         } else {
-                            self.notifications.showSuccess(notificationText);
+                            self.get('notifications').showSuccess(notificationText);
                         }
                     }).catch(function (errors) {
                         newUser.deleteRecord();
-                        self.notifications.showErrors(errors);
+                        self.get('notifications').showErrors(errors);
                     });
                 }
             });
@@ -79,5 +82,3 @@ var InviteNewUserController = Ember.Controller.extend({
         }
     }
 });
-
-export default InviteNewUserController;

@@ -28,6 +28,8 @@
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    align-items: center;
     margin: 0 0 0 3%;
     padding: 2px 9px 2px 5px;
     border: transparent 1px solid;
@@ -35,6 +37,12 @@
     color: #7d878a;
     font-weight: 100;
     transition: all 0.3s ease;
+}
+
+.gh-flow-back i {
+    margin-right: 4px;
+    font-size: 12px;
+    line-height: 8px;
 }
 
 .gh-flow-back:hover {
@@ -69,12 +77,14 @@
     background-repeat: repeat-x;
 }
 
-.gh-flow-nav .current ~ .divider {
+.gh-flow-nav .active ~ .divider {
     background-image: linear-gradient(to right, #e3e3e3 33%, rgba(255, 255, 255, 0) 0%);
 }
 
 .gh-flow-nav .step {
-    display: table-cell;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
     border: transparent 2px solid;
@@ -85,39 +95,44 @@
     text-align: center;
     text-align: center;
     font-size: 1.3rem;
+    line-height: 1;
 }
 
 .gh-flow-nav .step .num {
     display: none;
 }
 
-.gh-flow-nav .current ~ li:not(divider) .step {
+.gh-flow-nav .step i {
+    font-size: 26px;
+    line-height: 22px;
+}
+
+.gh-flow-nav .active ~ li:not(divider) .step {
     border: #e3e3e3 2px solid;
     background: transparent;
     color: #cdcdcd;
 }
 
-.gh-flow-nav .current ~ li:not(divider) .step .num {
+.gh-flow-nav .active ~ li:not(divider) .step .num {
     display: block;
 }
 
-.gh-flow-nav .current ~ li:not(divider) .step i {
+.gh-flow-nav .active ~ li:not(divider) .step i {
     display: none;
 }
 
-.gh-flow-nav .current .step {
+.gh-flow-nav .active .step {
     border: var(--green) 2px solid;
     background: transparent;
-    color: var(--green);
-    font-weight: bold;
+    color: color(var(--green) lightness(-10%));
     cursor: default;
 }
 
-.gh-flow-nav .current .step .num {
+.gh-flow-nav .active .step .num {
     display: block;
 }
 
-.gh-flow-nav .current .step i {
+.gh-flow-nav .active .step i {
     display: none;
 }
 
@@ -126,6 +141,8 @@
     background: var(--green);
     color: #fff;
 }
+
+
 
 .gh-flow-content {
     max-width: 700px;
@@ -240,11 +257,29 @@
     transition: opacity 0.3s ease;
 }
 
-.gh-flow-content .img {
+.gh-flow-content .placeholder-img {
     display: block;
     width: 90px;
     height: 90px;
     background-color: #f8fbfd;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 100%;
+    animation: fade-in 1s;
+}
+
+.gh-flow-content .gravatar-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    box-sizing: content-box;
+    width: calc(100% - 8px);
+    width: 90px;
+    height: 90px;
+    border: #fff 4px solid;
     background-position: center center;
     background-size: cover;
     border-radius: 100%;

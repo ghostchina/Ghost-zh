@@ -1,9 +1,13 @@
 import Ember from 'ember';
-var LabsController = Ember.Controller.extend(Ember.Evented, {
-    needs: ['feature'],
+import {request as ajax} from 'ic-ajax';
 
+export default Ember.Controller.extend(Ember.Evented, {
     uploadButtonText: '导入',
     importErrors: '',
+
+    ghostPaths: Ember.inject.service('ghost-paths'),
+    notifications: Ember.inject.service(),
+
     labsJSON: Ember.computed('model.labs', function () {
         return JSON.parse(this.get('model.labs') || {});
     }),
@@ -26,15 +30,16 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
     actions: {
         onUpload: function (file) {
             var self = this,
-                formData = new FormData();
+                formData = new FormData(),
+                notifications = this.get('notifications');
 
             this.set('uploadButtonText', '导入中');
             this.set('importErrors', '');
-            this.notifications.closePassive();
+            notifications.closePassive();
 
             formData.append('importfile', file);
 
-            ic.ajax.request(this.get('ghostPaths.url').api('db'), {
+            ajax(this.get('ghostPaths.url').api('db'), {
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -49,13 +54,13 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
                 self.store.unloadAll('role');
                 self.store.unloadAll('setting');
                 self.store.unloadAll('notification');
-                self.notifications.showSuccess('导入成功。');
+                notifications.showSuccess('导入成功。');
             }).catch(function (response) {
                 if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                     self.set('importErrors', response.jqXHR.responseJSON.errors);
                 }
 
-                self.notifications.showError('导入失败');
+                notifications.showError('导入失败');
             }).finally(function () {
                 self.set('uploadButtonText', '导入');
                 self.trigger('reset');
@@ -65,7 +70,7 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
         exportData: function () {
             var iframe = $('#iframeDownload'),
                 downloadURL = this.get('ghostPaths.url').api('db') +
-                    '?access_token=' + this.get('session.access_token');
+                    '?access_token=' + this.get('session.secure.access_token');
 
             if (iframe.length === 0) {
                 iframe = $('<iframe>', {id: 'iframeDownload'}).hide().appendTo('body');
@@ -75,21 +80,19 @@ var LabsController = Ember.Controller.extend(Ember.Evented, {
         },
 
         sendTestEmail: function () {
-            var self = this;
+            var notifications = this.get('notifications');
 
-            ic.ajax.request(this.get('ghostPaths.url').api('mail', 'test'), {
+            ajax(this.get('ghostPaths.url').api('mail', 'test'), {
                 type: 'POST'
             }).then(function () {
-                self.notifications.showSuccess('请检查邮箱中是否有测试邮件。');
+                notifications.showSuccess('请检查邮箱中是否收到测试邮件。');
             }).catch(function (error) {
                 if (typeof error.jqXHR !== 'undefined') {
-                    self.notifications.showAPIError(error);
+                    notifications.showAPIError(error);
                 } else {
-                    self.notifications.showErrors(error);
+                    notifications.showErrors(error);
                 }
             });
         }
     }
 });
-
-export default LabsController;

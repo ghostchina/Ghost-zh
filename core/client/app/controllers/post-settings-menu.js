@@ -1,16 +1,22 @@
-import Ember from 'ember';
 /* global moment */
+
+import Ember from 'ember';
 import {parseDateString, formatDate} from 'ghost/utils/date-formatting';
 import SettingsMenuMixin from 'ghost/mixins/settings-menu-controller';
 import SlugGenerator from 'ghost/models/slug-generator';
 import boundOneWay from 'ghost/utils/bound-one-way';
 import isNumber from 'ghost/utils/isNumber';
 
-var PostSettingsMenuController = Ember.Controller.extend(SettingsMenuMixin, {
+export default Ember.Controller.extend(SettingsMenuMixin, {
     debounceId: null,
     lastPromise: null,
     selectedAuthor: null,
     uploaderReference: null,
+
+    application: Ember.inject.controller(),
+    config: Ember.inject.service(),
+    ghostPaths: Ember.inject.service('ghost-paths'),
+    notifications: Ember.inject.service(),
 
     initializeSelectedAuthor: function () {
         var self = this;
@@ -210,11 +216,11 @@ var PostSettingsMenuController = Ember.Controller.extend(SettingsMenuMixin, {
 
     showErrors: function (errors) {
         errors = Ember.isArray(errors) ? errors : [errors];
-        this.notifications.showErrors(errors);
+        this.get('notifications').showErrors(errors);
     },
 
     showSuccess: function (message) {
-        this.notifications.showSuccess(message);
+        this.get('notifications').showSuccess(message);
     },
 
     actions: {
@@ -456,8 +462,10 @@ var PostSettingsMenuController = Ember.Controller.extend(SettingsMenuMixin, {
 
         resetPubDate: function () {
             this.set('publishedAtValue', '');
+        },
+
+        closeNavMenu: function () {
+            this.get('application').send('closeNavMenu');
         }
     }
 });
-
-export default PostSettingsMenuController;

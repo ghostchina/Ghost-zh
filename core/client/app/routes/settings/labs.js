@@ -1,12 +1,12 @@
 import AuthenticatedRoute from 'ghost/routes/authenticated';
 import styleBody from 'ghost/mixins/style-body';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
-import loadingIndicator from 'ghost/mixins/loading-indicator';
 
-var LabsRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, CurrentUserSettings, {
-    titleToken: '实验室',
+export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
+    titleToken: '设置 - 实验室',
 
     classNames: ['settings'],
+
     beforeModel: function () {
         return this.get('session.user')
             .then(this.transitionAuthor())
@@ -17,11 +17,5 @@ var LabsRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, CurrentUs
         return this.store.find('setting', {type: 'blog,theme'}).then(function (records) {
             return records.get('firstObject');
         });
-    },
-
-    renderTemplate: function () {
-        this.render('settings/labs', {into: 'application'});
     }
 });
-
-export default LabsRoute;

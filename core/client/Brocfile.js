@@ -36,7 +36,6 @@ app = new EmberApp({
 // 'dem Scripts
 app.import('bower_components/loader.js/loader.js');
 app.import('bower_components/jquery/dist/jquery.js');
-app.import('bower_components/ic-ajax/dist/globals/main.js');
 app.import('bower_components/ember-load-initializers/ember-load-initializers.js');
 app.import('bower_components/validator-js/validator.js');
 app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
@@ -51,7 +50,6 @@ app.import('bower_components/devicejs/lib/device.js');
 app.import('bower_components/jquery-ui/ui/jquery-ui.js');
 app.import('bower_components/jquery-file-upload/js/jquery.fileupload.js');
 app.import('bower_components/fastclick/lib/fastclick.js');
-app.import('bower_components/nprogress/nprogress.js');
 app.import('bower_components/google-caja/html-css-sanitizer-bundle.js');
 app.import('bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.js');
 app.import('bower_components/codemirror/lib/codemirror.js');
@@ -61,9 +59,9 @@ app.import('bower_components/codemirror/mode/css/css.js');
 app.import('bower_components/codemirror/mode/javascript/javascript.js');
 app.import('bower_components/xregexp/xregexp-all.js');
 app.import('bower_components/password-generator/lib/password-generator.js');
+app.import('bower_components/blueimp-md5/js/md5.js');
 
 // 'dem Styles
-app.import('bower_components/nprogress/nprogress.css');
 app.import('bower_components/codemirror/lib/codemirror.css');
 app.import('bower_components/codemirror/theme/xq-light.css');
 

@@ -4,9 +4,9 @@
 /*globals CasperTest, casper */
 
 CasperTest.begin('About screen is correct', 9, function suite(test) {
-    casper.thenOpenAndWaitForPageLoad('settings.about', function testTitleAndUrl() {
-        test.assertTitle('Settings - About - Test Blog', 'Ghost admin has incorrect title');
-        test.assertUrlMatch(/ghost\/settings\/about\/$/, 'Landed on the correct URL');
+    casper.thenOpenAndWaitForPageLoad('about', function testTitleAndUrl() {
+        test.assertTitle('About - Test Blog', 'Ghost admin has incorrect title');
+        test.assertUrlMatch(/ghost\/about\/$/, 'Redirected to the correct URL');
     });
 
     casper.then(function testVersionNumber() {

@@ -3,10 +3,11 @@ import SlugGenerator from 'ghost/models/slug-generator';
 import isNumber from 'ghost/utils/isNumber';
 import boundOneWay from 'ghost/utils/bound-one-way';
 
-
 moment.locale("zh-cn");
 
-var SettingsUserController = Ember.Controller.extend({
+export default Ember.Controller.extend({
+    ghostPaths: Ember.inject.service('ghost-paths'),
+    notifications: Ember.inject.service(),
 
     user: Ember.computed.alias('model'),
 
@@ -19,8 +20,10 @@ var SettingsUserController = Ember.Controller.extend({
     coverDefault: Ember.computed('ghostPaths', function () {
         return this.get('ghostPaths.url').asset('/shared/img/user-cover.png');
     }),
+
     coverImageBackground: Ember.computed('user.cover', 'coverDefault', function () {
         var url = this.get('user.cover') || this.get('coverDefault');
+
         return `background-image: url(${url})`.htmlSafe();
     }),
 
@@ -31,8 +34,10 @@ var SettingsUserController = Ember.Controller.extend({
     userDefault: Ember.computed('ghostPaths', function () {
         return this.get('ghostPaths.url').asset('/shared/img/user-image.png');
     }),
+
     userImageBackground: Ember.computed('user.image', 'userDefault', function () {
         var url = this.get('user.image') || this.get('userDefault');
+
         return `background-image: url(${url})`.htmlSafe();
     }),
 
@@ -70,15 +75,16 @@ var SettingsUserController = Ember.Controller.extend({
             model.reload().then(function () {
                 if (model.get('invited')) {
                     model.destroyRecord().then(function () {
-                        var notificationText = '已取消邀请。 (' + email + ')';
-                        self.notifications.showSuccess(notificationText, false);
+                        var notificationText = '邀请已取消。 (' + email + ')';
+
+                        self.get('notifications').showSuccess(notificationText, false);
                     }).catch(function (error) {
-                        self.notifications.showAPIError(error);
+                        self.get('notifications').showAPIError(error);
                     });
                 } else {
                     // if the user is no longer marked as "invited", then show a warning and reload the route
                     self.get('target').send('reload');
-                    self.notifications.showError('此用户已经接受邀请。', {delayed: 500});
+                    self.get('notifications').showError('此用户已经接受邀请。', {delayed: 500});
                 }
             });
         },
@@ -91,13 +97,13 @@ var SettingsUserController = Ember.Controller.extend({
                 // If sending the invitation email fails, the API will still return a status of 201
                 // but the user's status in the response object will be 'invited-pending'.
                 if (result.users[0].status === 'invited-pending') {
-                    self.notifications.showWarn('邀请邮件未成功发送！请重新发送。');
+                    self.get('notifications').showWarn('邀请邮件未成功发送！请重新发送。');
                 } else {
                     self.get('model').set('status', result.users[0].status);
-                    self.notifications.showSuccess(notificationText);
+                    self.get('notifications').showSuccess(notificationText);
                 }
             }).catch(function (error) {
-                self.notifications.showAPIError(error);
+                self.get('notifications').showAPIError(error);
             });
         },
 
@@ -119,8 +125,7 @@ var SettingsUserController = Ember.Controller.extend({
             }).then(function (model) {
                 var currentPath,
                     newPath;
-
-                self.notifications.showSuccess('设置信息已成功保存。');
+                self.get('notifications').showSuccess('已成功保存设置。');
 
                 // If the user's slug has changed, change the URL and replace
                 // the history so refresh and back button still work
@@ -136,7 +141,7 @@ var SettingsUserController = Ember.Controller.extend({
 
                 return model;
             }).catch(function (errors) {
-                self.notifications.showErrors(errors);
+                self.get('notifications').showErrors(errors);
             });
 
             this.set('lastPromise', promise);
@@ -154,15 +159,14 @@ var SettingsUserController = Ember.Controller.extend({
                         newPassword: '',
                         ne2Password: ''
                     });
-
-                    self.notifications.showSuccess('密码已更新。');
+                    self.get('notifications').showSuccess('密码已更新。');
 
                     return model;
                 }).catch(function (errors) {
-                    self.notifications.showAPIError(errors);
+                    self.get('notifications').showAPIError(errors);
                 });
             } else {
-                self.notifications.showErrors(user.get('passwordValidationErrors'));
+                self.get('notifications').showErrors(user.get('passwordValidationErrors'));
             }
         },
 
@@ -220,5 +224,3 @@ var SettingsUserController = Ember.Controller.extend({
         }
     }
 });
-
-export default SettingsUserController;

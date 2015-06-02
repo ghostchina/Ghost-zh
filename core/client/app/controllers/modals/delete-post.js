@@ -1,5 +1,9 @@
 import Ember from 'ember';
-var DeletePostController = Ember.Controller.extend({
+
+export default Ember.Controller.extend({
+    dropdown: Ember.inject.service(),
+    notifications: Ember.inject.service(),
+
     actions: {
         confirmAccept: function () {
             var self = this,
@@ -11,9 +15,9 @@ var DeletePostController = Ember.Controller.extend({
             model.destroyRecord().then(function () {
                 self.get('dropdown').closeDropdowns();
                 self.transitionToRoute('posts.index');
-                self.notifications.showSuccess('博文已删除。', { delayed: true });
+                self.get('notifications').showSuccess('博文已被删除。', {delayed: true});
             }, function () {
-                self.notifications.showError('删除博文失败，请重试。');
+                self.get('notifications').showError('删除博文失败，请重试。.');
             });
         },
 
@@ -33,5 +37,3 @@ var DeletePostController = Ember.Controller.extend({
         }
     }
 });
-
-export default DeletePostController;

@@ -13,7 +13,7 @@ paginationSettings = {
 };
 
 UsersIndexRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, PaginationRouteMixin, {
-    titleToken: '用户管理',
+    titleToken: '用户组',
 
     classNames: ['settings-view-users'],
 
@@ -45,10 +45,6 @@ UsersIndexRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, Pagi
                 });
             });
         });
-    },
-
-    renderTemplate: function () {
-        this.render('settings/users/index', {into: 'application'});
     },
 
     actions: {

@@ -1,10 +1,9 @@
 import AuthenticatedRoute from 'ghost/routes/authenticated';
-import loadingIndicator from 'ghost/mixins/loading-indicator';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
-var SettingsGeneralRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator, CurrentUserSettings, {
-    titleToken: '全局设置',
+export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
+    titleToken: '设置 - 全局设置',
 
     classNames: ['settings-view-general'],
 
@@ -20,15 +19,9 @@ var SettingsGeneralRoute = AuthenticatedRoute.extend(styleBody, loadingIndicator
         });
     },
 
-    renderTemplate: function () {
-        this.render('settings/general', {into: 'application'});
-    },
-
     actions: {
         save: function () {
             this.get('controller').send('save');
         }
     }
 });
-
-export default SettingsGeneralRoute;

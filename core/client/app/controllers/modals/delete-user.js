@@ -1,5 +1,8 @@
 import Ember from 'ember';
-var DeleteUserController = Ember.Controller.extend({
+
+export default Ember.Controller.extend({
+    notifications: Ember.inject.service(),
+
     userPostCount: Ember.computed('model.id', function () {
         var promise,
             query = {
@@ -28,9 +31,9 @@ var DeleteUserController = Ember.Controller.extend({
             user.destroyRecord().then(function () {
                 self.store.unloadAll('post');
                 self.transitionToRoute('settings.users');
-                self.notifications.showSuccess('用户已被删除。', { delayed: true });
+                self.get('notifications').showSuccess('用户已被删除。', {delayed: true});
             }, function () {
-                self.notifications.showError('删除用户失败，请重试。');
+                self.get('notifications').showError('删除用户失败，请重试。');
             });
         },
 
@@ -50,5 +53,3 @@ var DeleteUserController = Ember.Controller.extend({
         }
     }
 });
-
-export default DeleteUserController;

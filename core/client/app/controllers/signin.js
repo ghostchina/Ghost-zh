@@ -1,11 +1,14 @@
 import Ember from 'ember';
 import ValidationEngine from 'ghost/mixins/validation-engine';
-import ajax from 'ghost/utils/ajax';
+import {request as ajax} from 'ic-ajax';
 
-var SigninController = Ember.Controller.extend(ValidationEngine, {
+export default Ember.Controller.extend(ValidationEngine, {
     validationType: 'signin',
 
     submitting: false,
+
+    ghostPaths: Ember.inject.service('ghost-paths'),
+    notifications: Ember.inject.service(),
 
     actions: {
         authenticate: function () {
@@ -28,10 +31,10 @@ var SigninController = Ember.Controller.extend(ValidationEngine, {
             $('#login').find('input').trigger('change');
 
             this.validate({format: false}).then(function () {
-                self.notifications.closePassive();
+                self.get('notifications').closePassive();
                 self.send('authenticate');
             }).catch(function (errors) {
-                self.notifications.showErrors(errors);
+                self.get('notifications').showErrors(errors);
             });
         },
 
@@ -55,13 +58,11 @@ var SigninController = Ember.Controller.extend(ValidationEngine, {
                 }
             }).then(function () {
                 self.set('submitting', false);
-                self.notifications.showSuccess('Please check your email for instructions.');
+                self.get('notifications').showSuccess('Please check your email for instructions.');
             }).catch(function (resp) {
                 self.set('submitting', false);
-                self.notifications.showAPIError(resp, {defaultErrorText: 'There was a problem with the reset, please try again.'});
+                self.get('notifications').showAPIError(resp, {defaultErrorText: 'There was a problem with the reset, please try again.'});
             });
         }
     }
 });
-
-export default SigninController;

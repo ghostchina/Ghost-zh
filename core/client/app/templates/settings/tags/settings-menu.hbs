@@ -1,4 +1,5 @@
-<div class="content-cover" {{action "closeSettingsMenu"}}></div>
+{{gh-content-cover onClick="closeSettingsMenu" onMouseEnter="closeNavMenu"}}
+
 {{#gh-tabs-manager selected="showSubview" class="settings-menu-container"}}
     <div class="{{if isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane">
         <div class="settings-menu-header">
@@ -45,7 +46,7 @@
     <div class="{{if isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane">
         {{#gh-tab-pane}}
             <div class="settings-menu-header subview">
-                <button {{action "closeSubview"}} class="back icon-chevron-left settings-menu-header-action"><span class="hidden">返回</span></button>
+                <button {{action "closeSubview"}} class="back icon-arrow-left settings-menu-header-action"><span class="hidden">返回</span></button>
                 <h4>搜索引擎优化</h4>
                 <div style="width:23px;">{{!flexbox space-between}}</div>
             </div>

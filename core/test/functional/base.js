@@ -75,6 +75,11 @@ screens = {
         linkSelector: '.gh-nav-main-editor',
         selector: '.gh-nav-main-editor.active'
     },
+    about: {
+        url: 'ghost/about',
+        linkSelector: '.gh-nav-menu-about',
+        selector: '.gh-about-header'
+    },
     'editor.editing': {
         url: 'ghost/editor/',
         linkSelector: 'a.post-edit',
@@ -83,11 +88,6 @@ screens = {
     'settings.general': {
         url: 'ghost/settings/general',
         selector: '.gh-nav-settings-general.active'
-    },
-    'settings.about': {
-        url: 'ghost/settings/about',
-        linkSelector: '.gh-nav-menu-about',
-        selector: '.gh-about-header'
     },
     'settings.users': {
         url: 'ghost/settings/users',
@@ -120,8 +120,17 @@ screens = {
         selector: '.btn-blue'
     },
     setup: {
-        url: 'ghost/setup/',
+        url: 'ghost/setup/one/',
         selector: '.btn-green'
+    },
+    'setup.two': {
+        url: 'ghost/setup/two/',
+        linkSelector: '.btn-green',
+        selector: '.gh-flow-create'
+    },
+    'setup.three': {
+        url: 'ghost/setup/three/',
+        selector: '.gh-flow-invite'
     },
     'setup-authenticated': {
         url: 'ghost/setup/',
@@ -395,12 +404,10 @@ CasperTest = (function () {
 
 CasperTest.Routines = (function () {
     function setup() {
-        casper.thenOpenAndWaitForPageLoad('setup', function then() {
+        casper.thenOpenAndWaitForPageLoad('setup.two', function then() {
             casper.captureScreenshot('setting_up1.png');
 
-            casper.waitForOpaque('.setup-box', function then() {
-                this.fillAndAdd('#setup', newSetup);
-            });
+            casper.fillAndAdd('#setup', newSetup);
 
             casper.captureScreenshot('setting_up2.png');
 
