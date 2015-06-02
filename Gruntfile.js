@@ -989,7 +989,7 @@ var _              = require('lodash'),
         
 
         grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
-           ['clean:all', 'init', 'shell:ember:prod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
+           ['init', 'shell:ember:prod', 'uglify:release', 'clean:release', 'copy:release', 'shell:shrinkwrap', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
 
     };
 
