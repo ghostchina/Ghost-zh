@@ -42,7 +42,7 @@ var UploadModal = ModalDialog.extend({
 
                     if (!Ember.isEmpty(value) && !cajaSanitizers.url(value)) {
                         this.setErrorState(true);
-                        return {message: 'Image URI is not valid'};
+                        return {message: '图片的链接地址无效'};
                     }
                 } else {
                     value = this.$('.js-upload-target').attr('src');
