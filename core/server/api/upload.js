@@ -27,12 +27,12 @@ upload = {
 
         // Check if a file was provided
         if (!utils.checkFileExists(options, 'uploadimage')) {
-            return Promise.reject(new errors.NoPermissionError('Please select an image.'));
+            return Promise.reject(new errors.NoPermissionError('请选择一张图片。'));
         }
 
         // Check if the file is valid
         if (!utils.checkFileIsValid(options.uploadimage, config.uploads.contentTypes, config.uploads.extensions)) {
-            return Promise.reject(new errors.UnsupportedMediaTypeError('Please select a valid image.'));
+            return Promise.reject(new errors.UnsupportedMediaTypeError('只能上传图片！'));
         }
 
         filepath = options.uploadimage.path;

@@ -57,7 +57,7 @@ export default Ember.Controller.extend({
                     if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
                         self.get('notifications').showAlert('已经邀请了此邮箱的持有人。', {type: 'warn'});
                     } else {
-                        self.get('notifications').showAlert('此邮箱已存在。', {type: 'warn'});
+                        self.get('notifications').showAlert('此邮箱/用户已存在。', {type: 'warn'});
                     }
                 } else {
                     newUser = self.store.createRecord('user', {

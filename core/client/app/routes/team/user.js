@@ -3,7 +3,7 @@ import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
 var TeamUserRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: '用户组 - 用户管理',
+    titleToken: '用户列表 - 用户管理',
 
     classNames: ['team-view-user'],
 

@@ -12,7 +12,7 @@ paginationSettings = {
 };
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, PaginationRouteMixin, {
-    titleToken: 'Team',
+    titleToken: '用户列表',
 
     classNames: ['view-team'],
 

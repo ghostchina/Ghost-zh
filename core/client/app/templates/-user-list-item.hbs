@@ -1,5 +1,5 @@
 <span class="user-list-item-figure" style={{component.userImageBackground}}>
-    <span class="hidden">Photo of {{user.name}}</span>
+    <span class="hidden">{{user.name}} 的照片</span>
 </span>
 
 <div class="user-list-item-body">
@@ -7,12 +7,12 @@
         {{user.name}}
     </span>
     <br>
-    <span class="description">Last seen: {{component.lastLogin}}</span>
+    <span class="description">最后一次登录：{{component.lastLogin}}</span>
 </div>
 <aside class="user-list-item-aside">
     {{#unless session.user.isAuthor}}
         {{#each user.roles as |role|}}
-            <span class="role-label {{role.lowerCaseName}}">{{role.name}}</span>
+            <span class="role-label {{role.lowerCaseName}}">{{role.description}}</span>
         {{/each}}
     {{/unless}}
 </aside>

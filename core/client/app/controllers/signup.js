@@ -83,7 +83,7 @@ export default Ember.Controller.extend(ValidationEngine, {
                     }
                 });
             }).catch(function () {
-                self.set('flowErrors', 'Please fill out the form to complete your sign-up');
+                self.set('flowErrors', '请填写所有信息以完成注册');
             });
         },
         setImage: function (image) {

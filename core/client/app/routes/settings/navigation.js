@@ -3,7 +3,7 @@ import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
 var NavigationRoute = AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: 'Settings - Navigation',
+    titleToken: '设置 - 导航菜单',
 
     classNames: ['settings-view-navigation'],
 

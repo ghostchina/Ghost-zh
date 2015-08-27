@@ -1,10 +1,10 @@
 <section class="gh-view">
     <header class="view-header">
-        {{#gh-view-title openMobileMenu="openMobileMenu"}}<span>Team</span>{{/gh-view-title}}
+        {{#gh-view-title openMobileMenu="openMobileMenu"}}<span>用户列表</span>{{/gh-view-title}}
         {{!-- Do not show Invite user button to authors --}}
         {{#unless session.user.isAuthor}}
             <section class="view-actions">
-                <button class="btn btn-green" {{action "openModal" "invite-new-user"}} >Invite People</button>
+                <button class="btn btn-green" {{action "openModal" "invite-new-user"}} >邀请好友</button>
             </section>
         {{/unless}}
     </header>
@@ -19,7 +19,7 @@
         {{#unless session.user.isAuthor}}
             {{#if invitedUsers}}
                 <section class="user-list invited-users">
-                    <h4 class="user-list-title">Invited users</h4>
+                    <h4 class="user-list-title">已邀请的用户</h4>
                     {{#each invitedUsers as |user|}}
                         {{#gh-user-invited user=user reload="reload" as |component|}}
                             <div class="user-list-item">
@@ -28,23 +28,23 @@
                                     <span class="name">{{user.email}}</span><br>
                                         {{#if user.pending}}
                                             <span class="description-error">
-                                                Invitation not sent - please try again
+                                                邀请未能成功发送 - 请重试
                                             </span>
                                         {{else}}
                                             <span class="description">
-                                                Invitation sent: {{component.createdAt}}
+                                                邀请已发送：{{component.createdAt}}
                                             </span>
                                         {{/if}}
                                 </div>
                                 <aside class="user-list-item-aside">
                                     {{#if component.isSending}}
-                                        <span>Sending Invite...</span>
+                                        <span>正在发送邀请...</span>
                                     {{else}}
                                         <a class="user-list-action" href="#" {{action "revoke" target=component}}>
-                                            Revoke
+                                            撤销
                                         </a>
                                         <a class="user-list-action" href="#" {{action "resend" target=component}}>
-                                            Resend
+                                            重发
                                         </a>
                                     {{/if}}
                                 </aside>
@@ -56,7 +56,7 @@
         {{/unless}}
 
         <section class="user-list active-users">
-            <h4 class="user-list-title">Active users</h4>
+            <h4 class="user-list-title">已加入的用户</h4>
             {{#each activeUsers key="id" as |user|}}
                 {{!-- For authors only shows users as a list, otherwise show users with links to user page --}}
                 {{#unless session.user.isAuthor}}

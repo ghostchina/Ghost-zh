@@ -58,14 +58,14 @@
                         <label for="meta-title">优化标题</label>
                         {{gh-input id="meta-title" name="meta_title" type="text" value=activeTagMetaTitleScratch focus-out="saveActiveTagMetaTitle"}}
                         {{gh-error-message errors=activeTag.errors property="meta_title"}}
-                        <p>建议长度：<b>70</b> 个字符。已经输入了 {{gh-count-down-characters activeTagMetaTitleScratch 70}} 个字符</p>
+                        <p>建议长度：<b>70</b> 个字符。已输入的字符数为 {{gh-count-down-characters activeTagMetaTitleScratch 70}}</p>
                     {{/gh-form-group}}
 
                     {{#gh-form-group errors=activeTag.errors property="meta_description"}}
                         <label for="meta-description">优化描述</label>
                         {{gh-textarea id="meta-description" name="meta_description" value=activeTagMetaDescriptionScratch focus-out="saveActiveTagMetaDescription"}}
                         {{gh-error-message errors=activeTag.errors property="meta_description"}}
-                        <p>建议长度：<b>156</b> 个字符。已经输入了 {{gh-count-down-characters activeTagMetaDescriptionScratch 156}} 个字符</p>
+                        <p>建议长度：<b>156</b> 个字符。已输入的字符数为 {{gh-count-down-characters activeTagMetaDescriptionScratch 156}}</p>
                     {{/gh-form-group}}
 
                     <div class="form-group">

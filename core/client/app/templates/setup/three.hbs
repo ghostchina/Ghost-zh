@@ -1,12 +1,12 @@
 <header>
-    <h1>Invite your team</h1>
-    <p>Ghost works best when shared with others. Collaborate, get feedback on your posts &amp; work together on ideas.</p>
+    <h1>邀请小伙伴儿们</h1>
+    <p>Ghost 完美地支持共创、协作、交流。</p>
 </header>
 
 <img class="gh-flow-faces" src="{{gh-path 'admin' 'img/users.png'}}" alt="" />
 
 <form class="gh-flow-invite">
-    <label>Enter one email address per line, we’ll handle the rest! <i class="icon-mail"></i></label>
+    <label>每行一个邮箱地址，我来帮您发邀请！<i class="icon-mail"></i></label>
     {{textarea class="gh-input" name="users" value=users required="required"}}
     {{gh-error-message errors=errors property="users"}}
 </form>
@@ -14,5 +14,5 @@
 {{#gh-spin-button classNameBindings=":btn :btn-default :btn-lg :btn-block buttonClass" action="invite" submitting=submitting autoWidth="false"}}{{buttonText}}{{/gh-spin-button}}
 
 <button class="gh-flow-skip" {{action "skipInvite"}}>
-    I'll do this later, take me to my blog!
+    稍后再邀请，先进入博客！
 </button>

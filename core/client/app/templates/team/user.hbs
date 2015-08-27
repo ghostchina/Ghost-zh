@@ -1,7 +1,7 @@
 <section class="gh-view">
     <header class="view-header">
         {{#gh-view-title openMobileMenu="openMobileMenu"}}
-            {{link-to "Team" "team"}}
+            {{link-to "用户列表" "team"}}
             <i class="icon-arrow-right"></i> <span>{{user.name}}</span>
         {{/gh-view-title}}
         <section class="view-actions">
@@ -9,20 +9,20 @@
                 <span class="dropdown">
                     {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="btn btn-default only-has-icon user-actions-cog" title="User Actions"}}
                         <i class="icon-settings"></i>
-                        <span class="hidden">User Settings</span>
+                        <span class="hidden">用户设置</span>
                     {{/gh-dropdown-button}}
                     {{#gh-dropdown name="user-actions-menu" tagName="ul" classNames="user-actions-menu dropdown-menu dropdown-triangle-top-right"}}
                         {{#if canMakeOwner}}
                             <li>
                                 <button {{action "openModal" "transfer-owner" this}}>
-                                    Make Owner
+                                    设为博客所有者
                                 </button>
                             </li>
                         {{/if}}
                         {{#if deleteUserActionIsVisible}}
                             <li>
                                 <button {{action "openModal" "delete-user" this}} class="delete">
-                                    Delete User
+                                    删除用户
                                 </button>
                             </li>
                         {{/if}}
@@ -30,14 +30,14 @@
                 </span>
             {{/if}}
 
-            {{#gh-spin-button class="btn btn-blue" action="save" submitting=submitting}}Save{{/gh-spin-button}}
+            {{#gh-spin-button class="btn btn-blue" action="save" submitting=submitting}}保存{{/gh-spin-button}}
         </section>
     </header>
 
     <div class="view-container settings-user">
 
         <figure class="user-cover" style="{{coverImageBackground}}">
-            <button class="btn btn-default user-cover-edit js-modal-cover" {{action "openModal" "upload" user "cover"}}>Change Cover</button>
+            <button class="btn btn-default user-cover-edit js-modal-cover" {{action "openModal" "upload" user "cover"}}>修改封面图</button>
         </figure>
 
         <form class="user-profile" novalidate="novalidate" autocomplete="off">
@@ -50,16 +50,16 @@
 
                 <figure class="user-image">
                     <div id="user-image" class="img" style="{{userImageBackground}}"><span class="hidden">{{user.name}}"s Picture</span></div>
-                    <button type="button" {{action "openModal" "upload" user "image"}} class="edit-user-image js-modal-image">Edit Picture</button>
+                    <button type="button" {{action "openModal" "upload" user "image"}} class="edit-user-image js-modal-image">编辑图片</button>
                 </figure>
 
                 {{#gh-form-group class="first-form-group" errors=user.errors property="name"}}
-                    <label for="user-name">Full Name</label>
-                    {{input value=user.name id="user-name" class="gh-input user-name" placeholder="Full Name" autocorrect="off" focusOut=(action "validate" "name")}}
+                    <label for="user-name">姓名</label>
+                    {{input value=user.name id="user-name" class="gh-input user-name" placeholder="姓名" autocorrect="off" focusOut=(action "validate" "name")}}
                     {{#if user.errors.name}}
                         {{gh-error-message errors=user.errors property="name"}}
                     {{else}}
-                        <p>Use your real name so people can recognise you</p>
+                        <p>真实姓名能让大家更容易记住你</p>
                     {{/if}}
                 {{/gh-form-group}}
 
@@ -68,22 +68,22 @@
             <fieldset class="user-details-bottom">
 
                 {{#gh-form-group errors=user.errors property="slug"}}
-                    <label for="user-slug">Slug</label>
+                    <label for="user-slug">个性网址</label>
                     {{gh-input class="gh-input user-name" id="user-slug" value=slugValue name="user" focus-out="updateSlug" placeholder="Slug" selectOnClick="true" autocorrect="off"}}
                     <p>{{gh-blog-url}}/author/{{slugValue}}</p>
                     {{gh-error-message errors=user.errors property="slug"}}
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors property="email"}}
-                    <label for="user-email">Email</label>
+                    <label for="user-email">邮箱地址</label>
                     {{!-- Administrators only see text of Owner's email address but not input --}}
                     {{#unless isAdminUserOnOwnerProfile}}
-                        {{input type="email" value=user.email id="user-email" name="email" class="gh-input" placeholder="Email Address" autocapitalize="off" autocorrect="off" autocomplete="off" focusOut=(action "validate" "email")}}
+                        {{input type="email" value=user.email id="user-email" name="email" class="gh-input" placeholder="邮箱地址" autocapitalize="off" autocorrect="off" autocomplete="off" focusOut=(action "validate" "email")}}
                         {{gh-error-message errors=user.errors property="email"}}
                     {{else}}
                         <span>{{user.email}}</span>
                     {{/unless}}
-                    <p>Used for notifications</p>
+                    <p>用于接收通知</p>
                 {{/gh-form-group}}
 
                 {{#if rolesDropdownIsVisible}}
@@ -98,22 +98,22 @@
                                 action="changeRole"
                             }}
                         </span>
-                        <p>What permissions should this user have?</p>
+                        <p>为此用户设置权限。</p>
                     </div>
                 {{/if}}
 
                 {{#gh-form-group errors=user.errors property="location"}}
-                    <label for="user-location">Location</label>
+                    <label for="user-location">位置</label>
                     {{input type="text" value=user.location id="user-location" class="gh-input" focusOut=(action "validate" "location")}}
                     {{gh-error-message errors=user.errors property="location"}}
-                    <p>Where in the world do you live?</p>
+                    <p>你在哪儿？</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors property="website"}}
                     <label for="user-website">Website</label>
                     {{input type="url" value=user.website id="user-website" class="gh-input" autocapitalize="off" autocorrect="off" autocomplete="off" focusOut=(action "validate" "website")}}
                     {{gh-error-message errors=user.errors property="website"}}
-                    <p>Have a website or blog other than this one? Link it!</p>
+                    <p>还有其他的网站或博客吗？展告诉大家吧！</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group class="bio-container" errors=user.errors property="bio"}}
@@ -121,7 +121,7 @@
                     {{textarea id="user-bio" class="gh-input" value=user.bio focusOut=(action "validate" "bio")}}
                     {{gh-error-message errors=user.errors property="bio"}}
                     <p>
-                        Write about you, in 200 characters or less.
+                        介绍一下你自己吧，不要超过 200 字。
                         {{gh-count-characters user.bio}}
                     </p>
                 {{/gh-form-group}}
@@ -134,22 +134,22 @@
                 <fieldset>
                     {{#unless isNotOwnProfile}}
                     <div class="form-group">
-                        <label for="user-password-old">Old Password</label>
+                        <label for="user-password-old">原密码</label>
                         {{input value=user.password type="password" id="user-password-old" class="gh-input"}}
                     </div>
                     {{/unless}}
 
                     <div class="form-group">
-                        <label for="user-password-new">New Password</label>
+                        <label for="user-password-new">新密码</label>
                         {{input value=user.newPassword type="password" id="user-password-new" class="gh-input"}}
                     </div>
 
                     <div class="form-group">
-                        <label for="user-new-password-verification">Verify Password</label>
+                        <label for="user-new-password-verification">再次输入新密码</label>
                         {{input value=user.ne2Password type="password" id="user-new-password-verification" class="gh-input"}}
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-red button-change-password" {{action "password"}}>Change Password</button>
+                        <button type="button" class="btn btn-red button-change-password" {{action "password"}}>修改密码</button>
                     </div>
 
                 </fieldset>

@@ -22,12 +22,12 @@ export default Ember.Component.extend({
 
             this.set('isSending', true);
             user.resendInvite().then(function (result) {
-                var notificationText = 'Invitation resent! (' + user.get('email') + ')';
+                var notificationText = '已发送邀请！ (' + user.get('email') + ')';
 
                 // If sending the invitation email fails, the API will still return a status of 201
                 // but the user's status in the response object will be 'invited-pending'.
                 if (result.users[0].status === 'invited-pending') {
-                    notifications.showAlert('Invitation email was not sent.  Please try resending.', {type: 'error'});
+                    notifications.showAlert('邀请邮件未成功发送。请重新发送。', {type: 'error'});
                 } else {
                     user.set('status', result.users[0].status);
                     notifications.showNotification(notificationText);
@@ -49,7 +49,7 @@ export default Ember.Component.extend({
             user.reload().then(function () {
                 if (user.get('invited')) {
                     user.destroyRecord().then(function () {
-                        var notificationText = 'Invitation revoked. (' + email + ')';
+                        var notificationText = '邀请已取消。 (' + email + ')';
 
                         notifications.showNotification(notificationText);
                     }).catch(function (error) {
@@ -58,7 +58,7 @@ export default Ember.Component.extend({
                 } else {
                     // if the user is no longer marked as "invited", then show a warning and reload the route
                     self.sendAction('reload');
-                    notifications.showAlert('This user has already accepted the invitation.', {type: 'error', delayed: true});
+                    notifications.showAlert('此用户已经接受要轻。', {type: 'error', delayed: true});
                 }
             });
         }

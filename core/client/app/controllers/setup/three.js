@@ -130,13 +130,13 @@ export default Ember.Controller.extend({
                     });
                 });
             } else if (users.length === 0) {
-                this.get('errors').add('users', 'No users to invite.');
+                this.get('errors').add('users', '没有可邀请的用户。');
             } else {
                 validationErrors.forEach(function (error) {
                     // Only one error type here so far, but one day the errors might be more detailed
                     switch (error.error) {
                     case 'email':
-                        self.get('errors').add('users', error.user + ' is not a valid email.');
+                        self.get('errors').add('users', error.user + ' 邮箱地址无效。');
                     }
                 });
             }

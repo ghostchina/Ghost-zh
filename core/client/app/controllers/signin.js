@@ -56,7 +56,7 @@ export default Ember.Controller.extend(ValidationEngine, {
                 if (error) {
                     self.get('notifications').showAPIError(error);
                 } else {
-                    self.set('flowErrors', 'Please fill out the form to sign in.');
+                    self.set('flowErrors', '请填写邮箱地址和密码');
                 }
             });
         },
@@ -80,7 +80,7 @@ export default Ember.Controller.extend(ValidationEngine, {
                     }
                 }).then(function () {
                     self.toggleProperty('submitting');
-                    notifications.showAlert('Please check your email for instructions.', {type: 'info'});
+                    notifications.showAlert('请查看邮件并按照指令继续后续操作。', {type: 'info'});
                 }).catch(function (resp) {
                     self.toggleProperty('submitting');
                     if (resp && resp.jqXHR && resp.jqXHR.responseJSON && resp.jqXHR.responseJSON.errors) {
@@ -92,11 +92,11 @@ export default Ember.Controller.extend(ValidationEngine, {
                             self.get('model.errors').add('identification', '');
                         }
                     } else {
-                        notifications.showAPIError(resp, {defaultErrorText: 'There was a problem with the reset, please try again.'});
+                        notifications.showAPIError(resp, {defaultErrorText: '重置失败，请重试。'});
                     }
                 });
             }).catch(function () {
-                self.set('flowErrors', 'Please enter an email address then click "Forgot?".');
+                self.set('flowErrors', '请输入有效的邮箱地址，然后再点击“忘记密码？”。');
             });
         }
     }

@@ -30,7 +30,7 @@ function authenticate(req, res, next) {
                     var error = {
                         code: 401,
                         errorType: 'NoPermissionError',
-                        message: 'Please Sign In'
+                        message: '请登录'
                     };
 
                     return apiErrorHandlers.errorHandler(error, req, res, next);

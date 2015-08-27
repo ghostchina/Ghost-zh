@@ -3,7 +3,7 @@ import styleBody from 'ghost/mixins/style-body';
 import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: '设置 - 实验室',
+    titleToken: '设置 - 实验功能',
 
     classNames: ['settings'],
 

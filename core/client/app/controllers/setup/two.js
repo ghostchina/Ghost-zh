@@ -104,7 +104,7 @@ export default Ember.Controller.extend(ValidationEngine, {
                 });
             }).catch(function () {
                 self.toggleProperty('submitting');
-                self.set('flowErrors', 'Please fill out the form to setup your blog.');
+                self.set('flowErrors', '请填写所有信息以完成博客安装。');
             });
         },
         setImage: function (image) {

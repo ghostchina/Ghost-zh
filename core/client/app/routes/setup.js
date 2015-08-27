@@ -4,7 +4,7 @@ import Configuration from 'simple-auth/configuration';
 import styleBody from 'ghost/mixins/style-body';
 
 export default Ember.Route.extend(styleBody, {
-    titleToken: '设置',
+    titleToken: '安装',
 
     classNames: ['ghost-setup'],
 

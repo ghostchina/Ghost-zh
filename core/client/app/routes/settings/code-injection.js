@@ -3,7 +3,7 @@ import CurrentUserSettings from 'ghost/mixins/current-user-settings';
 import styleBody from 'ghost/mixins/style-body';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: 'Settings - Code Injection',
+    titleToken: '设置 - 插入代码',
     classNames: ['settings-view-code'],
 
     beforeModel: function (transition) {

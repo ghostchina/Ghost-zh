@@ -1,5 +1,5 @@
 <header>
-    <h1>Create your account</h1>
+    <h1>创建账户</h1>
 </header>
 
 <form id="setup" class="gh-flow-create">
@@ -9,36 +9,36 @@
 
         {{gh-profile-image fileStorage=config.fileStorage email=validEmail setImage="setImage"}}
         {{#gh-form-group errors=errors property="email"}}
-            <label for="email-address">Email address</label>
+            <label for="email-address">邮箱地址</label>
             <span class="input-icon icon-mail">
-                {{gh-trim-focus-input tabindex="1" type="email" name="email" enter=(action "setup") placeholder="Eg. john@example.com" autocorrect="off" value=email focusOut=(action "handleEmail")}}
+                {{gh-trim-focus-input tabindex="1" type="email" name="email" enter=(action "setup") placeholder="例如：wangwu@example.com" autocorrect="off" value=email focusOut=(action "handleEmail")}}
             </span>
             {{gh-error-message errors=errors property="email"}}
         {{/gh-form-group}}
         {{#gh-form-group errors=errors property="name"}}
             <label for="full-name">Full name</label>
             <span class="input-icon icon-user">
-                {{gh-input tabindex="2" type="text" name="name" enter=(action "setup") placeholder="Eg. John H. Watson"  autocorrect="off" value=name focusOut=(action "validate" "name")}}
+                {{gh-input tabindex="2" type="text" name="name" enter=(action "setup") placeholder="例如：王五"  autocorrect="off" value=name focusOut=(action "validate" "name")}}
             </span>
             {{gh-error-message errors=errors property="name"}}
         {{/gh-form-group}}
         {{#gh-form-group errors=errors property="password"}}
-            <label for="password">Password</label>
+            <label for="password">密码</label>
             <span class="input-icon icon-lock">
-                {{gh-input tabindex="3" type="password" name="password" enter=(action "setup") placeholder="At least 8 characters" autocorrect="off" value=password focusOut=(action "validate" "password")}}
+                {{gh-input tabindex="3" type="password" name="password" enter=(action "setup") placeholder="至少 8 个字符" autocorrect="off" value=password focusOut=(action "validate" "password")}}
             </span>
             {{gh-error-message errors=errors property="password"}}
         {{/gh-form-group}}
         {{#gh-form-group errors=errors property="blogTitle"}}
-            <label for="blog-title">Blog title</label>
+            <label for="blog-title">博客标题</label>
             <span class="input-icon icon-content">
-                {{gh-input tabindex="4" type="text" name="blog-title" enter=(action "setup") placeholder="Eg. The Daily Awesome" autocorrect="off" value=blogTitle focusOut=(action "validate" "blogTitle")}}
+                {{gh-input tabindex="4" type="text" name="blog-title" enter=(action "setup") placeholder="例如：王五的博客" autocorrect="off" value=blogTitle focusOut=(action "validate" "blogTitle")}}
             </span>
             {{gh-error-message errors=errors property="blogTitle"}}
         {{/gh-form-group}}
     </form>
 {{#gh-spin-button type="submit" tabindex="5" class="btn btn-green btn-lg btn-block" action="setup" submitting=submitting autoWidth="false"}}
-    Last step: Invite your team <i class="icon-chevron"></i>
+    最后一步：邀请你的小伙伴们一起码字吧 <i class="icon-chevron"></i>
 {{/gh-spin-button}}
 
 <p class="main-error">{{{flowErrors}}}</p>

@@ -64,7 +64,7 @@ var UserValidator = BaseValidator.create({
             var roles = model.get('roles');
 
             if (roles.length < 1) {
-                model.get('errors').add('role', 'Please select a role');
+                model.get('errors').add('role', '请选择角色/权限');
                 this.invalidate();
             }
         }

@@ -60,8 +60,8 @@ export default Ember.Controller.extend(SettingsSaveMixin, {
             blogUrl = this.get('config').blogUrl,
             blogUrlRegex = new RegExp('^' + blogUrl + '(.*)', 'i'),
             navItems = this.get('navigationItems'),
-            message = 'One of your navigation items has an empty label. ' +
-                '<br /> Please enter a new label or delete the item before saving.',
+            message = '某个导航条目的标题是空的。' +
+                '<br /> 请为其输入标题或将其删除。',
             match,
             notifications = this.get('notifications');
 
