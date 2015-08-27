@@ -19,7 +19,7 @@ var _       = require('lodash'),
 var oss = new ALY.OSS({
   accessKeyId: ossConfig.ACCESS_KEY,
   secretAccessKey: ossConfig.SECRET_KEY,
-  endpoint: ossConfig.prefix.replace(ossConfig.bucketname + '.', ''),
+  endpoint: ossConfig.endpoint,
   apiVersion: '2013-10-15'
 });
 
