@@ -1334,142 +1334,10 @@ describe('Frontend Controller', function () {
         });
     });
 
-    describe('rss redirects', function () {
-        var res,
-            apiUsersStub;
-
-        beforeEach(function () {
-            res = {
-                locals: {version: ''},
-                redirect: sandbox.spy(),
-                render: sandbox.spy()
-            };
-
-            sandbox.stub(api.posts, 'browse', function () {
-                return Promise.resolve({posts: {}, meta: {pagination: {pages: 3}}});
-            });
-
-            apiUsersStub = sandbox.stub(api.users, 'read').returns(Promise.resolve({}));
-
-            apiSettingsStub = sandbox.stub(api.settings, 'read');
-            apiSettingsStub.withArgs('title').returns(Promise.resolve({
-                settings: [{
-                    key: 'title',
-                    value: 'Test'
-                }]
-            }));
-            apiSettingsStub.withArgs('description').returns(Promise.resolve({
-                settings: [{
-                    key: 'description',
-                    value: 'Some Text'
-                }]
-            }));
-            apiSettingsStub.withArgs('permalinks').returns(Promise.resolve({
-                settings: [{
-                    key: 'permalinks',
-                    value: '/:slug/'
-                }]
-            }));
-        });
-
-        it('Redirects to rss if page number is 0', function () {
-            var req = {params: {page: -1}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, null);
-
-            res.redirect.called.should.be.true;
-            res.redirect.calledWith('/rss/').should.be.true;
-            res.render.called.should.be.false;
-        });
-
-        it('Redirects to rss if page number is 0', function () {
-            var req = {params: {page: 0}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, null);
-
-            res.redirect.called.should.be.true;
-            res.redirect.calledWith('/rss/').should.be.true;
-            res.render.called.should.be.false;
-        });
-
-        it('Redirects to home if page number is 1', function () {
-            var req = {params: {page: 1}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, null);
-
-            res.redirect.called.should.be.true;
-            res.redirect.calledWith('/rss/').should.be.true;
-            res.render.called.should.be.false;
-        });
-
-        it('Redirects to home if page number is 0 with subdirectory', function () {
-            config.set({url: 'http://testurl.com/blog'});
-
-            var req = {params: {page: 0}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, null);
-
-            res.redirect.called.should.be.true;
-            res.redirect.calledWith('/blog/rss/').should.be.true;
-            res.render.called.should.be.false;
-        });
-
-        it('Redirects to home if page number is 1 with subdirectory', function () {
-            config.set({url: 'http://testurl.com/blog'});
-
-            var req = {params: {page: 1}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, null);
-
-            res.redirect.called.should.be.true;
-            res.redirect.calledWith('/blog/rss/').should.be.true;
-            res.render.called.should.be.false;
-        });
-
-        it('Redirects to last page if page number too big', function (done) {
-            config.set({url: 'http://testurl.com/'});
-
-            var req = {params: {page: 4}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, done).then(function () {
-                res.redirect.called.should.be.true;
-                res.redirect.calledWith('/rss/3/').should.be.true;
-                res.render.called.should.be.false;
-                done();
-            }).catch(done);
-        });
-
-        it('Redirects to last page if page number too big with subdirectory', function (done) {
-            config.set({url: 'http://testurl.com/blog'});
-
-            var req = {params: {page: 4}, route: {path: '/rss/:page/'}};
-            req.originalUrl = req.route.path.replace(':page', req.params.page);
-
-            frontend.rss(req, res, done).then(function () {
-                res.redirect.calledOnce.should.be.true;
-                res.redirect.calledWith('/blog/rss/3/').should.be.true;
-                res.render.called.should.be.false;
-                done();
-            }).catch(done);
-        });
-    });
-
     describe('private', function () {
-        var req, res, config, defaultPath;
-
-        defaultPath = '/core/server/views/private.hbs';
+        var req, config;
 
         beforeEach(function () {
-            res = {
-                locals: {version: ''},
-                render: sandbox.spy()
-            },
             req = {
                 route: {path: '/private/?r=/'},
                 query: {r: ''},
@@ -1495,37 +1363,47 @@ describe('Frontend Controller', function () {
         });
 
         it('Should render default password page when theme has no password template', function (done) {
+            var res = {
+                locals: {version: '', relativeUrl: '/private/'},
+                render: function (view) {
+                    view.should.match(/private.hbs/);
+                    done();
+                }
+            };
             frontend.__set__('config', config);
 
-            frontend.private(req, res, done).then(function () {
-                res.render.calledWith(defaultPath).should.be.true;
-                res.locals.context.should.containEql('private');
-                done();
-            }).catch(done);
+            frontend.private(req, res, failTest(done));
         });
 
         it('Should render theme password page when it exists', function (done) {
+            var res = {
+                locals: {version: '', relativeUrl: '/private/'},
+                render: function (view) {
+                    view.should.equal('private');
+                    done();
+                }
+            };
             config.paths.availableThemes.casper = {
                 'private.hbs': '/content/themes/casper/private.hbs'
             };
             frontend.__set__('config', config);
 
-            frontend.private(req, res, done).then(function () {
-                res.render.calledWith('private').should.be.true;
-                res.locals.context.should.containEql('private');
-                done();
-            }).catch(done);
+            frontend.private(req, res, failTest(done));
         });
 
         it('Should render with error when error is passed in', function (done) {
+            var res = {
+                error: 'Test Error',
+                locals: {version: '', relativeUrl: '/private/'},
+                render: function (view, context) {
+                    view.should.match(/private.hbs/);
+                    context.error.should.equal('Test Error');
+                    done();
+                }
+            };
             frontend.__set__('config', config);
-            res.error = 'Test Error';
 
-            frontend.private(req, res, done).then(function () {
-                res.render.calledWith(defaultPath, {error: 'Test Error'}).should.be.true;
-                res.locals.context.should.containEql('private');
-                done();
-            }).catch(done);
+            frontend.private(req, res, failTest(done));
         });
     });
 });

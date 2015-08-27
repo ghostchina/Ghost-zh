@@ -17,7 +17,7 @@ var _ = require('lodash'),
 spamPrevention = {
     /*jslint unparam:true*/
     // limit signin requests to ten failed requests per IP per hour
-    signin: function (req, res, next) {
+    signin: function signin(req, res, next) {
         var currentTime = process.hrtime()[0],
             remoteAddress = req.connection.remoteAddress,
             deniedRateLimit = '',
@@ -35,7 +35,7 @@ spamPrevention = {
         }
 
         // filter entries that are older than rateSigninPeriod
-        loginSecurity = _.filter(loginSecurity, function (logTime) {
+        loginSecurity = _.filter(loginSecurity, function filter(logTime) {
             return (logTime.time + rateSigninPeriod > currentTime);
         });
 
@@ -49,14 +49,14 @@ spamPrevention = {
                 'Too many login attempts.'
             );
             message += rateSigninPeriod === 3600 ? ' Please wait 1 hour.' : ' Please try again later';
-            return next(new errors.UnauthorizedError(message));
+            return next(new errors.TooManyRequestsError(message));
         }
         next();
     },
 
     // limit forgotten password requests to five requests per IP per hour for different email addresses
     // limit forgotten password requests to five requests per email address
-    forgotten: function (req, res, next) {
+    forgotten: function forgotten(req, res, next) {
         var currentTime = process.hrtime()[0],
             remoteAddress = req.connection.remoteAddress,
             rateForgottenPeriod = config.rateForgottenPeriod || 3600,
@@ -66,7 +66,7 @@ spamPrevention = {
             deniedRateLimit = '',
             deniedEmailRateLimit = '',
             message = 'Too many attempts.',
-            index = _.findIndex(forgottenSecurity, function (logTime) {
+            index = _.findIndex(forgottenSecurity, function findIndex(logTime) {
                 return (logTime.ip === remoteAddress && logTime.email === email);
             });
 
@@ -81,7 +81,7 @@ spamPrevention = {
         }
 
         // filter entries that are older than rateForgottenPeriod
-        forgottenSecurity = _.filter(forgottenSecurity, function (logTime) {
+        forgottenSecurity = _.filter(forgottenSecurity, function filter(logTime) {
             return (logTime.time + rateForgottenPeriod > currentTime);
         });
 
@@ -110,13 +110,13 @@ spamPrevention = {
 
         if (deniedEmailRateLimit || deniedRateLimit) {
             message += rateForgottenPeriod === 3600 ? ' Please wait 1 hour.' : ' Please try again later';
-            return next(new errors.UnauthorizedError(message));
+            return next(new errors.TooManyRequestsError(message));
         }
 
         next();
     },
 
-    protected: function (req, res, next) {
+    protected: function protected(req, res, next) {
         var currentTime = process.hrtime()[0],
             remoteAddress = req.connection.remoteAddress,
             rateProtectedPeriod = config.rateProtectedPeriod || 3600,
@@ -136,7 +136,7 @@ spamPrevention = {
         }
 
         // filter entries that are older than rateProtectedPeriod
-        protectedSecurity = _.filter(protectedSecurity, function (logTime) {
+        protectedSecurity = _.filter(protectedSecurity, function filter(logTime) {
             return (logTime.time + rateProtectedPeriod > currentTime);
         });
 
@@ -156,8 +156,8 @@ spamPrevention = {
         return next();
     },
 
-    resetCounter: function (email) {
-        loginSecurity = _.filter(loginSecurity, function (logTime) {
+    resetCounter: function resetCounter(email) {
+        loginSecurity = _.filter(loginSecurity, function filter(logTime) {
             return (logTime.email !== email);
         });
     }

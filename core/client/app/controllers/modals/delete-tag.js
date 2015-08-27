@@ -10,14 +10,11 @@ export default Ember.Controller.extend({
     actions: {
         confirmAccept: function () {
             var tag = this.get('model'),
-                name = tag.get('name'),
                 self = this;
 
-            this.send('closeSettingsMenu');
+            this.send('closeMenus');
 
-            tag.destroyRecord().then(function () {
-                self.get('notifications').showSuccess('已删除 ' + name);
-            }).catch(function (error) {
+            tag.destroyRecord().catch(function (error) {
                 self.get('notifications').showAPIError(error);
             });
         },

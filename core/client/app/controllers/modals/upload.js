@@ -10,10 +10,9 @@ export default Ember.Controller.extend({
             var notifications = this.get('notifications');
 
             this.get('model').save().then(function (model) {
-                notifications.showSuccess('已保存');
                 return model;
             }).catch(function (err) {
-                notifications.showErrors(err);
+                notifications.showAPIError(err);
             });
         },
 

@@ -1,28 +1,30 @@
-import Ember from 'ember';
-var TagSettingsValidator = Ember.Object.create({
-    check: function (model) {
-        var validationErrors = [],
-            data = model.getProperties('name', 'meta_title', 'meta_description');
+import BaseValidator from './base';
 
-        if (validator.empty(data.name)) {
-            validationErrors.push({
-                message: '未设置标签名。'
-            });
+var TagSettingsValidator = BaseValidator.create({
+    properties: ['name', 'metaTitle', 'metaDescription'],
+    name: function (model) {
+        var name = model.get('name');
+
+        if (validator.empty(name)) {
+            model.get('errors').add('name', '必须为标签设置一个名称');
+            this.invalidate();
         }
+    },
+    metaTitle: function (model) {
+        var metaTitle = model.get('meta_title');
 
-        if (!validator.isLength(data.meta_title, 0, 150)) {
-            validationErrors.push({
-                message: '优化标题不能超过 150 个字符。'
-            });
+        if (!validator.isLength(metaTitle, 0, 150)) {
+            model.get('errors').add('meta_title', '优化标题不能超过 150 个字符。');
+            this.invalidate();
         }
+    },
+    metaDescription: function (model) {
+        var metaDescription = model.get('meta_description');
 
-        if (!validator.isLength(data.meta_description, 0, 200)) {
-            validationErrors.push({
-                message: '优化描述不能超过 200 个字符。'
-            });
+        if (!validator.isLength(metaDescription, 0, 200)) {
+            model.get('errors').add('meta_description', '优化描述不能超过 200 个字符。');
+            this.invalidate();
         }
-
-        return validationErrors;
     }
 });
 

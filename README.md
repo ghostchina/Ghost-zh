@@ -14,6 +14,8 @@ Ghost 目由非盈利性组织 **Ghost Foundation** 和一群优秀的独立[贡
 - [心愿列表](http://ideas.ghost.org/)
 - [技术博客](http://dev.ghost.org)
 
+**NOTE: If you’re stuck, can’t get something working or need some help, please head on over and join our [Slack community](https://ghost.org/slack/) rather than opening an issue.**
+
 
 # 快速安装
 
@@ -107,9 +109,13 @@ npm start
 
 最简单的 Ghost 部署方案就是购买官方的 <strong><a href="https://ghost.org/pricing/">Ghost(Pro)</a></strong> 服务（托管在国外）。此服务所获得的收益都将用于支持 Ghost Foundation，这也是我们能够一直维护此项目的财政来源。
 
-另外，采用 Ghost 官方所提供的服务可以让你只需点几下鼠标就能完成 Ghost 部署，然后就可以开始享受你的创作时光了。
+![Ghost(Pro) + DigitalOcean](https://cloud.githubusercontent.com/assets/120485/8180331/d6674e32-1414-11e5-8ce4-2250e9994906.png)
 
-如果你希望自己部署 Ghost，可以参考[这里](http://support.ghost.org/deploying-ghost/)。
+Ghost 官方支持的 **[Ghost(Pro)](https://ghost.org/pricing/)** 服务能够帮你节约大量时间，只需点几下鼠标就能部署一个 Ghost 实例到 [DigitalOcean](https://digitalocean.com) 的服务器上，并且还可以免费享受到全球化的 CDN 服务。
+
+从 **Ghost(Pro**) 所获得的所有收益都将用于 Ghost 基金 -- 一个非营利性的组织，为 Ghost 的开发和维护提供支持。
+
+如果你希望自己部署 Ghost，可以参考[这里](http://support.ghost.org/deploying-ghost/) 。
 
 如果你使用的是**阿里云主机**，还可以参考我们撰写的[系列文章](http://www.ghostchina.com/tag/aliyun-ecs/)，按照文中指引一步步安装 Ghost 以及依赖的各个组件。
 

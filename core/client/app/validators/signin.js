@@ -1,18 +1,43 @@
-import Ember from 'ember';
-var SigninValidator = Ember.Object.create({
-    check: function (model) {
-        var data = model.getProperties('identification', 'password'),
-            validationErrors = [];
+import BaseValidator from './base';
 
-        if (!validator.isEmail(data.identification)) {
-            validationErrors.push('邮箱地址无效');
+var SigninValidator = BaseValidator.create({
+    properties: ['identification', 'signin', 'forgotPassword'],
+
+    identification: function (model) {
+        var id = model.get('identification');
+
+        if (!validator.empty(id) && !validator.isEmail(id)) {
+            model.get('errors').add('identification', '邮箱地址无效');
+            this.invalidate();
+        }
+    },
+
+    signin: function (model) {
+        var id = model.get('identification'),
+            password = model.get('password');
+
+        model.get('errors').clear();
+
+        if (validator.empty(id)) {
+            model.get('errors').add('identification', '请输入邮箱地址');
+            this.invalidate();
         }
 
-        if (!validator.isLength(data.password || '', 1)) {
-            validationErrors.push('请输入密码');
+        if (validator.empty(password)) {
+            model.get('errors').add('password', '请输入密码');
+            this.invalidate();
         }
+    },
 
-        return validationErrors;
+    forgotPassword: function (model) {
+        var id = model.get('identification');
+
+        model.get('errors').clear();
+
+        if (validator.empty(id) || !validator.isEmail(id)) {
+            model.get('errors').add('identification', '邮箱地址无效');
+            this.invalidate();
+        }
     }
 });
 

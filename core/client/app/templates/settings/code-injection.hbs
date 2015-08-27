@@ -1,28 +1,31 @@
-<header class="view-header">
-    <h2 class="view-title">插入代码</h2>
-    <section class="view-actions">
-        <button type="button" class="btn btn-blue" {{action "save"}}>保存</button>
+<section class="gh-view">
+    <header class="view-header">
+        {{#gh-view-title openMobileMenu="openMobileMenu"}}<span>>
+    <h2 class="view-title">插入代码</span>{{/gh-view-title}}
+        <section class="view-actions">
+            {{#gh-spin-button class="btn btn-blue" action="save" submitting=submitting}}保存{{/gh-spin-button}}
+        </section>
+    </header>
+
+    <section class="view-content">
+        <form id="settings-code" novalidate="novalidate">
+            <fieldset>
+                <p>
+                    Ghost 可以帮你在主题模板的页头和页脚插入额外的代码，从而免去直接修改模板文件的麻烦。这一功能允许你快速插入或修改比如“统计代码”和“元数据”等。
+                </p>
+
+                <div class="form-group settings-code">
+                    <label for="ghost-head">页头</label>
+                    <p>在这里输入的代码将通过 <code>\{{ghost_head}}</code> 标志插入到每一页的页头位置</p>
+                    {{gh-cm-editor id="ghost-head" class="gh-input settings-code-editor" name="codeInjection[ghost_head]" type="text" value=model.ghost_head}}
+                </div>
+
+                <div class="form-group settings-code">
+                    <label for="ghost-foot">页脚</label>
+                    <p>在这里输入的代码将通过 <code>\{{ghost_foot}}</code> 标志插入到每一页的页脚位置</p>
+                    {{gh-cm-editor id="ghost-foot" class="gh-input settings-code-editor" name="codeInjection[ghost_foot]" type="text" value=model.ghost_foot}}
+                </div>
+            </fieldset>
+        </form>
     </section>
-</header>
-
-<section class="view-content">
-    <form id="settings-code" novalidate="novalidate">
-        <fieldset>
-            <p>
-                Ghost 可以帮你在主题模板的页头和页脚插入额外的代码，从而免去直接修改模板文件的麻烦。这一功能允许你快速插入或修改比如“统计代码”和“元数据”等。
-            </p>
-
-            <div class="form-group settings-code">
-                <label for="ghost-head">页头</label>
-                <p>在这里输入的代码将通过 <code>\{{ghost_head}}</code> 助手函数插入到页头位置</p>
-                {{gh-cm-editor id="ghost-head" class="gh-input settings-code-editor" name="codeInjection[ghost_head]" type="text" value=model.ghost_head}}
-            </div>
-
-            <div class="form-group settings-code">
-                <label for="ghost-foot">页脚</label>
-                <p>在这里输入的代码将通过 <code>\{{ghost_foot}}</code> 助手函数插入到页脚位置</p>
-                {{gh-cm-editor id="ghost-foot" class="gh-input settings-code-editor" name="codeInjection[ghost_foot]" type="text" value=model.ghost_foot}}
-            </div>
-        </fieldset>
-    </form>
 </section>

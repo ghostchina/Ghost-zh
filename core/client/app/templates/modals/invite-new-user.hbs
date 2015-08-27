@@ -1,21 +1,25 @@
 {{#gh-modal-dialog action="closeModal" showClose=true type="action"
     title="邀请新用户" confirm=confirm class="invite-new-user"}}
 
-        <fieldset>
-            <div class="form-group">
-                <label for="new-user-email">邮箱地址</label>
-                {{input action="confirmAccept" class="gh-input email" id="new-user-email" type="email" placeholder="被邀请用户的邮箱" name="email" autofocus="autofocus"
-                autocapitalize="off" autocorrect="off" value=email}}
-            </div>
+    <fieldset>
+        <div class="form-group">
+            <label for="new-user-email">邮箱地址</label>
+            {{input enter="confirmAccept" class="gh-input email" id="new-user-email" type="email" placeholder="被邀请用户的邮箱" name="email" autofocus="autofocus"
+            autocapitalize="off" autocorrect="off" value=email}}
+        </div>
 
-            <div class="form-group for-select">
-                <label for="new-user-role">角色/权限</label>
-                {{gh-role-selector
-                    initialValue=authorRole
-                    onChange="setRole"
-                    selectId="new-user-role"}}
-            </div>
-
-        </fieldset>
+        <div class="form-group for-select">
+            <label for="new-user-role">角色/权限</label>
+            <span class="gh-select" tabindex="0">
+                {{gh-select-native id="new-user-role"
+                    content=roles
+                    optionValuePath="id"
+                    optionLabelPath="name"
+                    selection=role
+                    action="setRole"
+                }}
+            </span>
+        </div>
+    </fieldset>
 
 {{/gh-modal-dialog}}

@@ -8,11 +8,8 @@ var Router = Ember.Router.extend({
 
     notifications: Ember.inject.service(),
 
-    clearNotifications: Ember.on('didTransition', function () {
-        var notifications = this.get('notifications');
-
-        notifications.closePassive();
-        notifications.displayDelayed();
+    displayDelayedNotifications: Ember.on('didTransition', function () {
+        this.get('notifications').displayDelayed();
     })
 });
 
@@ -40,17 +37,15 @@ Router.map(function () {
         this.route('edit', {path: ':post_id'});
     });
 
-    this.route('settings.general', {path: '/settings/general'});
-    this.route('settings.users', {path: '/settings/users'}, function () {
+    this.route('team', {path: '/team'}, function () {
         this.route('user', {path: ':slug'});
     });
+
+    this.route('settings.general', {path: '/settings/general'});
     this.route('settings.tags', {path: '/settings/tags'});
     this.route('settings.labs', {path: '/settings/labs'});
     this.route('settings.code-injection', {path: '/settings/code-injection'});
     this.route('settings.navigation', {path: '/settings/navigation'});
-
-    // Redirect legacy content to posts
-    this.route('content');
 
     this.route('error404', {path: '/*path'});
 });

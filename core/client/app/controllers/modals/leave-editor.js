@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
             }
 
             if (!transition || !editorController) {
-                this.get('notifications').showError('抱歉，系统故障。请将此问题提交至 Ghost 开发团队。');
+                this.get('notifications').showNotification('抱歉，系统故障。请将此问题提交至 Ghost 开发团队。', {type: 'error'});
                 return true;
             }
 

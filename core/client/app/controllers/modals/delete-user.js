@@ -30,10 +30,9 @@ export default Ember.Controller.extend({
 
             user.destroyRecord().then(function () {
                 self.store.unloadAll('post');
-                self.transitionToRoute('settings.users');
-                self.get('notifications').showSuccess('用户已被删除。', {delayed: true});
+                self.transitionToRoute('team');
             }, function () {
-                self.get('notifications').showError('删除用户失败，请重试。');
+                self.get('notifications').showAlert('删除用户失败，请重试。', {type: 'error'});
             });
         },
 
@@ -44,11 +43,11 @@ export default Ember.Controller.extend({
 
     confirm: {
         accept: {
-            text: 'Delete User',
+            text: '删除用户',
             buttonClass: 'btn btn-red'
         },
         reject: {
-            text: 'Cancel',
+            text: '取消',
             buttonClass: 'btn btn-default btn-minor'
         }
     }

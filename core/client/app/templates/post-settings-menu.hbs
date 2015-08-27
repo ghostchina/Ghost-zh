@@ -1,11 +1,9 @@
-{{gh-content-cover onClick="closeSettingsMenu" onMouseEnter="closeNavMenu"}}
-
 {{#gh-tabs-manager selected="showSubview" id="entry-controls" class="settings-menu-container"}}
 <div id="entry-controls">
     <div class="{{if isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane">
         <div class="settings-menu-header">
             <h4>博文设置</h4>
-            <button class="close icon-x settings-menu-header-action" {{action "closeSettingsMenu"}}><span class="hidden">关闭</span></button>
+            <button class="close icon-x settings-menu-header-action" {{action "closeMenus"}}><span class="hidden">关闭</span></button>
         </div>
         <div class="settings-menu-content">
             {{gh-uploader uploaded="setCoverImage" canceled="clearCoverImage" description="为博文设置图片" image=model.image uploaderReference=uploaderReference tagName="section"}}
@@ -35,18 +33,33 @@
                 </span>
             </div>
 
+            <div class="form-group">
+                <label for="tag-input">Tags</label>
+                {{ember-selectize
+                    id="tag-input"
+                    multiple=true
+                    selection=model.tags
+                    content=availableTags
+                    optionValuePath="content.uuid"
+                    optionLabelPath="content.name"
+                    create-item="addTag"
+                    remove-item="removeTag"}}
+            </div>
+
             {{#unless session.user.isAuthor}}
             <div class="form-group for-select">
                 <label for="author-list">作者</label>
                 <span class="input-icon icon-user">
                     <span class="gh-select" tabindex="0">
-                    {{view "select"
+                    {{gh-select-native
                         name="post-setting-author"
                         id="author-list"
                         content=authors
-                        optionValuePath="content.id"
-                        optionLabelPath="content.name"
-                        selection=selectedAuthor}}
+                        optionValuePath="id"
+                        optionLabelPath="name"
+                        selection=selectedAuthor
+                        action="changeAuthor"
+                    }}
                     </span>
                 </span>
             </div>

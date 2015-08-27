@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import {request as ajax} from 'ic-ajax';
 
-export default Ember.Controller.extend(Ember.Evented, {
+export default Ember.Controller.extend({
     uploadButtonText: '导入',
     importErrors: '',
+    submitting: false,
 
     ghostPaths: Ember.inject.service('ghost-paths'),
     notifications: Ember.inject.service(),
@@ -31,11 +32,11 @@ export default Ember.Controller.extend(Ember.Evented, {
         onUpload: function (file) {
             var self = this,
                 formData = new FormData(),
-                notifications = this.get('notifications');
+                notifications = this.get('notifications'),
+                currentUserId = this.get('session.user.id');
 
             this.set('uploadButtonText', '导入中');
             this.set('importErrors', '');
-            notifications.closePassive();
 
             formData.append('importfile', file);
 
@@ -48,22 +49,19 @@ export default Ember.Controller.extend(Ember.Evented, {
                 processData: false
             }).then(function () {
                 // Clear the store, so that all the new data gets fetched correctly.
-                self.store.unloadAll('post');
-                self.store.unloadAll('tag');
-                self.store.unloadAll('user');
-                self.store.unloadAll('role');
-                self.store.unloadAll('setting');
-                self.store.unloadAll('notification');
-                notifications.showSuccess('导入成功。');
+                self.store.unloadAll();
+                // Reload currentUser and set session
+                self.set('session.user', self.store.find('user', currentUserId));
+                // TODO: keep as notification, add link to view content
+                notifications.showNotification('导入成功。');
             }).catch(function (response) {
                 if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                     self.set('importErrors', response.jqXHR.responseJSON.errors);
                 }
 
-                notifications.showError('导入失败');
+                notifications.showAlert('导入失败', {type: 'error'});
             }).finally(function () {
                 self.set('uploadButtonText', '导入');
-                self.trigger('reset');
             });
         },
 
@@ -80,18 +78,23 @@ export default Ember.Controller.extend(Ember.Evented, {
         },
 
         sendTestEmail: function () {
-            var notifications = this.get('notifications');
+            var notifications = this.get('notifications'),
+                self = this;
+
+            this.toggleProperty('submitting');
 
             ajax(this.get('ghostPaths.url').api('mail', 'test'), {
                 type: 'POST'
             }).then(function () {
-                notifications.showSuccess('请检查邮箱中是否收到测试邮件。');
+                notifications.showAlert('请检查邮箱中是否收到测试邮件。', {type: 'info'});
+                self.toggleProperty('submitting');
             }).catch(function (error) {
                 if (typeof error.jqXHR !== 'undefined') {
                     notifications.showAPIError(error);
                 } else {
                     notifications.showErrors(error);
                 }
+                self.toggleProperty('submitting');
             });
         }
     }

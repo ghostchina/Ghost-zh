@@ -77,21 +77,18 @@ var _              = require('lodash'),
                     files: [
                         'content/themes/casper/assets/css/*.css',
                         'content/themes/casper/assets/js/*.js',
-                        'core/client/dist/*.js',
-                        'core/client/dist/*.css',
-                        'core/built/scripts/*.js',
-                        'core/client/app/html/*.html'
+                        'core/built/assets/*.js',
+                        'core/client/dist/index.html'
                     ],
                     options: {
                         livereload: true
                     }
                 },
                 express: {
-                    files:  ['core/server.js', 'core/server/**/*.js'],
+                    files:  ['core/ghost-server.js', 'core/server/**/*.js'],
                     tasks:  ['express:dev'],
                     options: {
-                        // **Note:** Without this option specified express won't be reloaded
-                        nospawn: true
+                        spawn: false
                     }
                 },
                 csscomb: {
@@ -283,10 +280,20 @@ var _              = require('lodash'),
                     src: ['core/test/unit'],
                     options: {
                         mask: '**/*_spec.js',
-                        coverageFolder: 'core/test/coverage',
+                        coverageFolder: 'core/test/coverage/unit',
                         mochaOptions: ['--timeout=15000'],
                         excludes: ['core/client/**']
                     }
+                },
+                coverage_integration: {
+                    src: ['core/test/integration/api'],
+                    options: {
+                        coverageFolder: 'core/test/coverage/integration',
+                        mask: '**/*_spec.js',
+                        mochaOptions: ['--timeout=15000'],
+                        excludes: ['core/client/**', 'core/server/built', 'core/server/apps', 'core/server/config', 'core/server/data']
+                    }
+
                 }
             },
 
@@ -328,7 +335,7 @@ var _              = require('lodash'),
                     },
                     options: {
                         execOptions: {
-                            cwd: path.resolve(cwd + '/core/client/'),
+                            cwd: path.resolve(process.cwd() + '/core/client/'),
                             stdout: false
                         }
                     }
@@ -557,7 +564,7 @@ var _              = require('lodash'),
             }, function (error, result, code) {
                 /*jshint unused:false*/
                 if (error) {
-                    grunt.fail.fatal(result.stdout);
+                    grunt.fail.fatal(result.stderr);
                 }
                 grunt.log.writeln(result.stdout);
                 done();
@@ -687,7 +694,7 @@ var _              = require('lodash'),
         // details of each of the test suites.
         //
         grunt.registerTask('test-all', 'Run tests and lint code',
-            ['test-routes', 'test-module', 'test-unit', 'test-integration', 'shell:ember:test', 'test-functional']);
+            ['test-routes', 'test-module', 'test-unit', 'test-integration', 'test-ember', 'test-functional']);
 
         // ### Lint
         //
@@ -785,7 +792,7 @@ var _              = require('lodash'),
         );
 
         // ### Ember unit tests *(sub task)*
-        // `grunt testem` will run just the ember unit tests
+        // `grunt test-ember` will run just the ember unit tests
         grunt.registerTask('test-ember', 'Run the ember unit tests',
             ['test-setup', 'shell:ember:test']
         );
@@ -809,7 +816,7 @@ var _              = require('lodash'),
         // The purpose of the functional tests is to ensure that Ghost is working as is expected from a user perspective
         // including buttons and other important interactions in the admin UI.
         grunt.registerTask('test-functional', 'Run functional interface tests (CasperJS)',
-            ['test-setup', 'cleanDatabase', 'express:test', 'spawnCasperJS', 'express:test:stop', 'test-functional-setup']
+            ['test-setup', 'shell:ember:dev', 'cleanDatabase', 'express:test', 'spawnCasperJS', 'express:test:stop', 'test-functional-setup']
         );
 
         // ### Functional tests for the setup process
@@ -835,6 +842,10 @@ var _              = require('lodash'),
             ['test-setup', 'mocha_istanbul:coverage']
         );
 
+        grunt.registerTask('coverage-integration', 'Generate unit and integration tests coverage report',
+            ['test-setup', 'mocha_istanbul:coverage_integration']
+        );
+
         // #### Master Warning *(Utility Task)*
         // Warns git users not ot use the `master` branch in production.
         // `master` is an unstable branch and shouldn't be used in production as you run the risk of ending up with a
@@ -852,8 +863,6 @@ var _              = require('lodash'),
         // Builds the github contributors partial template used on the Settings/About page,
         // and downloads the avatar for each of the users.
         // Run by any task that compiles the ember assets or manually via `grunt buildAboutPage`.
-        // Change which version you're working against by setting the "releaseTag" below.
-        //
         // Only builds if the contributors template does not exist.
         // To force a build regardless, supply the --force option.
         //     `grunt buildAboutPage --force`
@@ -861,7 +870,7 @@ var _              = require('lodash'),
             var done = this.async(),
                 templatePath = 'core/client/app/templates/-contributors.hbs',
                 imagePath = 'core/client/public/assets/img/contributors/',
-                timeSpan = Date.now() - (1000 * 60 * 60 * 24 * 180),
+                timeSpan = moment().subtract(90, 'days').format('YYYY-MM-DD'),
                 oauthKey = process.env.GITHUB_OAUTH_KEY;
 
             if (fs.existsSync(templatePath) && !grunt.option('force')) {
@@ -878,7 +887,7 @@ var _              = require('lodash'),
                     user: 'tryghost',
                     repo: 'ghost',
                     oauthKey: oauthKey,
-                    releaseDate: timeSpan,
+                    sinceDate: timeSpan,
                     count: 18,
                     retry: true
                 })

@@ -3,7 +3,7 @@ var express     = require('express'),
     api         = require('../api'),
     apiRoutes;
 
-apiRoutes = function (middleware) {
+apiRoutes = function apiRoutes(middleware) {
     var router = express.Router();
     // alias delete with del
     router.del = router.delete;
@@ -39,6 +39,7 @@ apiRoutes = function (middleware) {
     // ## Tags
     router.get('/tags', api.http(api.tags.browse));
     router.get('/tags/:id', api.http(api.tags.read));
+    router.get('/tags/slug/:slug', api.http(api.tags.read));
     router.post('/tags', api.http(api.tags.add));
     router.put('/tags/:id', api.http(api.tags.edit));
     router.del('/tags/:id', api.http(api.tags.destroy));
@@ -76,17 +77,21 @@ apiRoutes = function (middleware) {
     router.post('/authentication/invitation', api.http(api.authentication.acceptInvitation));
     router.get('/authentication/invitation', api.http(api.authentication.isInvitation));
     router.post('/authentication/setup', api.http(api.authentication.setup));
+    router.put('/authentication/setup', api.http(api.authentication.updateSetup));
     router.get('/authentication/setup', api.http(api.authentication.isSetup));
     router.post('/authentication/token',
         middleware.spamPrevention.signin,
-        middleware.addClientSecret,
-        middleware.authenticateClient,
-        middleware.generateAccessToken
+        middleware.api.addClientSecret,
+        middleware.api.authenticateClient,
+        middleware.api.generateAccessToken
     );
     router.post('/authentication/revoke', api.http(api.authentication.revoke));
 
     // ## Uploads
     router.post('/uploads', middleware.busboy, api.http(api.uploads.add));
+
+    // API Router middleware
+    router.use(middleware.api.errorHandler);
 
     return router;
 };

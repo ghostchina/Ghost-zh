@@ -1,5 +1,3 @@
-/* global moment */
-
 import Ember from 'ember';
 import {parseDateString, formatDate} from 'ghost/utils/date-formatting';
 import SettingsMenuMixin from 'ghost/mixins/settings-menu-controller';
@@ -18,39 +16,14 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
     ghostPaths: Ember.inject.service('ghost-paths'),
     notifications: Ember.inject.service(),
 
-    initializeSelectedAuthor: function () {
+    initializeSelectedAuthor: Ember.observer('model', function () {
         var self = this;
 
         return this.get('model.author').then(function (author) {
             self.set('selectedAuthor', author);
             return author;
         });
-    }.observes('model'),
-
-    changeAuthor: function () {
-        var author = this.get('model.author'),
-            selectedAuthor = this.get('selectedAuthor'),
-            model = this.get('model'),
-            self = this;
-
-        // return if nothing changed
-        if (selectedAuthor.get('id') === author.get('id')) {
-            return;
-        }
-
-        model.set('author', selectedAuthor);
-
-        // if this is a new post (never been saved before), don't try to save it
-        if (this.get('model.isNew')) {
-            return;
-        }
-
-        model.save().catch(function (errors) {
-            self.showErrors(errors);
-            self.set('selectedAuthor', author);
-            model.rollback();
-        });
-    }.observes('selectedAuthor'),
+    }),
 
     authors: Ember.computed(function () {
         // Loaded asynchronously, so must use promise proxies.
@@ -70,20 +43,21 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
     }),
 
     /*jshint unused:false */
-    publishedAtValue: Ember.computed('model.published_at', function (key, value) {
-        var pubDate = this.get('model.published_at');
+    publishedAtValue: Ember.computed('model.published_at', {
+        get: function () {
+            var pubDate = this.get('model.published_at');
 
-        // We're using a fake setter to reset
-        // the cache for this property
-        if (arguments.length > 1) {
+            if (pubDate) {
+                return formatDate(pubDate);
+            }
+
+            return formatDate(moment());
+        },
+        set: function (key, value) {
+            // We're using a fake setter to reset
+            // the cache for this property
             return formatDate(moment());
         }
-
-        if (pubDate) {
-            return formatDate(pubDate);
-        }
-
-        return formatDate(moment());
     }),
     /*jshint unused:true */
 
@@ -195,11 +169,11 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
 
     // observe titleScratch, keeping the post's slug in sync
     // with it until saved for the first time.
-    addTitleObserver: function () {
+    addTitleObserver: Ember.observer('model', function () {
         if (this.get('model.isNew') || this.get('model.title') === '(Untitled)') {
             this.addObserver('model.titleScratch', this, 'titleObserver');
         }
-    }.observes('model'),
+    }),
 
     titleObserver: function () {
         var debounceId,
@@ -214,13 +188,16 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
         this.set('debounceId', debounceId);
     },
 
+    // live-query of all tags for tag input autocomplete
+    availableTags: Ember.computed(function () {
+        return this.get('store').filter('tag', {limit: 'all'}, function () {
+            return true;
+        });
+    }),
+
     showErrors: function (errors) {
         errors = Ember.isArray(errors) ? errors : [errors];
         this.get('notifications').showErrors(errors);
-    },
-
-    showSuccess: function (message) {
-        this.get('notifications').showSuccess(message);
     },
 
     actions: {
@@ -466,6 +443,73 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
 
         closeNavMenu: function () {
             this.get('application').send('closeNavMenu');
+        },
+
+        changeAuthor: function (newAuthor) {
+            var author = this.get('model.author'),
+                model = this.get('model'),
+                self = this;
+
+            // return if nothing changed
+            if (newAuthor.get('id') === author.get('id')) {
+                return;
+            }
+
+            model.set('author', newAuthor);
+
+            // if this is a new post (never been saved before), don't try to save it
+            if (this.get('model.isNew')) {
+                return;
+            }
+
+            model.save().catch(function (errors) {
+                self.showErrors(errors);
+                self.set('selectedAuthor', author);
+                model.rollback();
+            });
+        },
+
+        addTag: function (tagName) {
+            var self = this,
+                currentTags = this.get('model.tags'),
+                currentTagNames = currentTags.map(function (tag) { return tag.get('name').toLowerCase(); }),
+                availableTagNames = null,
+                tagToAdd = null;
+
+            // abort if tag is already selected
+            if (currentTagNames.contains(tagName.toLowerCase())) {
+                return;
+            }
+
+            this.get('availableTags').then(function (availableTags) {
+                availableTagNames = availableTags.map(function (tag) { return tag.get('name').toLowerCase(); });
+
+                // find existing tag or create new
+                if (availableTagNames.contains(tagName.toLowerCase())) {
+                    tagToAdd = availableTags.find(function (tag) {
+                        return tag.get('name').toLowerCase() === tagName.toLowerCase();
+                    });
+                } else {
+                    tagToAdd = self.get('store').createRecord('tag', {
+                        name: tagName
+                    });
+
+                    // we need to set a UUID so that selectize has a unique value
+                    // it will be ignored when sent to the server
+                    tagToAdd.set('uuid', Ember.guidFor(tagToAdd));
+                }
+
+                // push tag onto post relationship
+                if (tagToAdd) { self.get('model.tags').pushObject(tagToAdd); }
+            });
+        },
+
+        removeTag: function (tag) {
+            this.get('model.tags').removeObject(tag);
+
+            if (tag.get('isNew')) {
+                tag.destroyRecord();
+            }
         }
     }
 });

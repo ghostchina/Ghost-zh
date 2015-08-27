@@ -66,7 +66,7 @@ screens = {
         selector: '.gh-nav-main-content.active'
     },
     content: {
-        url: 'ghost/content/',
+        url: 'ghost/',
         linkSelector: '.gh-nav-main-content',
         selector: '.gh-nav-main-content.active'
     },
@@ -89,13 +89,17 @@ screens = {
         url: 'ghost/settings/general',
         selector: '.gh-nav-settings-general.active'
     },
-    'settings.users': {
-        url: 'ghost/settings/users',
+    'settings.tags': {
+        url: 'ghost/settings/tags',
+        selector: '.gh-nav-settings-tags.active'
+    },
+    team: {
+        url: 'ghost/team',
         linkSelector: '.gh-nav-main-users',
         selector: '.gh-nav-main-users.active'
     },
-    'settings.users.user': {
-        url: 'ghost/settings/users/test',
+    'team.user': {
+        url: 'ghost/team/test',
         linkSelector: '.user-menu-profile',
         selector: '.user-profile'
     },
@@ -347,23 +351,23 @@ CasperTest = (function () {
     });
 
     // Wrapper around `casper.test.begin`
-    function begin(testName, expect, suite, doNotAutoLogin) {
+    function begin(testName, expect, suite, doNotAutoLogin, doNotRunSetup) {
         _beforeDoneHandler = _noop;
 
         var runTest = function (test) {
             test.filename = testName.toLowerCase().replace(/ /g, '-').concat('.png');
 
             casper.start('about:blank').viewport(1280, 1024);
+            // Only call register once for the lifetime of CasperTest
+            if (!_isUserRegistered && !doNotRunSetup) {
+                CasperTest.Routines.signout.run();
+                CasperTest.Routines.setup.run();
+                CasperTest.Routines.signout.run();
+
+                _isUserRegistered = true;
+            }
 
             if (!doNotAutoLogin) {
-                // Only call register once for the lifetime of CasperTest
-                if (!_isUserRegistered) {
-                    CasperTest.Routines.signout.run();
-                    CasperTest.Routines.setup.run();
-
-                    _isUserRegistered = true;
-                }
-
                 /* Ensure we're logged out at the start of every test or we may get
                  unexpected failures. */
                 CasperTest.Routines.signout.run();
@@ -411,9 +415,9 @@ CasperTest.Routines = (function () {
 
             casper.captureScreenshot('setting_up2.png');
 
-            casper.waitForSelectorTextChange('.notification-error', function onSuccess() {
+            casper.waitForSelectorTextChange('.gh-alert-success', function onSuccess() {
                 var errorText = casper.evaluate(function () {
-                    return document.querySelector('.notification-error').innerText;
+                    return document.querySelector('.gh-alert').innerText;
                 });
                 casper.echoConcise('Setup failed. Error text: ' + errorText);
             }, function onTimeout() {
@@ -469,8 +473,6 @@ CasperTest.Routines = (function () {
         casper.thenOpenAndWaitForPageLoad('editor', function createTestPost() {
             casper.sendKeys('#entry-title', testPost.title);
             casper.writeContentToEditor(testPost.html);
-            casper.sendKeys('#entry-tags input.tag-input', 'TestTag');
-            casper.sendKeys('#entry-tags input.tag-input', casper.page.event.key.Enter);
         });
 
         casper.waitForSelectorTextChange('.entry-preview .rendered-markdown');

@@ -3,18 +3,25 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     notifications: Ember.inject.service(),
 
+    role: null,
+    authorRole: null,
+
+    roles: Ember.computed(function () {
+        return this.store.find('role', {permissions: 'assign'});
+    }),
+
     // Used to set the initial value for the dropdown
-    authorRole: Ember.computed(function () {
+    authorRoleObserver: Ember.observer('roles.@each.role', function () {
         var self = this;
 
-        return this.store.find('role').then(function (roles) {
+        this.get('roles').then(function (roles) {
             var authorRole = roles.findBy('name', 'Author');
 
-            // Initialize role as well.
-            self.set('role', authorRole);
             self.set('authorRole', authorRole);
 
-            return authorRole;
+            if (!self.get('role')) {
+                self.set('role', authorRole);
+            }
         });
     }),
 
@@ -48,9 +55,9 @@ export default Ember.Controller.extend({
 
                 if (invitedUser) {
                     if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
-                        self.get('notifications').showWarn('已经邀请了此邮箱的持有人。');
+                        self.get('notifications').showAlert('已经邀请了此邮箱的持有人。', {type: 'warn'});
                     } else {
-                        self.get('notifications').showWarn('此邮箱已存在。');
+                        self.get('notifications').showAlert('此邮箱已存在。', {type: 'warn'});
                     }
                 } else {
                     newUser = self.store.createRecord('user', {
@@ -65,12 +72,16 @@ export default Ember.Controller.extend({
                         // If sending the invitation email fails, the API will still return a status of 201
                         // but the user's status in the response object will be 'invited-pending'.
                         if (newUser.get('status') === 'invited-pending') {
-                            self.get('notifications').showWarn('邀请邮件未能发送！请重新发送。');
+                            self.get('notifications').showAlert('邀请邮件未能发送！请重新发送。', {type: 'error'});
                         } else {
-                            self.get('notifications').showSuccess(notificationText);
+                            self.get('notifications').showNotification(notificationText);
                         }
                     }).catch(function (errors) {
                         newUser.deleteRecord();
+                        // TODO: user model includes ValidationEngine mixin so
+                        // save is overridden in order to validate, we probably
+                        // want to use inline-validations here and only show an
+                        // alert if we have an actual error
                         self.get('notifications').showErrors(errors);
                     });
                 }

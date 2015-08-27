@@ -15,9 +15,8 @@ export default Ember.Controller.extend({
             model.destroyRecord().then(function () {
                 self.get('dropdown').closeDropdowns();
                 self.transitionToRoute('posts.index');
-                self.get('notifications').showSuccess('博文已被删除。', {delayed: true});
             }, function () {
-                self.get('notifications').showError('删除博文失败，请重试。.');
+                self.get('notifications').showAlert('删除博文失败，请重试。', {type: 'error'});
             });
         },
 

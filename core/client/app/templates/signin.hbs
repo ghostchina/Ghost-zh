@@ -2,21 +2,21 @@
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
             <form id="login" class="gh-signin" method="post" novalidate="novalidate" {{action "validateAndAuthenticate" on="submit"}}>
-                <div class="form-group">
+                {{#gh-form-group errors=model.errors property="identification"}}
                     <span class="input-icon icon-mail">
                         {{gh-trim-focus-input class="gh-input email" type="email" placeholder="邮箱地址" name="identification" autocapitalize="off" autocorrect="off" tabindex="1" value=model.identification}}
                     </span>
-                </div>
-                <div class="form-group">
+                {{/gh-form-group}}
+                {{#gh-form-group errors=model.errors property="password"}}
                     <span class="input-icon icon-lock forgotten-wrap">
                         {{input class="gh-input password" type="password" placeholder="密码" name="password" tabindex="2" value=model.password}}
                         <button type="button" {{action "forgotten"}} class="forgotten-link btn btn-link"  tabindex="4" disabled={{submitting}}>忘记密码？</button>
                     </span>
-                </div>
-                <button id="login-button" class="login btn btn-blue btn-block" type="submit" tabindex="3" disabled={{submitting}}>登录</button>
+                {{/gh-form-group}}
+                {{#gh-spin-button class="login btn btn-blue btn-block" type="submit" tabindex="3" submitting=loggingIn autoWidth="false"}}登录{{/gh-spin-button}}
             </form>
 
-            <p class="main-error">密码太简单，请换一个复杂些的吧</p>
+            <p class="main-error">{{{flowErrors}}}</p>
         </section>
     </div>
 </div>

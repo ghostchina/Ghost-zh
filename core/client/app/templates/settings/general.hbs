@@ -1,100 +1,105 @@
-<header class="view-header">
-    <h2 class="view-title">全局设置</h2>
-    <section class="view-actions">
-        <button type="button" class="btn btn-blue" {{action "save"}}>保存</button>
+<section class="gh-view">
+    <header class="view-header">
+        {{#gh-view-title openMobileMenu="openMobileMenu"}}<span>全局设置</span>{{/gh-view-title}}
+        <section class="view-actions">
+            {{#gh-spin-button class="btn btn-blue" action="save" submitting=submitting}}保存{{/gh-spin-button}}
+        </section>
+    </header>
+
+    <section class="view-content">
+        <form id="settings-general" novalidate="novalidate">
+            <fieldset>
+
+                {{#gh-form-group errors=model.errors property="title"}}
+                    <label for="blog-title">博客名称</label>
+                    {{gh-input id="blog-title" class="gh-input" name="general[title]" type="text" value=model.title focusOut=(action "validate" "title")}}
+                    {{gh-error-message errors=model.errors property="title"}}
+                    <p>为你的博客取一个响亮的名字</p>
+                {{/gh-form-group}}
+
+                {{#gh-form-group class="description-container" errors=model.errors property="description"}}
+                    <label for="blog-description">博客简介</label>
+                    {{gh-textarea id="blog-description" class="gh-input" name="general[description]" value=model.description focusOut=(action "validate" "description")}}
+                    {{gh-error-message errors=model.errors property="description"}}
+                    <p>
+                        简单介绍一下你的博客
+                        {{gh-count-characters model.description}}
+                    </p>
+                {{/gh-form-group}}
+            </fieldset>
+
+            <div class="form-group">
+                <label>博客 Logo</label>
+                {{#if model.logo}}
+                    <img class="blog-logo" src="{{model.logo}}" alt="logo" role="button" {{action "openModal" "upload" this "logo"}}>
+                {{else}}
+                    <button type="button" class="btn btn-green js-modal-logo" {{action "openModal" "upload" this "logo"}}>上传图片</button>
+                {{/if}}
+                <p>D为博客设置一个 logo</p>
+            </div>
+
+            <div class="form-group">
+                <label>博客封面图</label>
+                {{#if model.cover}}
+                    <img class="blog-cover" src="{{model.cover}}" alt="封面图" role="button" {{action "openModal" "upload" this "cover"}}>
+                {{else}}
+                    <button type="button" class="btn btn-green js-modal-cover" {{action "openModal" "upload" this "cover"}}>上传图片</button>
+                {{/if}}
+                <p>为你的博客设置一个个性的封面图</p>
+            </div>
+
+            <fieldset>
+
+                <div class="form-group">
+                    <label for="postsPerPage">每页显示博文数</label>
+                    {{! `pattern` brings up numeric keypad allowing any number of digits}}
+                    {{gh-input id="postsPerPage" class="gh-input" name="general[postsPerPage]" focus-out="checkPostsPerPage" value=model.postsPerPage min="1" max="1000" type="number" pattern="[0-9]*"}}
+                    <p>设置每页显示博文的数量</p>
+                </div>
+
+                <div class="form-group for-checkbox">
+                    <label for="permalinks">博文地址</label>
+                    <label class="checkbox" for="permalinks">
+                        {{input id="permalinks" class="gh-input" name="general[permalinks]" type="checkbox" checked=isDatedPermalinks}}
+                        <span class="input-toggle-component"></span>
+                        <p>在博文地址中加入日期 ( 例如: http://my-ghost-blog.com/2013/09/27/welcome-to-ghost/ )</p>
+                    </label>
+                </div>
+
+                <div class="form-group for-select">
+                    <label for="activeTheme">博客主题</label>
+                    <span class="gh-select" data-select-text="{{selectedTheme.label}}" tabindex="0">
+                        {{gh-select-native
+                            id="activeTheme"
+                            name="general[activeTheme]"
+                            content=themes
+                            optionValuePath="name"
+                            optionLabelPath="label"
+                            selection=selectedTheme
+                            action="setTheme"
+                        }}
+                   </span>
+                    <p>为你的博客选择一个喜欢的主题</p>
+                </div>
+
+                <div class="form-group for-checkbox">
+                    <label for="isPrivate">开启私密博客模式</label>
+                    <label class="checkbox" for="isPrivate">
+                        {{input id="isPrivate" name="general[isPrivate]" type="checkbox"
+                        checked=model.isPrivate}}
+                        <span class="input-toggle-component"></span>
+                        <p>设置用密码保护</p>
+                    </label>
+                </div>
+
+                {{#if model.isPrivate}}
+                {{#gh-form-group errors=model.errors property="password"}}
+                    {{gh-input name="general[password]" type="text" value=model.password focusOut=(action "validate" "password")}}
+                    {{gh-error-message errors=model.errors property="password"}}
+                    <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
+                {{/gh-form-group}}
+                {{/if}}
+            </fieldset>
+        </form>
     </section>
-</header>
-
-<section class="view-content">
-    <form id="settings-general" novalidate="novalidate">
-        <fieldset>
-
-            <div class="form-group">
-                <label for="blog-title">博客名称</label>
-                {{input id="blog-title" class="gh-input" name="general[title]" type="text" value=model.title}}
-                <p>为你的博客取一个响亮的名字</p>
-            </div>
-
-            <div class="form-group description-container">
-                <label for="blog-description">博客简介</label>
-                {{textarea id="blog-description" class="gh-input" name="general[description]" value=model.description}}
-                <p>
-                    简单介绍一下你的博客
-                    {{gh-count-characters model.description}}
-                </p>
-
-            </div>
-        </fieldset>
-
-        <div class="form-group">
-            <label>博客 Logo</label>
-            {{#if model.logo}}
-                <img class="blog-logo" src="{{model.logo}}" alt="logo" role="button" {{action "openModal" "upload" this "logo"}}>
-            {{else}}
-                <button type="button" class="btn btn-green js-modal-logo" {{action "openModal" "upload" this "logo"}}>上传图片</button>
-            {{/if}}
-            <p>上传一个漂亮的 Logo，秀出你的品牌</p>
-        </div>
-
-        <div class="form-group">
-            <label>博客封面</label>
-            {{#if model.cover}}
-                <img class="blog-cover" src="{{model.cover}}" alt="cover photo" role="button" {{action "openModal" "upload" this "cover"}}>
-            {{else}}
-                <button type="button" class="btn btn-green js-modal-cover" {{action "openModal" "upload" this "cover"}}>上传图片</button>
-            {{/if}}
-            <p>为你的博客设置一个个性的封面</p>
-        </div>
-
-        <fieldset>
-
-            <div class="form-group">
-                <label for="postsPerPage">每页显示博文数</label>
-                {{! `pattern` brings up numeric keypad allowing any number of digits}}
-                {{input id="postsPerPage" class="gh-input" name="general[postsPerPage]" focus-out="checkPostsPerPage" value=model.postsPerPage min="1" max="1000" type="number" pattern="[0-9]*"}}
-                <p>设置每页显示博文的数量</p>
-            </div>
-
-            <div class="form-group for-checkbox">
-                <label for="permalinks">博文地址</label>
-                <label class="checkbox" for="permalinks">
-                    {{input id="permalinks" class="gh-input" name="general[permalinks]" type="checkbox" checked=isDatedPermalinks}}
-                    <span class="input-toggle-component"></span>
-                    <p>在博文地址中加入日期 ( 例如: http://my-ghost-blog.com/2013/09/27/welcome-to-ghost/ )</p>
-                </label>
-            </div>
-
-            <div class="form-group for-select">
-                <label for="activeTheme">博客主题</label>
-                <span class="gh-select" data-select-text="{{selectedTheme.label}}" tabindex="0">
-                   {{view "select"
-                       id="activeTheme"
-                       name="general[activeTheme]"
-                       content=themes
-                       optionValuePath="content.name"
-                       optionLabelPath="content.label"
-                       value=model.activeTheme
-                       selection=selectedTheme}}
-               </span>
-                <p>为你的博客选择一个喜欢的主题</p>
-            </div>
-
-            <div class="form-group for-checkbox">
-                <label for="isPrivate">开启私密博客模式</label>
-                <label class="checkbox" for="isPrivate">
-                    {{input id="isPrivate" name="general[isPrivate]" type="checkbox"
-                    checked=model.isPrivate}}
-                    <span class="input-toggle-component"></span>
-                    <p>设置用密码保护</p>
-                </label>
-            </div>
-
-            {{#if model.isPrivate}}
-            <div class="form-group">
-                {{input name="general[password]" type="text" value=model.password}}
-                <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
-            </div>
-            {{/if}}
-        </fieldset>
-    </form>
 </section>

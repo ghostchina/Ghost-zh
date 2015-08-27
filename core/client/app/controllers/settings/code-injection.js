@@ -1,19 +1,14 @@
 import Ember from 'ember';
+import SettingsSaveMixin from 'ghost/mixins/settings-save';
 
-export default Ember.Controller.extend({
-    actions: {
-        save: function () {
-            var notifications = this.get('notifications');
+export default Ember.Controller.extend(SettingsSaveMixin, {
+    notifications: Ember.inject.service(),
 
-            return this.get('model').save().then(function (model) {
-                notifications.closePassive();
-                notifications.showSuccess('已成功保存设置。');
+    save: function () {
+        var notifications = this.get('notifications');
 
-                return model;
-            }).catch(function (errors) {
-                notifications.closePassive();
-                notifications.showErrors(errors);
-            });
-        }
+        return this.get('model').save().catch(function (error) {
+            notifications.showAPIError(error);
+        });
     }
 });

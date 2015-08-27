@@ -8,7 +8,7 @@ import ctrlOrCmd from 'ghost/utils/ctrl-or-cmd';
 
 var shortcuts = {};
 
-shortcuts.esc = {action: 'closePopups', scope: 'all'};
+shortcuts.esc = {action: 'closeMenus', scope: 'all'};
 shortcuts.enter = {action: 'confirmModal', scope: 'modal'};
 shortcuts[ctrlOrCmd + '+s'] = {action: 'save', scope: 'all'};
 
@@ -30,30 +30,25 @@ export default Ember.Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     },
 
     actions: {
-        toggleGlobalMobileNav: function () {
-            this.toggleProperty('controller.showGlobalMobileNav');
+        openMobileMenu: function () {
+            this.controller.set('showMobileMenu', true);
         },
 
         openSettingsMenu: function () {
-            this.set('controller.showSettingsMenu', true);
+            this.controller.set('showSettingsMenu', true);
         },
 
-        closeSettingsMenu: function () {
-            this.set('controller.showSettingsMenu', false);
-        },
-
-        toggleSettingsMenu: function () {
-            this.toggleProperty('controller.showSettingsMenu');
-        },
-
-        closePopups: function () {
+        closeMenus: function () {
             this.get('dropdown').closeDropdowns();
-            this.get('notifications').closeAll();
-
-            // Close right outlet if open
-            this.send('closeSettingsMenu');
-
             this.send('closeModal');
+            this.controller.setProperties({
+                showSettingsMenu: false,
+                showMobileMenu: false
+            });
+        },
+
+        didTransition: function () {
+            this.send('closeMenus');
         },
 
         signedIn: function () {
@@ -70,11 +65,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                 error.errors.forEach(function (err) {
                     err.message = err.message.htmlSafe();
                 });
-
-                this.get('notifications').showErrors(error.errors);
             } else {
-                // connection errors don't return proper status message, only req.body
-                this.get('notifications').showError('There was a problem on the server.');
+                // Connection errors don't return proper status message, only req.body
+                this.get('notifications').showAlert('There was a problem on the server.', {type: 'error'});
             }
         },
 
@@ -99,7 +92,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         },
 
         sessionInvalidationFailed: function (error) {
-            this.get('notifications').showError(error.message);
+            this.get('notifications').showAlert(error.message, {type: 'error'});
         },
 
         openModal: function (modalName, model, type) {
@@ -158,19 +151,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                     }
                 });
             }
-        },
-
-        handleErrors: function (errors) {
-            var notifications = this.get('notifications');
-
-            notifications.clear();
-            errors.forEach(function (errorObj) {
-                notifications.showError(errorObj.message || errorObj);
-
-                if (errorObj.hasOwnProperty('el')) {
-                    errorObj.el.addClass('input-error');
-                }
-            });
         },
 
         // noop default for unhandled save (used from shortcuts)

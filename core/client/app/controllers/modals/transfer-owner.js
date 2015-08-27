@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
                     });
                 }
 
-                self.get('notifications').showSuccess('博客所有权已成功移交给 ' + user.get('name'));
+                self.get('notifications').showAlert('博客所有权已成功移交给 ' + user.get('name'), {type: 'success'});
             }).catch(function (error) {
                 self.get('notifications').showAPIError(error);
             });
