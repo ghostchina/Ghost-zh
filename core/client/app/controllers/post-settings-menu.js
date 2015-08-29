@@ -469,12 +469,14 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
             });
         },
 
-        addTag: function (tagName) {
+        addTag: function (tagName, index) {
             var self = this,
                 currentTags = this.get('model.tags'),
                 currentTagNames = currentTags.map(function (tag) { return tag.get('name').toLowerCase(); }),
                 availableTagNames = null,
                 tagToAdd = null;
+
+            tagName = tagName.trim();
 
             // abort if tag is already selected
             if (currentTagNames.contains(tagName.toLowerCase())) {
@@ -500,7 +502,7 @@ export default Ember.Controller.extend(SettingsMenuMixin, {
                 }
 
                 // push tag onto post relationship
-                if (tagToAdd) { self.get('model.tags').pushObject(tagToAdd); }
+                if (tagToAdd) { self.get('model.tags').insertAt(index, tagToAdd); }
             });
         },
 

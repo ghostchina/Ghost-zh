@@ -167,7 +167,8 @@ export default Ember.Controller.extend({
                         });
 
                         if (erroredEmails.length > 0) {
-                            message = 'Failed to send ' + erroredEmails.length + ' invitations: ';
+                            invitationsString = erroredEmails.length > 1 ? ' invitations: ' : ' invitation: ';
+                            message = 'Failed to send ' + erroredEmails.length + invitationsString;
                             message += erroredEmails.join(', ');
                             notifications.showAlert(message, {type: 'error', delayed: successCount > 0});
                         }
@@ -175,13 +176,11 @@ export default Ember.Controller.extend({
                         if (successCount > 0) {
                             // pluralize
                             invitationsString = successCount > 1 ? 'invitations' : 'invitation';
-
                             notifications.showAlert(successCount + ' ' + invitationsString + ' sent!', {type: 'success', delayed: true});
-                            self.send('loadServerNotifications');
-                            self.transitionToRoute('posts.index');
                         }
-
+                        self.send('loadServerNotifications');
                         self.toggleProperty('submitting');
+                        self.transitionToRoute('posts.index');
                     });
                 });
             } else if (users.length === 0) {

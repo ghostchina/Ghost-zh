@@ -49,6 +49,16 @@ export default Ember.Controller.extend(ValidationEngine, {
     },
 
     actions: {
+        preValidate: function (model) {
+            var self = this;
+            if (this.get(model)) {
+                if (model === 'email') {
+                    self.send('handleEmail');
+                }
+                this.validate({property: model});
+            }
+        },
+
         setup: function () {
             var self = this,
                 data = self.getProperties('blogTitle', 'name', 'email', 'password', 'image'),
@@ -75,7 +85,7 @@ export default Ember.Controller.extend(ValidationEngine, {
                     config.set('blogTitle', data.blogTitle);
                     // Don't call the success handler, otherwise we will be redirected to admin
                     self.get('application').set('skipAuthSuccessHandler', true);
-                    self.get('session').authenticate('simple-auth-authenticator:oauth2-password-grant', {
+                    self.get('session').authenticate('ghost-authenticator:oauth2-password-grant', {
                         identification: self.get('email'),
                         password: self.get('password')
                     }).then(function () {

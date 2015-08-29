@@ -50,8 +50,6 @@ Node.js 是必须的，同样也是建议使用  **Node v0.10.x** 的最新版�
 <a name="getting-started"></a>
 # 开发者(从 git 下载 Ghost)
 
-> 一般用户不建议这种方式！
-
 安装 Node.js。
 
 ```bash
@@ -113,7 +111,7 @@ npm start
 
 Ghost 官方支持的 **[Ghost(Pro)](https://ghost.org/pricing/)** 服务能够帮你节约大量时间，只需点几下鼠标就能部署一个 Ghost 实例到 [DigitalOcean](https://digitalocean.com) 的服务器上，并且还可以免费享受到全球化的 CDN 服务。
 
-从 **Ghost(Pro**) 所获得的所有收益都将用于 Ghost 基金 -- 一个非营利性的组织，为 Ghost 的开发和维护提供支持。
+从 **Ghost(Pro)** 所获得的所有收益都将用于 Ghost 基金 -- 一个非营利性的组织，为 Ghost 的开发和维护提供支持。
 
 如果你希望自己部署 Ghost，可以参考[这里](http://support.ghost.org/deploying-ghost/) 。
 
