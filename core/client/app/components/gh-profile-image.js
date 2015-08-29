@@ -33,7 +33,7 @@ export default Ember.Component.extend({
             size = this.get('size'),
             url;
         if (email) {
-            url = 'http://www.gravatar.com/avatar/' + md5(email) + '?s=' + size + '&d=blank';
+            url = 'http://cn.gravatar.com/avatar/' + md5(email) + '?s=' + size + '&d=blank';
             return `background-image: url(${url})`.htmlSafe();
         }
     }),
