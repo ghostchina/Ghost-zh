@@ -110,14 +110,14 @@
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors property="website"}}
-                    <label for="user-website">Website</label>
+                    <label for="user-website">网站</label>
                     {{input type="url" value=user.website id="user-website" class="gh-input" autocapitalize="off" autocorrect="off" autocomplete="off" focusOut=(action "validate" "website")}}
                     {{gh-error-message errors=user.errors property="website"}}
                     <p>还有其他的网站或博客吗？展告诉大家吧！</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group class="bio-container" errors=user.errors property="bio"}}
-                    <label for="user-bio">Bio</label>
+                    <label for="user-bio">个人简介</label>
                     {{textarea id="user-bio" class="gh-input" value=user.bio focusOut=(action "validate" "bio")}}
                     {{gh-error-message errors=user.errors property="bio"}}
                     <p>
