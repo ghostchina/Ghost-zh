@@ -167,12 +167,12 @@ to004 = function to004() {
         ops = [],
         upgradeOp,
         jquery = [
-            '<!-- You can safely delete this line if your theme does not require jQuery -->\n',
-            '<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>\n\n'
+            '<!-- 如果你的 Ghost 主题中没有使用到 jQuery 或者你通过其他方式引入了 jQuery，那么下面的代码就没有用处了，可以直接删掉。 -->\n',
+            '<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>\n\n'
         ],
         privacyMessage = [
-            'jQuery has been removed from Ghost core and is now being loaded from the jQuery Foundation\'s CDN.',
-            'This can be changed or removed in your <strong>Code Injection</strong> settings area.'
+            'jQuery 已经从 Ghost 核心代码中删掉了，现在所加载的 jQuery 是由 <a href="http://www.bootcdn.cn/">BootCDN</a> 所提供的开源项目免费加速服务。',
+            '此设置可以在后台的 <strong>插入代码</strong> 页面进行修改。'
         ];
 
     logInfo('Upgrading fixtures to 004');
