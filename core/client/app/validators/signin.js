@@ -2,12 +2,13 @@ import BaseValidator from './base';
 
 var SigninValidator = BaseValidator.create({
     properties: ['identification', 'signin', 'forgotPassword'],
+    invalidMessage: '邮箱地址无效',
 
     identification: function (model) {
         var id = model.get('identification');
 
         if (!validator.empty(id) && !validator.isEmail(id)) {
-            model.get('errors').add('identification', '邮箱地址无效');
+            model.get('errors').add('identification', this.get('invalidMessage'));
             this.invalidate();
         }
     },
@@ -23,6 +24,11 @@ var SigninValidator = BaseValidator.create({
             this.invalidate();
         }
 
+        if (!validator.empty(id) && !validator.isEmail(id)) {
+            model.get('errors').add('identification', this.get('invalidMessage'));
+            this.invalidate();
+        }
+
         if (validator.empty(password)) {
             model.get('errors').add('password', '请输入密码');
             this.invalidate();
@@ -35,7 +41,7 @@ var SigninValidator = BaseValidator.create({
         model.get('errors').clear();
 
         if (validator.empty(id) || !validator.isEmail(id)) {
-            model.get('errors').add('identification', '邮箱地址无效');
+            model.get('errors').add('identification', this.get('invalidMessage'));
             this.invalidate();
         }
     }

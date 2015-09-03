@@ -104,6 +104,10 @@
     margin: 0 15px 10px;
 }
 
+.gh-nav-search .selectize-control {
+    display: flex;
+}
+
 .gh-nav-search-input .selectize-input {
     padding: 4px 8px;
     padding-right: 30px;
@@ -115,15 +119,25 @@
     font-size: 1.3rem;
 }
 
+.gh-nav-search .selectize-input.dropdown-active {
+    border-bottom: #fff 1px solid;
+}
+
+.gh-nav-search .selectize-input.dropdown-active:before {
+    display: none;
+}
+
+.gh-nav-search .selectize-dropdown-content {
+    max-height: calc(100vh - 150px);
+}
+
 .gh-nav-search-button {
     position: absolute;
-    top: -5px;
+    top: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
-    display: flex;
-    align-items: center;
-    padding: 0 10px 0 5px;
+    padding: 0 8px 0 5px;
 }
 
 .gh-nav-search-button i {
@@ -131,6 +145,7 @@
     height: 16px;
     color: var(--midgrey);
     font-size: 13px;
+    line-height: 13px;
     transition: color 0.2s ease;
     transform: rotate(90deg);
 }
@@ -287,6 +302,12 @@
         transform: translate3d(80vw, 0, 0);
     }
 
+    .gh-nav-search-input .selectize-input,
+    .gh-nav-search-input .selectize-input input,
+    .gh-nav-search-input .selectize-dropdown {
+        font-size: 1.5rem;
+    }
+
     .gh-nav-list {
         font-size: 1.5rem;
     }
@@ -332,16 +353,44 @@
     color: var(--blue);
 }
 
+/* Autonav is tricky, because hit areas of translated elements aren't in sync
+   with the visible element we need to add the hover behaviour to a small,
+   non-moving element. The following code positions our hit area and transitions
+   it in-sync with it's container so it always sticks to the left of the viewport
+   then hides off-canvas when required as display:none breaks transitions. */
+
+.gh-autonav-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    width: 15px;
+    height: 100%;
+    transition: transform 0.20s;
+    transform: translate3d(0,0,0);
+}
+
+.gh-autonav .gh-autonav-toggle {
+    display: block;
+}
+
+.gh-nav.open .gh-autonav-toggle {
+    transition: transform 0.15s;
+    transform: translate3d(-235px,0,0);
+}
+
 @media (min-width: 801px) {
     /* Hide the nav */
     .gh-autonav .gh-nav {
         position: absolute;
         top: 0;
-        left: -220px;
+        left: 0;
         z-index: 1000;
         width: 235px;
         height: 100%;
-        transition: left 0.20s;
+        transition: transform 0.20s;
+        /* translate3d for GPU accelerated animation - http://bit.ly/1EY1Xhx */
+        transform: translate3d(-220px,0,0);
     }
 
     /* THE FUTURE: Super sexy background blur for Webkit - http://cl.ly/b1rG */
@@ -356,8 +405,8 @@
 
     /* Bring it back on hover */
     .gh-autonav .gh-nav.open {
-        left: 0;
-        transition: left 0.15s;
+        transition: transform 0.15s;
+        transform: translate3d(0,0,0);
     }
 
     /* Move main content over for the closed-nav trigger bar */

@@ -10,14 +10,14 @@
         <form id="settings-general" novalidate="novalidate">
             <fieldset>
 
-                {{#gh-form-group errors=model.errors property="title"}}
+                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="title"}}
                     <label for="blog-title">博客名称</label>
                     {{gh-input id="blog-title" class="gh-input" name="general[title]" type="text" value=model.title focusOut=(action "validate" "title")}}
                     {{gh-error-message errors=model.errors property="title"}}
                     <p>为你的博客取一个响亮的名字</p>
                 {{/gh-form-group}}
 
-                {{#gh-form-group class="description-container" errors=model.errors property="description"}}
+                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="description" class="description-container"}}
                     <label for="blog-description">博客简介</label>
                     {{gh-textarea id="blog-description" class="gh-input" name="general[description]" value=model.description focusOut=(action "validate" "description")}}
                     {{gh-error-message errors=model.errors property="description"}}
@@ -93,7 +93,7 @@
                 </div>
 
                 {{#if model.isPrivate}}
-                {{#gh-form-group errors=model.errors property="password"}}
+                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="password"}}
                     {{gh-input name="general[password]" type="text" value=model.password focusOut=(action "validate" "password")}}
                     {{gh-error-message errors=model.errors property="password"}}
                     <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
