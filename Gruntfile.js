@@ -45,7 +45,7 @@ var _              = require('lodash'),
         
         return pkgs.map(function (package) {
             return 'node_modules/' + package + '/**';
-        }).concat(['!node_modules/aliyun-sdk/tools/**', '!node_modules/**/test/**']); //remove unsued files
+        }).concat(['!node_modules/**/test/**']); //remove unsued files
     }()),
 
     // ## Grunt configuration
