@@ -78,7 +78,7 @@ export default Ember.Controller.extend({
             // Only one error type here so far, but one day the errors might be more detailed
             switch (error.error) {
             case 'email':
-                errors.add(property, error.user + ' is not a valid email.');
+                errors.add(property, error.user + ' 不是有效的邮箱地址。');
             }
         });
 
@@ -101,13 +101,13 @@ export default Ember.Controller.extend({
         }
 
         if (validNum > 0) {
-            userCount = validNum === 1 ? 'user' : 'users';
+            userCount = validNum === 1 ? '个小伙伴' : '个小伙伴';
             userCount = validNum + ' ' + userCount;
         } else {
-            userCount = 'some users';
+            userCount = '小伙伴';
         }
 
-        return 'Invite ' + userCount;
+        return '邀请' + userCount;
     }),
 
     buttonClass: Ember.computed('validationResult', 'usersArray.length', function () {
@@ -172,16 +172,16 @@ export default Ember.Controller.extend({
                         });
 
                         if (erroredEmails.length > 0) {
-                            invitationsString = erroredEmails.length > 1 ? ' invitations: ' : ' invitation: ';
-                            message = 'Failed to send ' + erroredEmails.length + invitationsString;
+                            invitationsString = erroredEmails.length > 1 ? ' 个邀请： ' : ' 个邀请： ';
+                            message = '发送失败 ' + erroredEmails.length + invitationsString;
                             message += erroredEmails.join(', ');
                             notifications.showAlert(message, {type: 'error', delayed: successCount > 0});
                         }
 
                         if (successCount > 0) {
                             // pluralize
-                            invitationsString = successCount > 1 ? 'invitations' : 'invitation';
-                            notifications.showAlert(successCount + ' ' + invitationsString + ' sent!', {type: 'success', delayed: true});
+                            invitationsString = successCount > 1 ? '个邀请' : '个邀请';
+                            notifications.showAlert(successCount + ' ' + invitationsString + '已发送', {type: 'success', delayed: true});
                         }
                         self.send('loadServerNotifications');
                         self.toggleProperty('submitting');
