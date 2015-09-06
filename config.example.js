@@ -52,33 +52,36 @@ config = {
             ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             root: '/image/',
+            endpoint: 'http://qiniudn.com'
             prefix: 'http://your-bucket-name.qiniudn.com'
         }*/
 
         // or
-        // 参考文档： http://www.ghostchina.com/upyun-cdn-for-ghost/ 
+        // 参考文档： http://www.ghostchina.com/upyun-cdn-for-ghost/
         /*storage: {
             provider: 'upyun',
             bucketname: 'your-bucket-name',
             username: 'your user name',
             password: 'your password',
             root: '/image/',
+            endpoint: 'http://b0.upaiyun.com'
             prefix: 'http://your-bucket-name.b0.upaiyun.com'
         }*/
 
         // or
-        // 参考文档： http://www.ghostchina.com/aliyun-oss-for-ghost/ 
+        // 参考文档： http://www.ghostchina.com/aliyun-oss-for-ghost/
         /*storage: {
             provider: 'oss',
             bucketname: 'your-bucket-name',
             ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             root: '/image/',
+            endpoint: 'http://oss-cn-hangzhou.aliyuncs.com'
             prefix: 'http://your-bucket-name.oss-cn-hangzhou.aliyuncs.com'
         }*/
 
         // or
-        // 参考文档： http://www.ghostchina.com/install-ghost-on-aliyun-ace/ 
+        // 参考文档： http://www.ghostchina.com/install-ghost-on-aliyun-ace/
         /*storage: {
             provider: 'ace-storage',
             bucketname: 'your-bucket-name'
