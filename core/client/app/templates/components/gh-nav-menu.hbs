@@ -35,6 +35,9 @@
             <li>{{#link-to "settings.tags" classNames="gh-nav-settings-tags"}}<i class="icon-tag"></i>标签管理{{/link-to}}</li>
             <li>{{#link-to "settings.code-injection" classNames="gh-nav-settings-code-injection"}}<i class="icon-code"></i>插入代码{{/link-to}}</li>
             <li>{{#link-to "settings.labs" classNames="gh-nav-settings-labs"}}<i class="icon-apps"></i>实验功能{{/link-to}}</li>
+            <li>
+                <a class="gh-nav-settings-theme-market" href="http://www.ghostchina.com/market/" target="_blank"><i class="icon-appearance"></i>主题市场</a>
+            </li>
         </ul>
     {{/if}}
 </section>
@@ -49,10 +52,10 @@
         {{/gh-dropdown-button}}
         {{#gh-dropdown tagName="div" name="help-menu" closeOnClick="true"}}
             <ul class="dropdown-menu dropdown-triangle-bottom" role="menu">
-                <li role="presentation"><a class="dropdown-item help-menu-support" role="menuitem" tabindex="-1" href="http://support.ghost.org/" target="_blank"><i class="icon-ambulance"></i> 支持中心</a></li>
+                <li role="presentation"><a class="dropdown-item help-menu-support" role="menuitem" tabindex="-1" href="http://www.ghostchina.com/" target="_blank"><i class="icon-ambulance"></i> 支持中心</a></li>
                 <li role="presentation"><a class="dropdown-item help-menu-tweet" role="menuitem" tabindex="-1" href="https://twitter.com/intent/tweet?text=%40TryGhost+Hi%21+Can+you+help+me+with+&related=TryGhost" target="_blank" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"><i class="icon-twitter"></i> Tweet @TryGhost!</a></li>
                 <li class="divider"></li>
-                <li role="presentation"><a class="dropdown-item help-menu-how-to" role="menuitem" tabindex="-1" href="http://support.ghost.org/how-to-use-ghost/" target="_blank"><i class="icon-book"></i> 如何使用 Ghost</a></li>
+                <li role="presentation"><a class="dropdown-item help-menu-how-to" role="menuitem" tabindex="-1" href="http://www.ghostchina.com/how-to-use-ghost/" target="_blank"><i class="icon-book"></i> 如何使用 Ghost</a></li>
                 <li role="presentation"><a class="dropdown-item help-menu-markdown" role="menuitem" tabindex="-1" href="" {{action "openModal" "markdown"}}><i class="icon-markdown"></i> Markdown 手册</a></li>
                 <li class="divider"></li>
                 <li role="presentation"><a class="dropdown-item help-menu-wishlist" role="menuitem" tabindex="-1" href="http://ideas.ghost.org/" target="_blank"><i class="icon-idea"></i> 心愿列表</a></li>
