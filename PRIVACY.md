@@ -29,6 +29,8 @@ Ghost 使用了一些第三方服务来提供某些特定功能。
 
 Ghost 使用了 Open Sans [Google Font](https://www.google.com/fonts) 字体，并在 Ghost 后台页面中加载此字体用于更好的排版。
 
+由于 Google Font 总是被墙，所以并且这些英文字体对于中文来说没有丝毫用处，因此在 Ghost 中文版中我们将这些字体删除了。
+
 ### Gravatar
 
 为了自动为新用户设置头像图片，Ghost 向 [Gravatar](http://gravatar.com) 查询是否用户的邮箱地址有关联的头像可用。如果有，我们就用 Gravatar 上的头像图片，如果没有，就设置为默认图片。
