@@ -74,7 +74,7 @@ config = {
             ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             root: '/image/',
-            endpoint: 'http://oss-cn-hangzhou.aliyuncs.com'  //阿里云的上传端点是分地域的，需要单独设置
+            endpoint: 'http://oss-cn-hangzhou.aliyuncs.com',  //阿里云的上传端点是分地域的，需要单独设置
             prefix: 'http://your-bucket-name.oss-cn-hangzhou.aliyuncs.com'
         }*/
     },
