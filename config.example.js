@@ -52,7 +52,6 @@ config = {
             ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             root: '/image/',
-            endpoint: 'http://qiniudn.com'
             prefix: 'http://your-bucket-name.qiniudn.com'
         }*/
 
@@ -64,7 +63,6 @@ config = {
             username: 'your user name',
             password: 'your password',
             root: '/image/',
-            endpoint: 'http://b0.upaiyun.com'
             prefix: 'http://your-bucket-name.b0.upaiyun.com'
         }*/
 
@@ -76,15 +74,8 @@ config = {
             ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             root: '/image/',
-            endpoint: 'http://oss-cn-hangzhou.aliyuncs.com'
+            endpoint: 'http://oss-cn-hangzhou.aliyuncs.com'  //阿里云的上传端点是分地域的，需要单独设置
             prefix: 'http://your-bucket-name.oss-cn-hangzhou.aliyuncs.com'
-        }*/
-
-        // or
-        // 参考文档： http://www.ghostchina.com/install-ghost-on-aliyun-ace/
-        /*storage: {
-            provider: 'ace-storage',
-            bucketname: 'your-bucket-name'
         }*/
     },
 
