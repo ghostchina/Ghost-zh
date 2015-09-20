@@ -1,4 +1,7 @@
 import DS from 'ember-data';
+
+moment.locale("zh-cn");
+
 /* global moment */
 var MomentDate = DS.Transform.extend({
     deserialize: function (serialized) {

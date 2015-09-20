@@ -4,8 +4,6 @@ import isNumber from 'ghost/utils/isNumber';
 import boundOneWay from 'ghost/utils/bound-one-way';
 import ValidationEngine from 'ghost/mixins/validation-engine';
 
-moment.locale("zh-cn");
-
 export default Ember.Controller.extend(ValidationEngine, {
     // ValidationEngine settings
     validationType: 'user',
