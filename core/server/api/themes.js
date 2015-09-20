@@ -55,7 +55,7 @@ themes = {
                 return {themes: themes};
             });
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to browse themes.'));
+            return Promise.reject(new errors.NoPermissionError('你没有权限浏览主题。'));
         });
     },
 
@@ -71,7 +71,7 @@ themes = {
 
         // Check whether the request is properly formatted.
         if (!_.isArray(object.themes)) {
-            return Promise.reject({type: 'BadRequest', message: 'Invalid request.'});
+            return Promise.reject({type: 'BadRequest', message: '无效请求。'});
         }
 
         themeName = object.themes[0].uuid;
@@ -86,7 +86,7 @@ themes = {
                 });
 
                 if (!theme) {
-                    return Promise.reject(new errors.BadRequestError('Theme does not exist.'));
+                    return Promise.reject(new errors.BadRequestError('主题不存在。'));
                 }
 
                 // Activate the theme
@@ -98,7 +98,7 @@ themes = {
                 });
             });
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to edit themes.'));
+            return Promise.reject(new errors.NoPermissionError('你没有权限编辑主题。'));
         });
     }
 };

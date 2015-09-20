@@ -99,7 +99,7 @@ posts = {
                 return {posts: [result.toJSON(options)]};
             }
 
-            return Promise.reject(new errors.NotFoundError('Post not found.'));
+            return Promise.reject(new errors.NotFoundError('未找到此博文。'));
         });
     },
 
@@ -146,7 +146,7 @@ posts = {
                 return {posts: [post]};
             }
 
-            return Promise.reject(new errors.NotFoundError('Post not found.'));
+            return Promise.reject(new errors.NotFoundError('未找到此博文。'));
         });
     },
 

@@ -45,7 +45,7 @@ mail = {
                     return Promise.reject(new errors.EmailError(error.message));
                 });
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to send mail.'));
+            return Promise.reject(new errors.NoPermissionError('你没有发送邮件的权限。'));
         });
     },
 
@@ -63,7 +63,7 @@ mail = {
                 var payload = {mail: [{
                     message: {
                         to: result.get('email'),
-                        subject: 'Test Ghost Email',
+                        subject: 'Ghost 测试邮件',
                         html: emailContent.html,
                         text: emailContent.text
                     }
@@ -71,7 +71,7 @@ mail = {
                 return mail.send(payload, options);
             });
         }, function () {
-            return Promise.reject(new errors.NotFoundError('Could not find the current user'));
+            return Promise.reject(new errors.NotFoundError('无法找到当前用户'));
         });
     },
 

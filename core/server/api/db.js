@@ -39,7 +39,7 @@ db = {
                 return Promise.reject(new errors.InternalServerError(error.message || error));
             });
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to export data (no rights).'));
+            return Promise.reject(new errors.NoPermissionError('你没有导出数据的权限。'));
         });
     },
     /**
@@ -55,13 +55,13 @@ db = {
 
         // Check if a file was provided
         if (!utils.checkFileExists(options, 'importfile')) {
-            return Promise.reject(new errors.NoPermissionError('Please select a file to import.'));
+            return Promise.reject(new errors.NoPermissionError('请选择导出的文件。'));
         }
 
         // Check if the file is valid
         if (!utils.checkFileIsValid(options.importfile, importer.getTypes(), importer.getExtensions())) {
             return Promise.reject(new errors.UnsupportedMediaTypeError(
-                'Unsupported file. Please try any of the following formats: ' +
+                '不支持此文件格式。请试一下下面这几种格式：' +
                     _.reduce(importer.getExtensions(), function (memo, ext) {
                         return memo ? memo + ', ' + ext : ext;
                     })
@@ -74,7 +74,7 @@ db = {
                 .then(api.settings.updateSettingsCache)
                 .return({db: []});
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to import data (no rights).'));
+            return Promise.reject(new errors.NoPermissionError('你没有导出数据的权限。'));
         });
     },
     /**
@@ -95,7 +95,7 @@ db = {
                     return Promise.reject(new errors.InternalServerError(error.message || error));
                 });
         }, function () {
-            return Promise.reject(new errors.NoPermissionError('You do not have permission to export data (no rights).'));
+            return Promise.reject(new errors.NoPermissionError('你没有导出数据的权限。'));
         });
     }
 };
