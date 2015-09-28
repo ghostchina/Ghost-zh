@@ -385,6 +385,10 @@ var _              = require('lodash'),
                     command: 'npm shrinkwrap'
                 },
 
+                dedupe: {
+                    command: 'npm dedupe'
+                },
+
                 csscombfix: {
                     command: path.resolve(cwd + '/node_modules/.bin/csscomb -c core/client/app/styles/csscomb.json -v core/client/app/styles')
                 },
@@ -976,10 +980,10 @@ var _              = require('lodash'),
             ' - Copy files to release-folder/#/#{version} directory\n' +
             ' - Clean out unnecessary files (travis, .git*, etc)\n' +
             ' - Zip files in release-folder to dist-folder/#{version} directory',
-            ['init', 'shell:ember:prod', 'clean:release',  'shell:shrinkwrap', 'copy:release', 'compress:release']);
+            ['init', 'shell:ember:prod', 'clean:release',  'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
 
         grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
-           ['init', 'shell:ember:prod', 'clean:release', 'shell:shrinkwrap', 'copy:release', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
+            ['init', 'shell:ember:prod', 'clean:release', 'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
     };
 
 module.exports = configureGrunt;
