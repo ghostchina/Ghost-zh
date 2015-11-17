@@ -18,7 +18,8 @@ var _          = require('lodash'),
     uuid       = require('node-uuid'),
     validation = require('../../data/validation'),
     baseUtils  = require('./utils'),
-    pagination = require('./pagination'),
+    plugins    = require('../plugins'),
+    gql        = require('ghost-gql'),
 
     ghostBookshelf;
 
@@ -29,8 +30,14 @@ ghostBookshelf = bookshelf(config.database.knex);
 // Load the Bookshelf registry plugin, which helps us avoid circular dependencies
 ghostBookshelf.plugin('registry');
 
+// Load the Ghost access rules plugin, which handles passing permissions/context through the model layer
+ghostBookshelf.plugin(plugins.accessRules);
+
+// Load the Ghost include count plugin, which allows for the inclusion of cross-table counts
+ghostBookshelf.plugin(plugins.includeCount);
+
 // Load the Ghost pagination plugin, which gives us the `fetchPage` method on Models
-ghostBookshelf.plugin(pagination);
+ghostBookshelf.plugin(plugins.pagination);
 
 // ## ghostBookshelf.Model
 // The Base Model which other Ghost objects will inherit from,
@@ -187,7 +194,7 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
     /**
      * Returns an array of keys permitted in every method's `options` hash.
      * Can be overridden and added to by a model's `permittedOptions` method.
-     * @return {Array} Keys allowed in the `options` hash of every model's method.
+     * @return {Object} Keys allowed in the `options` hash of every model's method.
      */
     permittedOptions: function permittedOptions() {
         // terms to whitelist for all methods.
@@ -229,6 +236,7 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
      */
     findAll: function findAll(options) {
         options = this.filterOptions(options, 'findAll');
+        options.withRelated = _.union(options.withRelated, options.include);
         return this.forge().fetchAll(options).then(function then(result) {
             if (options.include) {
                 _.each(result.models, function each(item) {
@@ -263,43 +271,56 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
         options = options || {};
 
         var self = this,
-            itemCollection = this.forge(),
-            tableName      = _.result(this.prototype, 'tableName'),
-            filterObjects = self.setupFilters(options);
+            itemCollection = this.forge(null, {context: options.context}),
+            tableName      = _.result(this.prototype, 'tableName');
 
         // Filter options so that only permitted ones remain
         options = this.filterOptions(options, 'findPage');
 
-        // Extend the model defaults
-        options = _.defaults(options, this.findPageDefaultOptions());
+        // This applies default properties like 'staticPages' and 'status'
+        // And then converts them to 'where' options... this behaviour is effectively deprecated in favour
+        // of using filter - it's only be being kept here so that we can transition cleanly.
+        this.processOptions(_.defaults(options, this.findPageDefaultOptions()));
 
-        // Run specific conversion of model query options to where options
-        options = this.processOptions(itemCollection, options);
-
-        // Prefetch filter objects
-        return Promise.all(baseUtils.filtering.preFetch(filterObjects)).then(function doQuery() {
-            // If there are `where` conditionals specified, add those to the query.
-            if (options.where) {
-                itemCollection.query('where', options.where);
-            }
-
-            // Setup filter joins / queries
-            baseUtils.filtering.query(filterObjects, itemCollection);
-
-            // Handle related objects
-            // TODO: this should just be done for all methods @ the API level
-            options.withRelated = _.union(options.withRelated, options.include);
-
-            options.order = self.orderDefaultOptions();
-
-            return itemCollection.fetchPage(options).then(function formatResponse(response) {
-                var data = {};
-                data[tableName] = response.collection.toJSON(options);
-                data.meta = {pagination: response.pagination};
-
-                return baseUtils.filtering.formatResponse(filterObjects, options, data);
+        // If there are `where` conditionals specified, add those to the query.
+        if (options.where) {
+            itemCollection.query(function (qb) {
+                gql.knexify(qb, options.where);
             });
-        }).catch(errors.logAndThrowError);
+        }
+
+        // Apply FILTER
+        if (options.filter) {
+            options.filter = gql.parse(options.filter);
+            itemCollection.query(function (qb) {
+                gql.knexify(qb, options.filter);
+            });
+
+            baseUtils.processGQLResult(itemCollection, options);
+        }
+
+        // Handle related objects
+        // TODO: this should just be done for all methods @ the API level
+        options.withRelated = _.union(options.withRelated, options.include);
+
+        // Ensure only valid fields/columns are added to query
+        if (options.columns) {
+            options.columns = _.intersection(options.columns, this.prototype.permittedAttributes());
+        }
+
+        if (options.order) {
+            options.order = self.parseOrderOption(options.order);
+        } else {
+            options.order = self.orderDefaultOptions();
+        }
+
+        return itemCollection.fetchPage(options).then(function formatResponse(response) {
+            var data = {};
+            data[tableName] = response.collection.toJSON(options);
+            data.meta = {pagination: response.pagination};
+
+            return data;
+        });
     },
 
     /**
@@ -445,6 +466,36 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
             // Test for duplicate slugs.
             return checkIfSlugExists(slug);
         });
+    },
+
+    parseOrderOption: function (order) {
+        var permittedAttributes, result, rules;
+
+        permittedAttributes = this.prototype.permittedAttributes();
+        result = {};
+        rules = order.split(',');
+
+        _.each(rules, function (rule) {
+            var match, field, direction;
+
+            match = /^([a-z0-9_\.]+)\s+(asc|desc)$/i.exec(rule.trim());
+
+            // invalid order syntax
+            if (!match) {
+                return;
+            }
+
+            field = match[1].toLowerCase();
+            direction = match[2].toUpperCase();
+
+            if (permittedAttributes.indexOf(field) === -1) {
+                return;
+            }
+
+            result[field] = direction;
+        });
+
+        return result;
     }
 
 });

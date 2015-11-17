@@ -1,7 +1,7 @@
 /* global CodeMirror */
 import Ember from 'ember';
 
-var CodeMirrorEditor = Ember.Component.extend({
+export default Ember.Component.extend({
 
     // DOM stuff
     classNameBindings: ['isFocused:focused'],
@@ -18,20 +18,17 @@ var CodeMirrorEditor = Ember.Component.extend({
 
     didInsertElement: function () {
         var options = this.getProperties('lineNumbers', 'indentUnit', 'mode', 'theme'),
-            self = this,
-            editor;
-        editor = new CodeMirror(this.get('element'), options);
+            editor = new CodeMirror(this.get('element'), options);
+
         editor.getDoc().setValue(this.get('value'));
 
         // events
-        editor.on('focus', function () {
-            self.set('isFocused', true);
-        });
-        editor.on('blur', function () {
-            self.set('isFocused', false);
-        });
-        editor.on('change', function () {
-            self.set('value', editor.getDoc().getValue());
+        editor.on('focus', Ember.run.bind(this, 'set', 'isFocused', true));
+        editor.on('blur', Ember.run.bind(this, 'set', 'isFocused', false));
+        editor.on('change', () => {
+            Ember.run(this, function () {
+                this.set('value', editor.getDoc().getValue());
+            });
         });
 
         this.set('editor', editor);
@@ -44,5 +41,3 @@ var CodeMirrorEditor = Ember.Component.extend({
     }
 
 });
-
-export default CodeMirrorEditor;

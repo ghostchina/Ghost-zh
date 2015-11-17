@@ -73,7 +73,7 @@ users = {
      * @returns {Promise<Users>} Users Collection
      */
     browse: function browse(options) {
-        var extraOptions = ['role', 'status'],
+        var extraOptions = ['status'],
             permittedOptions = utils.browseDefaultOptions.concat(extraOptions),
             tasks;
 
@@ -212,7 +212,7 @@ users = {
                     });
                 });
             }).catch(function handleError(error) {
-                return errors.handleAPIError(error, '你没有权限编辑此用户。');
+                return errors.formatAndRejectAPIError(error, '你没有权限编辑此用户。');
             });
         }
 
@@ -280,7 +280,7 @@ users = {
 
                 return options;
             }).catch(function handleError(error) {
-                return errors.handleAPIError(error, '你没有权限添加此用户。');
+                return errors.formatAndRejectAPIError(error, '你没有权限添加此用户。');
             });
         }
 
@@ -375,7 +375,7 @@ users = {
                 options.status = 'all';
                 return options;
             }).catch(function handleError(error) {
-                return errors.handleAPIError(error, '你没有删除此用户的权限。');
+                return errors.formatAndRejectAPIError(error, '你没有删除此用户的权限。');
             });
         }
 
@@ -407,7 +407,7 @@ users = {
                     return Promise.reject(new errors.InternalServerError(error));
                 });
             }, function (error) {
-                return errors.handleAPIError(error);
+                return errors.formatAndRejectAPIError(error);
             });
         }
 
@@ -442,7 +442,7 @@ users = {
             return canThis(options.context).edit.user(options.data.password[0].user_id).then(function permissionGranted() {
                 return options;
             }).catch(function (error) {
-                return errors.handleAPIError(error, '你没有修改此用户密码的权限。');
+                return errors.formatAndRejectAPIError(error, '你没有修改此用户密码的权限。');
             });
         }
 
@@ -494,7 +494,7 @@ users = {
             }).then(function () {
                 return options;
             }).catch(function (error) {
-                return errors.handleAPIError(error);
+                return errors.formatAndRejectAPIError(error);
             });
         }
 
@@ -520,7 +520,7 @@ users = {
         return pipeline(tasks, object, options).then(function formatResult(result) {
             return Promise.resolve({users: result});
         }).catch(function (error) {
-            return errors.handleAPIError(error);
+            return errors.formatAndRejectAPIError(error);
         });
     }
 };

@@ -27,13 +27,14 @@ export default Ember.Component.extend({
                 // If sending the invitation email fails, the API will still return a status of 201
                 // but the user's status in the response object will be 'invited-pending'.
                 if (result.users[0].status === 'invited-pending') {
-                    notifications.showAlert('邀请邮件未成功发送。请重新发送。', {type: 'error'});
+                    notifications.showAlert('邀请邮件未成功发送。请重新发送。', {type: 'error', key: 'invite.resend.not-sent'});
                 } else {
                     user.set('status', result.users[0].status);
                     notifications.showNotification(notificationText);
+                    notifications.closeAlerts('invite.resend');
                 }
             }).catch(function (error) {
-                notifications.showAPIError(error);
+                notifications.showAPIError(error, {key: 'invite.resend'});
             }).finally(function () {
                 self.set('isSending', false);
             });
@@ -50,15 +51,15 @@ export default Ember.Component.extend({
                 if (user.get('invited')) {
                     user.destroyRecord().then(function () {
                         var notificationText = '邀请已取消。 (' + email + ')';
-
                         notifications.showNotification(notificationText);
+                        notifications.closeAlerts('invite.revoke');
                     }).catch(function (error) {
-                        notifications.showAPIError(error);
+                        notifications.showAPIError(error, {key: 'invite.revoke'});
                     });
                 } else {
                     // if the user is no longer marked as "invited", then show a warning and reload the route
                     self.sendAction('reload');
-                    notifications.showAlert('此用户已经接受要轻。', {type: 'error', delayed: true});
+                    notifications.showAlert('此用户已经接受邀请。', {type: 'error', delayed: true, key: 'invite.revoke.already-accepted'});
                 }
             });
         }

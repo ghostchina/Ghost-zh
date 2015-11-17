@@ -1,6 +1,6 @@
 import BaseValidator from './base';
 
-var SigninValidator = BaseValidator.create({
+export default BaseValidator.create({
     properties: ['identification', 'signin', 'forgotPassword'],
     invalidMessage: '邮箱地址无效',
 
@@ -46,5 +46,3 @@ var SigninValidator = BaseValidator.create({
         }
     }
 });
-
-export default SigninValidator;

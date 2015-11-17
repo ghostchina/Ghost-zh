@@ -3,7 +3,8 @@ import DS from 'ember-data';
 moment.locale("zh-cn");
 
 /* global moment */
-var MomentDate = DS.Transform.extend({
+
+export default DS.Transform.extend({
     deserialize: function (serialized) {
         if (serialized) {
             return moment(serialized);
@@ -17,4 +18,3 @@ var MomentDate = DS.Transform.extend({
         return deserialized;
     }
 });
-export default MomentDate;

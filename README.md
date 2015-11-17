@@ -21,7 +21,7 @@ Ghost 目由非盈利性组织 **Ghost Foundation** 和一群优秀的独立[贡
 
 安装前请确保已经安装了 Node.js - 我们建议使用 **Node v0.10.x** 的最新版本。
 
-Ghost 同时还支持 **Node v0.12** 和 **io.js v1.2**，但是这些版本可能会导致安装失败，请自行斟酌。获取帮助请到 [论坛](https://ghost.org/forum/installation/)。
+Ghost 同时还支持 **Node v0.12** 和 **io.js v1.2**，但是这些版本很有可能会导致安装失败，请自行斟酌。获取帮助请到 [论坛](http://wenda.ghostchina.com/)。
 
 1. 下载 [最新版本](https://ghost.org/download/) 的 Ghost
 1. 解压文件至你所希望的安装位置
@@ -122,7 +122,7 @@ Ghost 官方支持的 **[Ghost(Pro)](https://ghost.org/pricing/)** 服务能够�
 
 当 Ghost 有新版本发布时，请参考 [升级指南](http://support.ghost.org/how-to-upgrade/) 以了解如何升级 Ghost。
 
-你可以在 [我们的论坛（英文）](https://ghost.org/forum) & [问答社区（中文）](http://wenda.ghostchina.com/) 和其他 Ghost 用户交流，或者在 [public Slack team](https://ghost.org/slack/) 与 Ghost 开发者沟通。我们每周二下午 5:30 都会在 Slack 上开碰头会。请注意，我们说的是`伦敦时间`。
+你可以加入 [问答社区（中文）](http://wenda.ghostchina.com/) 和其他 Ghost 用户交流，或者在 [public Slack team](https://ghost.org/slack/) 与 Ghost 开发者沟通。我们每周二下午 5:30 都会在 Slack 上开碰头会。请注意，我们说的是`伦敦时间`。
 
 每次有新版本都会在 [技术博客](http://dev.ghost.org/tag/releases/) 上公布。你可以通过邮件订阅或者在 Twitter 上关注 [@TryGhost_Dev](https://twitter.com/tryghost_dev)。
 
@@ -132,3 +132,7 @@ Ghost 官方支持的 **[Ghost(Pro)](https://ghost.org/pricing/)** 服务能够�
 # 版权 & 协议
 
 Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+
+# 中文版本及插件
+
+Copyright (c) 2013-2015 Ghost 中国/中文网 - 采用 `MIT 许可协议` 发布。
