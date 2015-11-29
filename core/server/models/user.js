@@ -161,15 +161,14 @@ User = ghostBookshelf.Model.extend({
         return roles.some(function getRole(role) {
             return role.get('name') === roleName;
         });
-    }
-
-}, {
-    findPageDefaultOptions: function findPageDefaultOptions() {
-        return {
-            status: 'active'
-        };
     },
-
+    enforcedFilters: function enforcedFilters() {
+        return this.isPublicContext() ? 'status:[' + activeStates.join(',') + ']' : null;
+    },
+    defaultFilters: function defaultFilters() {
+        return this.isPublicContext() ? null : 'status:[' + activeStates.join(',') + ']';
+    }
+}, {
     orderDefaultOptions: function orderDefaultOptions() {
         return {
             last_login: 'DESC',
@@ -228,7 +227,7 @@ User = ghostBookshelf.Model.extend({
                 findOne: ['withRelated', 'status'],
                 setup: ['id'],
                 edit: ['withRelated', 'id'],
-                findPage: ['page', 'limit', 'columns', 'order', 'status']
+                findPage: ['page', 'limit', 'columns', 'filter', 'order', 'status']
             };
 
         if (validOptions[methodName]) {

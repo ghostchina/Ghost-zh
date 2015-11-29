@@ -18,7 +18,8 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, PaginationRouteMixin, {
 
         return this.get('session.user').then(function (user) {
             if (user.get('isAuthor')) {
-                paginationSettings.author = user.get('slug');
+                paginationSettings.filter = paginationSettings.filter ?
+                    `${paginationSettings.filter}+author:${user.get('slug')}` : `author:${user.get('slug')}`;
             }
 
             return self.loadFirstPage().then(function () {

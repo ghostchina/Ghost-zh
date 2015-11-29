@@ -1,6 +1,6 @@
 {
   "name": "ghost",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Just a blogging platform.",
   "author": "Ghost Foundation",
   "homepage": "http://ghost.org",
@@ -18,11 +18,12 @@
   "license": "MIT",
   "main": "./core/index",
   "scripts": {
+    "preinstall": "npm install semver && node -e \"require('./core/server/utils/startup-check.js').nodeVersion()\"",
     "start": "node index",
     "test": "grunt validate --verbose"
   },
   "engines": {
-    "node": "~0.10.0 || ~0.12.0",
+    "node": "~0.10.0 || ~0.12.0 || ~4.2.0",
     "iojs": "~1.2.0"
   },
   "dependencies": {
@@ -62,7 +63,7 @@
     "rss": "1.2.0",
     "semver": "5.0.3",
     "showdown-ghost": "0.3.6",
-    "sqlite3": "3.1.0",
+    "sqlite3": "3.1.1",
     "unidecode": "0.1.7",
     "validator": "4.1.0",
     "xml": "1.0.0",

@@ -17,11 +17,10 @@ var _          = require('lodash'),
     utils      = require('../../utils'),
     uuid       = require('node-uuid'),
     validation = require('../../data/validation'),
-    baseUtils  = require('./utils'),
     plugins    = require('../plugins'),
-    gql        = require('ghost-gql'),
 
-    ghostBookshelf;
+    ghostBookshelf,
+    proto;
 
 // ### ghostBookshelf
 // Initializes a new Bookshelf instance called ghostBookshelf, for reference elsewhere in Ghost.
@@ -33,11 +32,17 @@ ghostBookshelf.plugin('registry');
 // Load the Ghost access rules plugin, which handles passing permissions/context through the model layer
 ghostBookshelf.plugin(plugins.accessRules);
 
+// Load the Ghost filter plugin, which handles applying a 'filter' to findPage requests
+ghostBookshelf.plugin(plugins.filter);
+
 // Load the Ghost include count plugin, which allows for the inclusion of cross-table counts
 ghostBookshelf.plugin(plugins.includeCount);
 
 // Load the Ghost pagination plugin, which gives us the `fetchPage` method on Models
 ghostBookshelf.plugin(plugins.pagination);
+
+// Cache an instance of the base model prototype
+proto = ghostBookshelf.Model.prototype;
 
 // ## ghostBookshelf.Model
 // The Base Model which other Ghost objects will inherit from,
@@ -172,7 +177,8 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
             }
         });
 
-        return attrs;
+        // @TODO upgrade bookshelf & knex and use serialize & toJSON to do this in a neater way (see #6103)
+        return proto.finalize.call(this, attrs);
     },
 
     sanitize: function sanitize(attr) {
@@ -274,30 +280,19 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
             itemCollection = this.forge(null, {context: options.context}),
             tableName      = _.result(this.prototype, 'tableName');
 
+        // Set this to true or pass ?debug=true as an API option to get output
+        itemCollection.debug = options.debug && process.env.NODE_ENV !== 'production';
+
         // Filter options so that only permitted ones remain
         options = this.filterOptions(options, 'findPage');
 
         // This applies default properties like 'staticPages' and 'status'
         // And then converts them to 'where' options... this behaviour is effectively deprecated in favour
         // of using filter - it's only be being kept here so that we can transition cleanly.
-        this.processOptions(_.defaults(options, this.findPageDefaultOptions()));
+        this.processOptions(options);
 
-        // If there are `where` conditionals specified, add those to the query.
-        if (options.where) {
-            itemCollection.query(function (qb) {
-                gql.knexify(qb, options.where);
-            });
-        }
-
-        // Apply FILTER
-        if (options.filter) {
-            options.filter = gql.parse(options.filter);
-            itemCollection.query(function (qb) {
-                gql.knexify(qb, options.filter);
-            });
-
-            baseUtils.processGQLResult(itemCollection, options);
-        }
+        // Add Filter behaviour
+        itemCollection.applyFilters(options);
 
         // Handle related objects
         // TODO: this should just be done for all methods @ the API level
@@ -309,7 +304,7 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
         }
 
         if (options.order) {
-            options.order = self.parseOrderOption(options.order);
+            options.order = self.parseOrderOption(options.order, options.include);
         } else {
             options.order = self.orderDefaultOptions();
         }
@@ -468,10 +463,13 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
         });
     },
 
-    parseOrderOption: function (order) {
+    parseOrderOption: function (order, include) {
         var permittedAttributes, result, rules;
 
         permittedAttributes = this.prototype.permittedAttributes();
+        if (include && include.indexOf('count.posts') > -1) {
+            permittedAttributes.push('count.posts');
+        }
         result = {};
         rules = order.split(',');
 

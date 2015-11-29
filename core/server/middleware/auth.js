@@ -1,9 +1,10 @@
-var _           = require('lodash'),
-    passport    = require('passport'),
-    url         = require('url'),
-    errors      = require('../errors'),
-    config      = require('../config'),
-    labs        = require('../utils/labs'),
+var _             = require('lodash'),
+    passport      = require('passport'),
+    url           = require('url'),
+    os            = require('os'),
+    errors        = require('../errors'),
+    config        = require('../config'),
+    labs          = require('../utils/labs'),
     oauthServer,
 
     auth;
@@ -35,11 +36,32 @@ function isBearerAutorizationHeader(req) {
     return false;
 }
 
+function getIPs() {
+    var ifaces = os.networkInterfaces(),
+        ips = [];
+
+    Object.keys(ifaces).forEach(function (ifname) {
+        ifaces[ifname].forEach(function (iface) {
+            // only support IPv4
+            if (iface.family !== 'IPv4') {
+                return;
+            }
+            ips.push(iface.address);
+        });
+    });
+    return ips;
+}
+
 function isValidOrigin(origin, client) {
+    var configHostname = url.parse(config.url).hostname;
+
     if (origin && client && client.type === 'ua' && (
-        _.some(client.trustedDomains, {trusted_domain: origin})
-        || origin === url.parse(config.url).hostname
+        _.indexOf(getIPs(), origin) >= 0
+        || _.some(client.trustedDomains, {trusted_domain: origin})
+        || origin === configHostname
+        || configHostname === 'my-ghost-blog.com'
         || origin === url.parse(config.urlSSL ? config.urlSSL : '').hostname
+        || (origin === 'localhost')
     )) {
         return true;
     } else {
@@ -70,7 +92,8 @@ auth = {
 
         return passport.authenticate(['oauth2-client-password'], {session: false, failWithError: false},
             function authenticate(err, client) {
-                var origin = null;
+                var origin = null,
+                    error;
                 if (err) {
                     return next(err); // will generate a 500 error
                 }
@@ -94,7 +117,12 @@ auth = {
                     req.client = client;
                     return next(null, client);
                 } else {
-                    return errors.handleAPIError(new errors.UnauthorizedError('Access denied.'), req, res, next);
+                    error = new errors.UnauthorizedError('Access Denied from url: ' + origin + '. Please use the url configured in config.js.');
+                    errors.logError(error,
+                        'You have attempted to access your Ghost admin panel from a url that does not appear in config.js.',
+                        'For information on how to fix this, please visit http://support.ghost.org/config/#url.'
+                    );
+                    return errors.handleAPIError(error, req, res, next);
                 }
             }
         )(req, res, next);

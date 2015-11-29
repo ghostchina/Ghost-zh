@@ -140,7 +140,6 @@ var _              = require('lodash'),
                     '!config*.js', // note: i added this, do we want this linted?
                     'core/*.js',
                     'core/server/**/*.js',
-                    'core/shared/**/*.js',
                     'core/test/**/*.js',
                     '!core/test/coverage/**',
                     '!core/shared/vendor/**/*.js'
@@ -177,7 +176,6 @@ var _              = require('lodash'),
                             '!config*.js', // note: i added this, do we want this linted?
                             'core/*.js',
                             'core/server/**/*.js',
-                            'core/shared/**/*.js',
                             'core/test/**/*.js',
                             '!core/test/coverage/**',
                             '!core/shared/vendor/**/*.js'
@@ -239,8 +237,8 @@ var _              = require('lodash'),
                 // #### All Integration tests
                 integration: {
                     src: [
-                        'core/test/integration/**/model*_spec.js',
-                        'core/test/integration/**/api*_spec.js',
+                        'core/test/integration/**/*_spec.js',
+                        'core/test/integration/**/*_spec.js',
                         'core/test/integration/*_spec.js'
                     ]
                 },
@@ -980,7 +978,22 @@ var _              = require('lodash'),
             ' - Copy files to release-folder/#/#{version} directory\n' +
             ' - Clean out unnecessary files (travis, .git*, etc)\n' +
             ' - Zip files in release-folder to dist-folder/#{version} directory',
-            ['init', 'shell:ember:prod', 'clean:release',  'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
+            function () {
+                grunt.config.set('copy.release', {
+                    expand: true,
+                    // #### Build File Patterns
+                    // A list of files and patterns to include when creating a release zip.
+                    // This is read from the `.npmignore` file and all patterns are inverted as the `.npmignore`
+                    // file defines what to ignore, whereas we want to define what to include.
+                    src: fs.readFileSync('.npmignore', 'utf8').split('\n').filter(Boolean).map(function (pattern) {
+                        return pattern[0] === '!' ? pattern.substr(1) : '!' + pattern;
+                    }),
+                    dest: '<%= paths.releaseBuild %>/'
+                });
+
+                grunt.task.run(['init', 'shell:ember:prod', 'clean:release',  'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
+            }
+        );
 
         grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
             ['init', 'shell:ember:prod', 'clean:release', 'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);

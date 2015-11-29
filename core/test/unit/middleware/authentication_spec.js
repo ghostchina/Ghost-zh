@@ -128,6 +128,7 @@ describe('Auth', function () {
 
     describe('User Authentication', function () {
         beforeEach(function () {
+            defaultConfig.url = 'http://my-domain.com';
             var newConfig = _.extend({}, config, defaultConfig);
 
             auth.__get__('config', newConfig);
@@ -396,6 +397,50 @@ describe('Auth', function () {
             sandbox.stub(res, 'header', function (key, value) {
                 key.should.equal('Access-Control-Allow-Origin');
                 value.should.equal(config.url);
+            });
+
+            registerSuccessfulClientPasswordStrategy();
+            auth.authenticateClient(req, res, next);
+
+            next.called.should.be.true;
+            next.calledWith(null, client).should.be.true;
+            done();
+        });
+
+        it('should authenticate client with origin `localhost`', function (done) {
+            req.body = {};
+            req.body.client_id = testClient;
+            req.body.client_secret = testSecret;
+            req.headers = {};
+            req.headers.origin = 'http://localhost';
+
+            res.header = {};
+
+            sandbox.stub(res, 'header', function (key, value) {
+                key.should.equal('Access-Control-Allow-Origin');
+                value.should.equal('http://localhost');
+            });
+
+            registerSuccessfulClientPasswordStrategy();
+            auth.authenticateClient(req, res, next);
+
+            next.called.should.be.true;
+            next.calledWith(null, client).should.be.true;
+            done();
+        });
+
+        it('should authenticate client with origin `127.0.0.1`', function (done) {
+            req.body = {};
+            req.body.client_id = testClient;
+            req.body.client_secret = testSecret;
+            req.headers = {};
+            req.headers.origin = 'http://127.0.0.1';
+
+            res.header = {};
+
+            sandbox.stub(res, 'header', function (key, value) {
+                key.should.equal('Access-Control-Allow-Origin');
+                value.should.equal('http://127.0.0.1');
             });
 
             registerSuccessfulClientPasswordStrategy();
