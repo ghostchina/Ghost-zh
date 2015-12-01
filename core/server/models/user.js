@@ -522,20 +522,20 @@ User = ghostBookshelf.Model.extend({
             s;
         return this.getByEmail(object.email).then(function then(user) {
             if (!user) {
-                return Promise.reject(new errors.NotFoundError('此邮箱地址无对应的用户。'));
+                return Promise.reject(new errors.NotFoundError('There is no user with that email address.'));
             }
             if (user.get('status') === 'invited' || user.get('status') === 'invited-pending' ||
                     user.get('status') === 'inactive'
                 ) {
-                return Promise.reject(new errors.NoPermissionError('此邮箱地址对应的用户未激活。'));
+                return Promise.reject(new errors.NoPermissionError('The user with that email address is inactive.'));
             }
             if (user.get('status') !== 'locked') {
                 return bcryptCompare(object.password, user.get('password')).then(function then(matched) {
                     if (!matched) {
                         return Promise.resolve(self.setWarning(user, {validate: false})).then(function then(remaining) {
                             s = (remaining > 1) ? 's' : '';
-                            return Promise.reject(new errors.UnauthorizedError('密码错误。<br>' +
-                                '还剩余' + remaining + ' 次尝试的机会！'));
+                            return Promise.reject(new errors.UnauthorizedError('Your password is incorrect. <br />' +
+                                remaining + ' attempt' + s + ' remaining!'));
 
                             // Use comma structure, not .catch, because we don't want to catch incorrect passwords
                         }, function handleError(error) {
@@ -567,7 +567,7 @@ User = ghostBookshelf.Model.extend({
                 '点击 “忘记密码？” 连接可以进入密码重置页面'));
         }, function handleError(error) {
             if (error.message === 'NotFound' || error.message === 'EmptyResponse') {
-                return Promise.reject(new errors.NotFoundError('此邮箱地址无对应的用户。'));
+                return Promise.reject(new errors.NotFoundError('There is no user with that email address.'));
             }
 
             return Promise.reject(error);
@@ -608,7 +608,7 @@ User = ghostBookshelf.Model.extend({
             return true;
         }).then(function then(matched) {
             if (!matched) {
-                return Promise.reject(new errors.ValidationError('密码错误'));
+                return Promise.reject(new errors.ValidationError('Your password is incorrect'));
             }
 
             return generatePasswordHash(newPassword);

@@ -1,21 +1,27 @@
 import Ember from 'ember';
 import setScrollClassName from 'ghost/utils/set-scroll-classname';
 
-export default Ember.Component.extend({
+const {Component, run} = Ember;
+
+export default Component.extend({
     classNames: ['content-preview-content'],
 
     content: null,
 
-    didInsertElement: function () {
-        var el = this.$();
+    didInsertElement() {
+        this._super(...arguments);
 
-        el.on('scroll', Ember.run.bind(el, setScrollClassName, {
+        let el = this.$();
+
+        el.on('scroll', run.bind(el, setScrollClassName, {
             target: el.closest('.content-preview'),
             offset: 10
         }));
     },
 
-    didReceiveAttrs: function (options) {
+    didReceiveAttrs(options) {
+        this._super(...arguments);
+
         // adjust when didReceiveAttrs gets both newAttrs and oldAttrs
         if (options.newAttrs.content && this.get('content') !== options.newAttrs.content.value) {
             let el = this.$();
@@ -26,8 +32,10 @@ export default Ember.Component.extend({
         }
     },
 
-    willDestroyElement: function () {
-        var el = this.$();
+    willDestroyElement() {
+        this._super(...arguments);
+
+        let el = this.$();
 
         el.off('scroll');
     }

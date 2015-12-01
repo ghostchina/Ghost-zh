@@ -1,17 +1,19 @@
+/* global moment */
 import DS from 'ember-data';
 
 moment.locale("zh-cn");
 
-/* global moment */
+const {Transform} = DS;
 
-export default DS.Transform.extend({
-    deserialize: function (serialized) {
+export default Transform.extend({
+    deserialize(serialized) {
         if (serialized) {
             return moment(serialized);
         }
         return serialized;
     },
-    serialize: function (deserialized) {
+
+    serialize(deserialized) {
         if (deserialized) {
             return moment(deserialized).toDate();
         }

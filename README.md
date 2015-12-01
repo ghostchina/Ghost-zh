@@ -19,9 +19,7 @@ Ghost 目由非盈利性组织 **Ghost Foundation** 和一群优秀的独立[贡
 
 # 快速安装
 
-安装前请确保已经安装了 Node.js - 我们建议使用 **Node v0.10.x** 的最新版本。
-
-Ghost 同时还支持 **Node v0.12** 和 **io.js v1.2**，但是这些版本很有可能会导致安装失败，请自行斟酌。获取帮助请到 [论坛](http://wenda.ghostchina.com/)。
+安装前请确保已经安装了 Node.js - 我们建议使用 **Node v0.10.x** 的最新版本。对于其他版本的支持情况请[点这里](http://support.ghost.org/supported-node-versions/)。有可能会导致安装失败，请自行斟酌。
 
 1. 下载 [最新版本](https://ghost.org/download/) 的 Ghost
 1. 解压文件至你所希望的安装位置
@@ -53,8 +51,8 @@ Node.js 是必须的，同样也是建议使用  **Node v0.10.x** 的最新版�
 安装 Node.js。
 
 ```bash
-# Node v0.10.x - 完全支持
-# Node v0.12.x and io.js v1.2 - 部分支持
+# Node v0.10.x - 推荐
+# Node v0.12.x and v4.2.x - 支持
 #
 # 自行斟酌吧
 ```

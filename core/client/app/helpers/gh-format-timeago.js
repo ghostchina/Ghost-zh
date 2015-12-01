@@ -1,11 +1,13 @@
 import Ember from 'ember';
 
-export default Ember.Helper.helper(function (params) {
+const {Helper} = Ember;
+
+export default Helper.helper(function (params) {
     if (!params || !params.length) {
         return;
     }
 
-    var timeago = params[0];
+    let [timeago] = params;
 
     moment.locale('zh-cn');
     timeago = moment(timeago.toDate()).fromNow();

@@ -3,16 +3,17 @@ import BaseValidator from './base';
 export default BaseValidator.extend({
     properties: ['name', 'email', 'password'],
 
-    name: function (model) {
-        var name = model.get('name');
+    name(model) {
+        let name = model.get('name');
 
         if (!validator.isLength(name, 1)) {
             model.get('errors').add('name', '请输入姓名。');
             this.invalidate();
         }
     },
-    email: function (model) {
-        var email = model.get('email');
+
+    email(model) {
+        let email = model.get('email');
 
         if (validator.empty(email)) {
             model.get('errors').add('email', '请输入邮箱地址。');
@@ -22,8 +23,9 @@ export default BaseValidator.extend({
             this.invalidate();
         }
     },
-    password: function (model) {
-        var password = model.get('password');
+
+    password(model) {
+        let password = model.get('password');
 
         if (!validator.isLength(password, 8)) {
             model.get('errors').add('password', '密码至少 8 个字符。');
