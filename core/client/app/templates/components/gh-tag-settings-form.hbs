@@ -1,7 +1,7 @@
 <div class="{{if isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane tag-settings-pane">
     <div class="settings-menu-header {{if isMobile 'subview'}}">
         {{#if isMobile}}
-            {{#link-to 'settings.tags' class="back icon-arrow-left settings-menu-header-action"}}<span class="hidden">Back</span>{{/link-to}}
+            {{#link-to 'settings.tags' class="back icon-arrow-left settings-menu-header-action"}}<span class="hidden">返回</span>{{/link-to}}
             <h4>{{title}}</h4>
             <div style="width:23px;">{{!flexbox space-between}}</div>
         {{else}}
@@ -9,10 +9,10 @@
         {{/if}}
     </div>
     <div class="settings-menu-content">
-        {{gh-uploader uploaded="setCoverImage" canceled="clearCoverImage" description="Add tag image" image=tag.image initUploader="setUploaderReference" tagName="section"}}
+        {{gh-uploader uploaded="setCoverImage" canceled="clearCoverImage" description="为标签添加配图" image=tag.image initUploader="setUploaderReference" tagName="section"}}
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="name"}}
-                <label for="tag-name">Name</label>
+                <label for="tag-name">标签名</label>
                 {{gh-input id="tag-name" name="name" type="text" value=scratchName focus-out=(action 'setProperty' 'name')}}
                 {{gh-error-message errors=tag.errors property="name"}}
             {{/gh-form-group}}
@@ -25,24 +25,24 @@
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="description"}}
-                <label for="tag-description">Description</label>
+                <label for="tag-description">描述</label>
                 {{gh-textarea id="tag-description" name="description" value=scratchDescription focus-out=(action 'setProperty' 'description')}}
                 {{gh-error-message errors=tag.errors property="description"}}
-                <p>Maximum: <b>200</b> characters. You’ve used {{gh-count-down-characters scratchDescription 200}}</p>
+                <p>最多 <b>200</b> 个字符。你已经输入的字符个数为： {{gh-count-down-characters scratchDescription 200}}</p>
             {{/gh-form-group}}
 
             <ul class="nav-list nav-list-block">
                 <li class="nav-list-item" {{action 'openMeta'}}>
                     <button type="button" class="meta-data-button">
-                        <b>Meta Data</b>
-                        <span>Extra content for SEO and social media.</span>
+                        <b>搜索引擎优化</b>
+                        <span>优化在搜索引擎中的呈现效果，提高访问量。</span>
                     </button>
                     <i class="icon-arrow-right"></i>
                 </li>
             </ul>
 
             {{#unless tag.isNew}}
-                <button type="button" class="btn btn-link btn-sm tag-delete-button" {{action "deleteTag"}}><i class="icon-trash"></i> Delete Tag</button>
+                <button type="button" class="btn btn-link btn-sm tag-delete-button" {{action "deleteTag"}}><i class="icon-trash"></i> 删除标签</button>
             {{/unless}}
         </form>
     </div>
@@ -50,29 +50,29 @@
 
 <div class="{{if isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane tag-meta-settings-pane">
     <div class="settings-menu-header subview">
-        <button {{action "closeMeta"}} class="back icon-arrow-left settings-menu-header-action"><span class="hidden">Back</span></button>
-        <h4>Meta Data</h4>
+        <button {{action "closeMeta"}} class="back icon-arrow-left settings-menu-header-action"><span class="hidden">返回</span></button>
+        <h4>搜索引擎优化</h4>
         <div style="width:23px;">{{!flexbox space-between}}</div>
     </div>
 
     <div class="settings-menu-content">
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="meta_title"}}
-                <label for="meta-title">Meta Title</label>
+                <label for="meta-title">优化标题</label>
                 {{gh-input id="meta-title" name="meta_title" type="text" value=scratchMetaTitle focus-out=(action 'setProperty' 'meta_title')}}
                 {{gh-error-message errors=tag.errors property="meta_title"}}
-                <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters scratchMetaTitle 70}}</p>
+                <p>不超过 <b>70</b> 个字符。你已经输入的字符个数为： {{gh-count-down-characters scratchMetaTitle 70}}</p>
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="meta_description"}}
-                <label for="meta-description">Meta Description</label>
+                <label for="meta-description">优化描述</label>
                 {{gh-textarea id="meta-description" name="meta_description" value=scratchMetaDescription focus-out=(action 'setProperty' 'meta_description')}}
                 {{gh-error-message errors=tag.errors property="meta_description"}}
-                <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters scratchMetaDescription 156}}</p>
+                <p>不超过 <b>156</b> 个字符。你已经输入的字符个数为： {{gh-count-down-characters scratchMetaDescription 156}}</p>
             {{/gh-form-group}}
 
             <div class="form-group">
-                <label>Search Engine Result Preview</label>
+                <label>搜索引擎结果预览</label>
                 <div class="seo-preview">
                     <div class="seo-preview-title">{{seoTitle}}</div>
                     <div class="seo-preview-link">{{seoURL}}</div>

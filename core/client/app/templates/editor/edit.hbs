@@ -28,7 +28,7 @@
                     <a href="#" {{action 'selectTab' 'markdown' target=ghEditor}} class="{{if ghEditor.markdownActive 'active'}}">Markdown</a>
                     <a href="#" {{action 'selectTab' 'preview' target=ghEditor}} class="{{if ghEditor.previewActive 'active'}}">预览</a>
                 </span>
-                <a class="markdown-help" href="" title="Markdown Help" {{action "openModal" "markdown"}}><i class="icon-markdown"></i></a>
+                <a class="markdown-help" href="" title="Markdown 手册" {{action "openModal" "markdown"}}><i class="icon-markdown"></i></a>
             </header>
             <section id="entry-markdown-content" class="entry-markdown-content">
                 {{gh-ed-editor classNames="markdown-editor js-markdown-editor" tabindex="1" spellcheck="true" value=model.scratch setEditor="setEditor" updateScrollInfo="updateEditorScrollInfo" openModal="openModal" onFocusIn="autoSaveNew" height=height focus=shouldFocusEditor}}
