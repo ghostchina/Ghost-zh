@@ -369,17 +369,22 @@ var _              = require('lodash'),
 
                 'sqlite-bindings': {
                     command: [
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=0.10.38',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.10.4',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=0.10.4',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=0.10.4',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=0.10.4',
 
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin'
+
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.12.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=0.12.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=0.12.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=0.12.0',
+
+
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=4.2.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=4.2.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=4.2.0',
+                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=4.2.0'
                         ].join('&&').replace(/\//g, '\\'),
                     options: {
                         stdout: true,
@@ -1042,7 +1047,7 @@ var _              = require('lodash'),
         );
 
         grunt.registerTask('release-full', 'Create zip package with all needed node modules.',
-            ['init', 'shell:ember:prod', 'clean:release', 'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
+            ['release', 'shell:sqlite-bindings', 'copy:full', 'compress:release-full']);
     };
 
 module.exports = configureGrunt;
