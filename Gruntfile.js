@@ -495,6 +495,17 @@ var _              = require('lodash'),
                         params: '--init'
                     }
                 }
+            },
+
+            uglify: {
+                prod: {
+                    options: {
+                        sourceMap: false
+                    },
+                    files: {
+                        'core/shared/ghost-url.min.js': 'core/shared/ghost-url.js'
+                    }
+                }
             }
         };
 
@@ -668,11 +679,11 @@ var _              = require('lodash'),
         // `grunt validate` is called by `npm test` and is used by Travis.
         grunt.registerTask('validate', 'Run tests and lint code', function () {
             if (process.env.TEST_SUITE === 'server') {
-                grunt.task.run(['test-server']);
+                grunt.task.run(['init', 'test-server']);
             } else if (process.env.TEST_SUITE === 'client') {
-                grunt.task.run(['test-client']);
+                grunt.task.run(['init', 'test-client']);
             } else if (process.env.TEST_SUITE === 'lint') {
-                grunt.task.run(['lint']);
+                grunt.task.run(['shell:ember:init', 'shell:bower', 'lint']);
             } else {
                 grunt.task.run(['validate-all']);
             }
@@ -690,13 +701,13 @@ var _              = require('lodash'),
         // details of each of the test suites.
         //
         grunt.registerTask('test-all', 'Run tests for both server and client',
-            ['init', 'test-server', 'test-client']);
+            ['test-server', 'test-client']);
 
         grunt.registerTask('test-server', 'Run server tests',
-            ['init', 'test-routes', 'test-module', 'test-unit', 'test-integration']);
+            ['test-routes', 'test-module', 'test-unit', 'test-integration']);
 
         grunt.registerTask('test-client', 'Run client tests',
-            ['init', 'test-ember']);
+            ['test-ember']);
 
         // ### Lint
         //
@@ -986,7 +997,7 @@ var _              = require('lodash'),
         //
         // It is otherwise the same as running `grunt`, but is only used when running Ghost in the `production` env.
         grunt.registerTask('prod', 'Build JS & templates for production',
-            ['shell:ember:prod', 'master-warn']);
+            ['shell:ember:prod', 'uglify:prod', 'master-warn']);
 
         // ### Live reload
         // `grunt dev` - build assets on the fly whilst developing
@@ -1026,7 +1037,7 @@ var _              = require('lodash'),
                     dest: '<%= paths.releaseBuild %>/'
                 });
 
-                grunt.task.run(['init', 'shell:ember:prod', 'clean:release',  'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
+                grunt.task.run(['init', 'prod', 'clean:release',  'shell:dedupe', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
             }
         );
 
