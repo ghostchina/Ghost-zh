@@ -116,6 +116,7 @@ registerHelpers = function (adminHbs) {
     registerAsyncThemeHelper('next_post', coreHelpers.next_post);
     registerAsyncThemeHelper('prev_post', coreHelpers.prev_post);
     registerAsyncThemeHelper('get', coreHelpers.get);
+    registerAsyncThemeHelper('tag_cloud', coreHelpers.tag_cloud);
 
     // Register admin helpers
     registerAdminHelper('asset', coreHelpers.asset);
