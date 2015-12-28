@@ -12,7 +12,7 @@ export default BaseValidator.create({
         }
 
         if (!validator.isLength(title, 0, 150)) {
-            model.get('errors').add('title', 'Title cannot be longer than 150 characters.');
+            model.get('errors').add('title', '标题不能超过 150 个字符。');
             this.invalidate();
         }
     },

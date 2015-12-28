@@ -10,10 +10,10 @@ export default BaseValidator.create({
             model.get('errors').add('name', '必须为标签设置一个名称');
             this.invalidate();
         } else if (name.match(/^,/)) {
-            model.get('errors').add('name', 'Tag names can\'t start with commas.');
+            model.get('errors').add('name', '标签名不能以逗号(,)开头。');
             this.invalidate();
         } else if (!validator.isLength(name, 0, 150)) {
-            model.get('errors').add('name', 'Tag names cannot be longer than 150 characters.');
+            model.get('errors').add('name', '标签名不能超过 150 个字符。');
             this.invalidate();
         }
     },
@@ -22,7 +22,7 @@ export default BaseValidator.create({
         let slug = model.get('slug');
 
         if (!validator.isLength(slug, 0, 150)) {
-            model.get('errors').add('slug', 'URL cannot be longer than 150 characters.');
+            model.get('errors').add('slug', 'URL 的长度不能超过 150 个字符。');
             this.invalidate();
         }
     },
@@ -31,7 +31,7 @@ export default BaseValidator.create({
         let description = model.get('description');
 
         if (!validator.isLength(description, 0, 200)) {
-            model.get('errors').add('description', 'Description cannot be longer than 200 characters.');
+            model.get('errors').add('description', '描述信息不能超过 200 个字符。');
             this.invalidate();
         }
     },
