@@ -28,7 +28,7 @@
             <fieldset>
                 <div class="form-group">
                     <label>删除所有内容</label>
-                    <button type="button" class="btn btn-red js-delete" {{action "openModal" "deleteAll"}}>删除</button>
+                    <button type="button" class="btn btn-red js-delete" {{action "toggleDeleteAllModal"}}>删除</button>
                     <p>从数据库中删除所有博文和标签数据。</p>
                 </div>
             </fieldset>
@@ -57,3 +57,9 @@
         </form>
     </section>
 </section>
+
+{{#if showDeleteAllModal}}
+    {{gh-fullscreen-modal "delete-all"
+                          close=(action "toggleDeleteAllModal")
+                          modifier="action wide"}}
+{{/if}}

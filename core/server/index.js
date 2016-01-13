@@ -64,9 +64,8 @@ function builtFilesExist() {
     }
 
     function checkExist(fileName) {
-        var errorMessage = 'Javascript files have not been built.',
-            errorHelp = '\nPlease read the getting started instructions at:' +
-                        '\nhttps://github.com/TryGhost/Ghost#getting-started';
+        var errorMessage = i18n.t('errors.index.javascriptFilesNotBuilt.error'),
+            errorHelp = i18n.t('errors.index.javascriptFilesNotBuilt.help', {link: '\nhttps://github.com/TryGhost/Ghost#getting-started'});
 
         return new Promise(function (resolve, reject) {
             fs.stat(fileName, function (statErr) {
@@ -102,9 +101,9 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'info',
             message: [
-                'Ghost 将尝试直接发送邮件。',
-                '建议为 Ghost 系统设置一个邮件服务。',
-                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
+                i18n.t('warnings.index.usingDirectMethodToSendEmail'),
+                i18n.t('common.seeLinkForInstructions',
+                       {link: '<a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost\' target=\'_blank\'>Ghost 邮件系统设置详解</a>'})
             ].join(' ')
         }]}, {context: {internal: true}});
     }
@@ -112,8 +111,9 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'warn',
             message: [
-                'Ghost 目前无法发送邮件。',
-                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
+                i18n.t('warnings.index.unableToSendEmail'),
+                i18n.t('common.seeLinkForInstructions',
+                       {link: '<a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a>'})
             ].join(' ')
         }]}, {context: {internal: true}});
     }
@@ -131,6 +131,9 @@ function init(options) {
     // The server and its dependencies require a populated config
     // It returns a promise that is resolved when the application
     // has finished starting up.
+
+    // Initialize Internationalization
+    i18n.init();
 
     // Load our config.js file from the local file system.
     return config.load(options.config).then(function () {
@@ -169,9 +172,6 @@ function init(options) {
         );
     }).then(function () {
         var adminHbs = hbs.create();
-
-        // Initialize Internationalization
-        i18n.init();
 
         // Output necessary notifications on init
         initNotifications();

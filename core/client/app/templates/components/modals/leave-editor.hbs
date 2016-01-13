@@ -1,0 +1,17 @@
+<header class="modal-header">
+    <h1>你确定要离开当前页面吗？</h1>
+</header>
+<a class="close icon-x" href="" title="关闭" {{action "closeModal"}}><span class="hidden">关闭</span></a>
+
+<div class="modal-body">
+    <p>
+        嘿，同学！好像你的博文还在创作中啊，而且没有保存，是否保存个先？
+    </p>
+
+    <p>Save before you go!</p>
+</div>
+
+<div class="modal-footer">
+    <button {{action "closeModal"}} class="btn btn-default btn-minor">留下</button>
+    <button {{action "confirm"}} class="btn btn-red">离开</button>
+</div>

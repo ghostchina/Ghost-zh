@@ -1,5 +1,9 @@
-{{#gh-modal-dialog action="closeModal" showClose=true style="wide"
-    title="Markdown 手册"}}
+<header class="modal-header">
+    <h1>Markdown 手册</h1>
+</header>
+<a class="close icon-x" href="" title="Close" {{action "closeModal"}}><span class="hidden">Close</span></a>
+
+<div class="modal-body">
     <section class="markdown-help-container">
         <table class="modal-markdown-help-table">
             <thead>
@@ -74,4 +78,4 @@
         </table>
         如需了解更多 Markdown 语法，请查看 <a href="http://www.ghostchina.com/markdown-guide/" target="_blank">Markdown 语法指南</a>。
     </section>
-{{/gh-modal-dialog}}
+</div>

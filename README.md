@@ -130,8 +130,8 @@ Ghost 官方支持的 **[Ghost(Pro)](https://ghost.org/pricing/)** 服务能够�
 
 # 版权 & 协议
 
-Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2016 Ghost Foundation - Released under the [MIT license](LICENSE).
 
 # 中文版本及插件
 
-Copyright (c) 2013-2015 Ghost 中国/中文网 - 采用 `MIT 许可协议` 发布。
+Copyright (c) 2013-2016 Ghost 中国/中文网 - 采用 `MIT 许可协议` 发布。

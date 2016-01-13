@@ -31,8 +31,7 @@ export default Component.extend({
                     notifications.showAlert('邀请邮件未成功发送。请重新发送。', {type: 'error', key: 'invite.resend.not-sent'});
                 } else {
                     user.set('status', result.users[0].status);
-                    notifications.showNotification(notificationText);
-                    notifications.closeAlerts('invite.resend');
+                    notifications.showNotification(notificationText, {key: 'invite.resend.success'});
                 }
             }).catch((error) => {
                 notifications.showAPIError(error, {key: 'invite.resend'});
@@ -51,8 +50,7 @@ export default Component.extend({
                 if (user.get('invited')) {
                     user.destroyRecord().then(() => {
                         let notificationText = `邀请已取消。 (${email})`;
-                        notifications.showNotification(notificationText);
-                        notifications.closeAlerts('invite.revoke');
+                        notifications.showNotification(notificationText, {key: 'invite.revoke.success'});
                     }).catch((error) => {
                         notifications.showAPIError(error, {key: 'invite.revoke'});
                     });

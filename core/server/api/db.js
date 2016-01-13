@@ -8,6 +8,7 @@ var _                = require('lodash'),
     errors           = require('../errors'),
     utils            = require('./utils'),
     pipeline         = require('../utils/pipeline'),
+    i18n             = require('../i18n'),
 
     api              = {},
     docName      = 'db',
@@ -66,13 +67,13 @@ db = {
         function validate(options) {
             // Check if a file was provided
             if (!utils.checkFileExists(options, 'importfile')) {
-                return Promise.reject(new errors.ValidationError('请选择导出的文件。'));
+                return Promise.reject(new errors.ValidationError(i18n.t('errors.api.db.selectFileToImport')));
             }
 
             // Check if the file is valid
             if (!utils.checkFileIsValid(options.importfile, importer.getTypes(), importer.getExtensions())) {
                 return Promise.reject(new errors.UnsupportedMediaTypeError(
-                    '不支持此文件格式。请试一下下面这几种格式：' +
+                    i18n.t('errors.api.db.unsupportedFile') +
                         _.reduce(importer.getExtensions(), function (memo, ext) {
                             return memo ? memo + ', ' + ext : ext;
                         })

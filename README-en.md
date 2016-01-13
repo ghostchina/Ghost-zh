@@ -20,9 +20,7 @@ The project is maintained by a non-profit organisation called the **Ghost Founda
 
 # Quick Start Install
 
-Make sure you've installed Node.js - We recommend the latest **Node v0.10.x** release.
-
-Ghost is also compatible with **Node v0.12** and **io.js v1.2**, but please note that these versions are more likely to run into installation problems. May contain nuts. Please use the [forum](https://ghost.org/forum/installation/) for help.
+Make sure you've installed Node.js - We recommend the latest **Node v0.10.x** release. For other versions [click here](http://support.ghost.org/supported-node-versions/). May contain nuts.
 
 1. Download the [latest release](https://ghost.org/download/) of Ghost
 1. Unzip in the location you want to install
@@ -38,11 +36,11 @@ More [install docs](http://support.ghost.org/installation/) here in case you got
 <a name="getting-started"></a>
 # Developer Install (from git)
 
-Install Node.js. 
+Install Node.js.
 
 ```bash
-# Node v0.10.x - full support
-# Node v0.12.x and io.js v1.2 - partial support
+# Node v0.10.x - recommended
+# Node v0.12.x and v4.2.x - supported
 #
 # Choose wisely
 ```
@@ -86,7 +84,7 @@ npm start
 ## running production? Add --production
 ```
 
-Congrats! You made it. BTW you can also just `npm install ghost` if you're into that sort of thing. NPM afficionados can also read up on using [Ghost as an NPM module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module).
+Congrats! You made it. BTW you can also just `npm install ghost` if you're into that sort of thing. NPM aficionados can also read up on using [Ghost as an NPM module](https://github.com/TryGhost/Ghost/wiki/Using-Ghost-as-an-npm-module).
 
 More general [install docs](http://support.ghost.org/installation/) here in case you got stuck.
 
@@ -97,7 +95,7 @@ More general [install docs](http://support.ghost.org/installation/) here in case
 
 Save yourself time and headaches with our fully managed **[Ghost(Pro)](https://ghost.org/pricing/)** service. Deploy a new instance of Ghost in a couple of clicks running on [DigitalOcean](https://digitalocean.com)’s rock solid infrastructure, with a worldwide CDN thrown in at no extra charge.
 
-All revenue from **Ghost(Pro**) goes to the Ghost Foundation, the non-profit org which funds the maintenance and further development of Ghost.
+All revenue from **Ghost(Pro)** goes to the Ghost Foundation, the non-profit org which funds the maintenance and further development of Ghost.
 
 [Other options](http://support.ghost.org/deploying-ghost/) are also available if you prefer playing around with servers by yourself.
 
@@ -106,7 +104,7 @@ All revenue from **Ghost(Pro**) goes to the Ghost Foundation, the non-profit org
 
 When a new version of Ghost comes out, you'll want to look over these [upgrade instructions](http://support.ghost.org/how-to-upgrade/) for what to do next.
 
-You can talk to other Ghost users on [our forums](https://ghost.org/forum) or chat with Ghost developers in our [public Slack team](https://ghost.org/slack/) (it's pretty awesome). We have a public meeting every Tuesday at 5:30pm London time.
+You can talk to other Ghost users and developers in our [public Slack team](https://ghost.org/slack/) (it's pretty awesome). We have a public meeting every Tuesday at 5:30pm UK time.
 
 New releases are announced on the [dev blog](http://dev.ghost.org/tag/releases/). You can subscribe by email or follow [@TryGhost_Dev](https://twitter.com/tryghost_dev) on Twitter, if you prefer your updates bite-sized and facetious.
 
@@ -115,4 +113,4 @@ New releases are announced on the [dev blog](http://dev.ghost.org/tag/releases/)
 
 # Copyright & License
 
-Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2016 Ghost Foundation - Released under the [MIT license](LICENSE).

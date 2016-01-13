@@ -1,0 +1,17 @@
+<header class="modal-header">
+    <h1>确定要删除此标签吗？</h1>
+</header>
+<a class="close icon-x" href="" title="关闭" {{action "closeModal"}}><span class="hidden">关闭</span></a>
+
+<div class="modal-body">
+    <strong>WARNING:</strong>
+    {{#if tag.post_count}}
+        <span class="red">共有 {{tag.count.posts}} 篇 {{postInflection}} 与此标签关联。</span>
+    {{/if}}
+    你将要删除的标签是 "<strong>{{tag.name}}</strong>"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？
+</div>
+
+<div class="modal-footer">
+    <button {{action "closeModal"}} class="btn btn-default btn-minor">取消</button>
+    {{#gh-spin-button action="confirm" class="btn btn-red" submitting=submitting}}删除{{/gh-spin-button}}
+</div>

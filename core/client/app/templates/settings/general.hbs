@@ -31,21 +31,35 @@
             <div class="form-group">
                 <label>博客 Logo</label>
                 {{#if model.logo}}
-                    <img class="blog-logo" src="{{model.logo}}" alt="logo" role="button" {{action "openModal" "upload" this "logo"}}>
+                    <img class="blog-logo" src="{{model.logo}}" alt="logo" role="button" {{action "toggleUploadLogoModal"}}>
                 {{else}}
-                    <button type="button" class="btn btn-green js-modal-logo" {{action "openModal" "upload" this "logo"}}>上传图片</button>
+                    <button type="button" class="btn btn-green js-modal-logo" {{action "toggleUploadLogoModal"}}>上传图片</button>
                 {{/if}}
                 <p>为博客设置一个 logo</p>
+
+                {{#if showUploadLogoModal}}
+                    {{gh-fullscreen-modal "upload-image"
+                                          model=(hash model=model imageProperty="logo")
+                                          close=(action "toggleUploadLogoModal")
+                                          modifier="action wide"}}
+                {{/if}}
             </div>
 
             <div class="form-group">
                 <label>博客封面图</label>
                 {{#if model.cover}}
-                    <img class="blog-cover" src="{{model.cover}}" alt="封面图" role="button" {{action "openModal" "upload" this "cover"}}>
+                    <img class="blog-cover" src="{{model.cover}}" alt="封面图" role="button" {{action "toggleUploadCoverModal"}}>
                 {{else}}
-                    <button type="button" class="btn btn-green js-modal-cover" {{action "openModal" "upload" this "cover"}}>上传图片</button>
+                    <button type="button" class="btn btn-green js-modal-cover" {{action "toggleUploadCoverModal"}}>上传图片</button>
                 {{/if}}
                 <p>为你的博客设置一个个性的封面图</p>
+
+                {{#if showUploadCoverModal}}
+                    {{gh-fullscreen-modal "upload-image"
+                                          model=(hash model=model imageProperty="cover")
+                                          close=(action "toggleUploadCoverModal")
+                                          modifier="action wide"}}
+                {{/if}}
             </div>
 
             <fieldset>
@@ -93,11 +107,11 @@
                 </div>
 
                 {{#if model.isPrivate}}
-                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="password"}}
-                    {{gh-input name="general[password]" type="text" value=model.password focusOut=(action "validate" "password")}}
-                    {{gh-error-message errors=model.errors property="password"}}
-                    <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
-                {{/gh-form-group}}
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="password"}}
+                        {{gh-input name="general[password]" type="text" value=model.password focusOut=(action "validate" "password")}}
+                        {{gh-error-message errors=model.errors property="password"}}
+                        <p>访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。</p>
+                    {{/gh-form-group}}
                 {{/if}}
             </fieldset>
         </form>

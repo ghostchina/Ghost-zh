@@ -1,0 +1,17 @@
+<header class="modal-header">
+    <h1>确定要删除此用户吗？</h1>
+</header>
+<a class="close icon-x" href="" title="关闭" {{action "closeModal"}}><span class="hidden">关闭</span></a>
+
+<div class="modal-body">
+    {{#if user.count.posts}}
+        <strong>警告：</strong> <span class="red">此用户是 {{pluralize user.count.posts 'post'}} 篇博文的作者。</span> 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！
+    {{else}}
+        <strong>警告：</strong> 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！
+    {{/if}}
+</div>
+
+<div class="modal-footer">
+    <button {{action "closeModal"}} class="btn btn-default btn-minor">取消</button>
+    {{#gh-spin-button action="confirm" class="btn btn-red" submitting=submitting}}删除{{/gh-spin-button}}
+</div>

@@ -1,5 +1,10 @@
-import LocalStorageStore from 'ember-simple-auth/session-stores/local-storage';
+import AdaptiveStore from 'ember-simple-auth/session-stores/adaptive';
+import ghostPaths from 'ghost/utils/ghost-paths';
 
-export default LocalStorageStore.extend({
-    key: 'ghost:session'
+const paths = ghostPaths();
+const keyName = `ghost${(paths.subdir.indexOf('/') === 0 ? `-${paths.subdir.substr(1)}` : ``) }:session`;
+
+export default AdaptiveStore.extend({
+    localStorageKey: keyName,
+    cookieName: keyName
 });

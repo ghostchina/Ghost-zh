@@ -3,6 +3,7 @@ var _             = require('lodash'),
     errors        = require('../errors'),
     updateCheck   = require('../update-check'),
     config        = require('../config'),
+    i18n          = require('../i18n'),
     adminControllers;
 
 adminControllers = {
@@ -45,8 +46,8 @@ adminControllers = {
                 location: 'settings-about-upgrade',
                 dismissible: false,
                 status: 'alert',
-                message: 'Ghost ' + updateVersion + ' 版本已正式发布！赶紧 <a href="http://www.ghostchina.com/download/" target="_blank">点击这里</a> 升级吧。'
-            };
+                message: i18n.t('notices.controllers.newVersionAvailable',
+                                {version: updateVersion, link: '<a href="http://support.ghost.org/how-to-upgrade/" target="_blank">点击这里</a>'})};
 
             return api.notifications.browse({context: {internal: true}}).then(function then(results) {
                 if (!_.some(results.notifications, {message: notification.message})) {
