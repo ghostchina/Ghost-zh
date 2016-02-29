@@ -116,30 +116,6 @@
                 "willBeRequired": "This will be required in future. Please see {url}",
                 "themeFileIsMalformed": "Theme package.json file is malformed"
             },
-            "startupcheck": {
-                "unsupportedNodeVersion": {
-                    "error": "ERROR: Unsupported version of Node",
-                    "context": "Ghost needs Node version {neededVersion} you are using version {usedVersion}\n",
-                    "help": "Please see {url} for more information"
-                },
-                "cannotFindConfigForCurrentNode": {
-                    "error": "ERROR: Cannot find the configuration for the current NODE_ENV: {nodeEnv}\n",
-                    "help": "Ensure your config.js has a section for the current NODE_ENV value and is formatted properly."
-                },
-                "ghostMissingDependencies": {
-                    "error": "ERROR: Ghost is unable to start due to missing dependencies:\n  {error}",
-                    "explain": "\nPlease run `npm install --production` and try starting Ghost again.",
-                    "help": "Help and documentation can be found at {url}.\n"
-                },
-                "unableToAccessContentPath": {
-                    "error": "ERROR: Unable to access Ghost's content path:",
-                    "help": "Check that the content path exists and file system permissions are correct. \nHelp and documentation can be found at {url}."
-                },
-                "unableToOpenSqlite3Db": {
-                    "error": "ERROR: Unable to open sqlite3 database file for read/write",
-                    "help": "\nCheck that the sqlite3 database file permissions allow read and write access. \nHelp and documentation can be found at {url}."
-                }
-            },
             "validatethemes": {
                 "themeWithNoPackage": {
                     "message": "Found a theme with no package.json file",
@@ -208,16 +184,7 @@
                 "help": "Please use the error code above to search for a solution."
             }
         },
-        "index": {
-            "javascriptFilesNotBuilt": {
-                "error": "Javascript files have not been built.",
-                "help": "\nPlease read the getting started instructions at: {link}"
-            }
-        },
         "mail": {
-            "noEmailTransportConfigured": {
-                "error": "Error: 未正确设置邮件传输代理。"
-            },
             "incompleteMessageData": {
                 "error": "Error: 邮件格式错误。"
             },
@@ -400,11 +367,6 @@
             "export": {
                 "errorExportingData": "Error exporting data"
             },
-            "fixtures": {
-                "populatingPermissions": "Populating permissions",
-                "upgradingPermissions": "Upgrading permissions",
-                "removingOldPermissions": "Removing old permissions"
-            },
             "import": {
                 "dataImporter": {
                     "unableToFindOwner": "Unable to find an owner"
@@ -552,55 +514,9 @@
         },
         "data": {
             "fixtures": {
-                "migrations": "Migrations",
-                "convertingAdmToOwner": "Converting admin to owner",
-                "creatingOwner": "Creating owner",
-                "populatingFixtures": "Populating fixtures",
-                "upgradingFixturesTo": "Upgrading fixtures to {version}",
-                "addingClientFixture": "Adding ghost-admin client fixture",
-                "addingOwnerRoleFixture": "Adding owner role fixture",
-                "updatingFixtures": "Updating fixtures",
-                "canSafelyDelete": "<!-- 如果你的 Ghost 主题中没有使用到 jQuery 或者你通过其他方式引入了 jQuery，那么下面的代码就没有用处了，可以直接删掉。 -->\n",
-                "jQueryRemoved": "jQuery 已经从 Ghost 核心代码中删掉了，现在所加载的 jQuery 是由 <a href=\"http://www.bootcdn.cn/\">BootCDN</a> 所提供的开源项目免费加速服务。",
-                "canBeChanged": "此设置可以在后台的 <strong>插入代码</strong> 页面进行修改。",
-                "addingJquery": "Adding jQuery link to ghost_foot",
-                "updateIsPrivate": "Update isPrivate setting",
-                "updatePassword": "Update password setting",
-                "updateAdminClientFixture": "Update ghost-admin client fixture",
-                "addFrontendClientFixture": "Add ghost-frontend client fixture",
-                "cleaningTags": "Cleaning {length} malformed tags",
-                "collectingDataOnTagOrder": "Collecting data on tag order for posts...",
-                "updatingOrder": "Updating order on {length} tag relationships (could take a while)...",
-                "updatedOrder": "Tag order successfully updated",
-                "addingUpgrade": "Adding {version} upgrade post fixture"
-            },
-            "migration": {
-                "commands": {
-                    "migrations": "Migrations",
-                    "deletingTable": "Deleting table: {table}",
-                    "creatingTable": "Creating table: {table}",
-                    "addingColumn": "Adding column: {table}.{column}",
-                    "addingUnique": "Adding unique on: {table}.{column}",
-                    "droppingUnique": "Dropping unique on: {table}.{column}"
-                },
-                "index": {
-                    "migrations": "Migrations",
-                    "complete": "Complete",
-                    "populatingDefaultSettings": "Populating default settings",
-                    "creatingDatabaseBackup": "Creating database backup",
-                    "databaseBackupDestination": "Database backup written to: {filename}",
-                    "databaseUpgradeRequired": "Database upgrade required from version {dbVersion} to {defaultVersion}",
-                    "upToDateAtVersion": "Up to date at version {dbVersion}",
-                    "databaseNotCompatible": {
-                        "error": "Your database is not compatible with this version of Ghost",
-                        "help": "You will need to create a new database"
-                    },
-                    "dbInitialisationRequired": "Database initialisation required for version {version}",
-                    "problemWithDatabase": "There is a problem with the database",
-                    "creatingTable": "Creating table: {table}",
-                    "creatingTables": "Creating tables...",
-                    "runningMigrations": "Running migrations"
-                }
+                "canSafelyDelete": "<!-- You can safely delete this line if your theme does not require jQuery -->\n",
+                "jQueryRemoved": "jQuery has been removed from Ghost core and is now being loaded from the jQuery Foundation's CDN.",
+                "canBeChanged": "This can be changed or removed in your <strong>Code Injection</strong> settings area."
             },
             "utils": {
                 "index": {

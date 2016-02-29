@@ -1,7 +1,9 @@
 import Ember from 'ember';
-import DS from 'ember-data';
+import RESTSerializer from 'ember-data/serializers/rest';
 
-const {RESTSerializer} = DS;
+const {
+    decamelize
+} = Ember.String;
 
 export default RESTSerializer.extend({
     serializeIntoHash(hash, type, record, options) {
@@ -17,5 +19,9 @@ export default RESTSerializer.extend({
         delete data.uuid;
 
         hash[root] = [data];
+    },
+
+    keyForAttribute(attr) {
+        return decamelize(attr);
     }
 });

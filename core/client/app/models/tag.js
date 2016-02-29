@@ -1,8 +1,7 @@
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import ValidationEngine from 'ghost/mixins/validation-engine';
-
-const {Model, attr} = DS;
 
 export default Model.extend(ValidationEngine, {
     validationType: 'tag',
@@ -12,13 +11,13 @@ export default Model.extend(ValidationEngine, {
     slug: attr('string'),
     description: attr('string'),
     parent: attr(),
-    meta_title: attr('string'),
-    meta_description: attr('string'),
+    metaTitle: attr('string'),
+    metaDescription: attr('string'),
     image: attr('string'),
     hidden: attr('boolean'),
-    created_at: attr('moment-date'),
-    updated_at: attr('moment-date'),
-    created_by: attr(),
-    updated_by: attr(),
+    createdAt: attr('moment-date'),
+    updatedAt: attr('moment-date'),
+    createdBy: attr(),
+    updatedBy: attr(),
     count: attr('raw')
 });

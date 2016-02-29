@@ -2,7 +2,14 @@ import Ember from 'ember';
 import PostModel from 'ghost/models/post';
 import boundOneWay from 'ghost/utils/bound-one-way';
 
-const {Mixin, RSVP, computed, inject, observer, run} = Ember;
+const {
+    Mixin,
+    RSVP: {resolve},
+    computed,
+    inject: {service, controller},
+    observer,
+    run
+} = Ember;
 const {alias} = computed;
 
 // this array will hold properties we need to watch
@@ -21,8 +28,8 @@ export default Mixin.create({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
 
-    postSettingsMenuController: inject.controller('post-settings-menu'),
-    notifications: inject.service(),
+    postSettingsMenuController: controller('post-settings-menu'),
+    notifications: service(),
 
     init() {
         this._super(...arguments);
@@ -121,6 +128,11 @@ export default Mixin.create({
     hasDirtyAttributes: computed.apply(Ember, watchedProps.concat({
         get() {
             let model = this.get('model');
+
+            if (!model) {
+                return false;
+            }
+
             let markdown = model.get('markdown');
             let title = model.get('title');
             let titleScratch = model.get('titleScratch');
@@ -301,8 +313,8 @@ export default Mixin.create({
             }
 
             this.set('model.title', this.get('model.titleScratch'));
-            this.set('model.meta_title', psmController.get('metaTitleScratch'));
-            this.set('model.meta_description', psmController.get('metaDescriptionScratch'));
+            this.set('model.metaTitle', psmController.get('metaTitleScratch'));
+            this.set('model.metaDescription', psmController.get('metaDescriptionScratch'));
 
             if (!this.get('model.slug')) {
                 // Cancel any pending slug generation that may still be queued in the
@@ -312,7 +324,7 @@ export default Mixin.create({
                 psmController.generateAndSetSlug('model.slug');
             }
 
-            promise = RSVP.resolve(psmController.get('lastPromise')).then(() => {
+            promise = resolve(psmController.get('lastPromise')).then(() => {
                 return this.get('model').save(options).then((model) => {
                     if (!options.silent) {
                         this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);

@@ -1,7 +1,11 @@
 import Ember from 'ember';
-import {request as ajax} from 'ic-ajax';
 
-const {$, Controller, computed, inject} = Ember;
+const {
+    $,
+    Controller,
+    inject: {service},
+    isArray
+} = Ember;
 
 export default Controller.extend({
     uploadButtonText: '导入',
@@ -9,52 +13,24 @@ export default Controller.extend({
     submitting: false,
     showDeleteAllModal: false,
 
-    ghostPaths: inject.service('ghost-paths'),
-    notifications: inject.service(),
-    session: inject.service(),
-    feature: inject.controller(),
-
-    labsJSON: computed('model.labs', function () {
-        return JSON.parse(this.get('model.labs') || {});
-    }),
-
-    saveLabs(optionName, optionValue) {
-        let labsJSON =  this.get('labsJSON');
-
-        // Set new value in the JSON object
-        labsJSON[optionName] = optionValue;
-
-        this.set('model.labs', JSON.stringify(labsJSON));
-
-        this.get('model').save().catch((errors) => {
-            this.showErrors(errors);
-            this.get('model').rollbackAttributes();
-        });
-    },
-
-    usePublicAPI: computed('feature.publicAPI', {
-        get() {
-            return this.get('feature.publicAPI');
-        },
-        set(key, value) {
-            this.saveLabs('publicAPI', value);
-            return value;
-        }
-    }),
+    ghostPaths: service(),
+    notifications: service(),
+    session: service(),
+    ajax: service(),
 
     actions: {
         onUpload(file) {
             let formData = new FormData();
             let notifications = this.get('notifications');
             let currentUserId = this.get('session.user.id');
+            let dbUrl = this.get('ghostPaths.url').api('db');
 
             this.set('uploadButtonText', '导入中');
             this.set('importErrors', '');
 
             formData.append('importfile', file);
 
-            ajax(this.get('ghostPaths.url').api('db'), {
-                type: 'POST',
+            this.get('ajax').post(dbUrl, {
                 data: formData,
                 dataType: 'json',
                 cache: false,
@@ -68,8 +44,8 @@ export default Controller.extend({
                 // TODO: keep as notification, add link to view content
                 notifications.showNotification('导入成功。', {key: 'import.upload.success'});
             }).catch((response) => {
-                if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
-                    this.set('importErrors', response.jqXHR.responseJSON.errors);
+                if (response && response.errors && isArray(response.errors)) {
+                    this.set('importErrors', response.errors);
                 }
 
                 notifications.showAlert('导入失', {type: 'error', key: 'import.upload.failed'});
@@ -93,20 +69,15 @@ export default Controller.extend({
 
         sendTestEmail() {
             let notifications = this.get('notifications');
+            let emailUrl = this.get('ghostPaths.url').api('mail', 'test');
 
             this.toggleProperty('submitting');
 
-            ajax(this.get('ghostPaths.url').api('mail', 'test'), {
-                type: 'POST'
-            }).then(() => {
+            this.get('ajax').post(emailUrl).then(() => {
                 notifications.showAlert('请检查邮箱中是否收到测试邮件。', {type: 'info', key: 'test-email.send.success'});
                 this.toggleProperty('submitting');
             }).catch((error) => {
-                if (typeof error.jqXHR !== 'undefined') {
-                    notifications.showAPIError(error, {key: 'test-email.send'});
-                } else {
-                    notifications.showErrors(error, {key: 'test-email.send'});
-                }
+                notifications.showAPIError(error, {key: 'test-email:send'});
                 this.toggleProperty('submitting');
             });
         },

@@ -1,11 +1,15 @@
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 import Ember from 'ember';
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo, hasMany } from 'ember-data/relationships';
 import ValidationEngine from 'ghost/mixins/validation-engine';
 
-const {computed, inject} = Ember;
+const {
+    computed,
+    inject: {service}
+} = Ember;
 const {equal} = computed;
-const {Model, attr, belongsTo, hasMany} = DS;
 
 export default Model.extend(ValidationEngine, {
     validationType: 'post',
@@ -20,24 +24,24 @@ export default Model.extend(ValidationEngine, {
     page: attr('boolean', {defaultValue: false}),
     status: attr('string', {defaultValue: 'draft'}),
     language: attr('string', {defaultValue: 'zh_CN'}),
-    meta_title: attr('string'),
-    meta_description: attr('string'),
+    metaTitle: attr('string'),
+    metaDescription: attr('string'),
     author: belongsTo('user', {async: true}),
-    author_id: attr('number'),
-    updated_at: attr('moment-date'),
-    updated_by: attr(),
-    published_at: attr('moment-date'),
-    published_by: belongsTo('user', {async: true}),
-    created_at: attr('moment-date'),
-    created_by: attr(),
+    authorId: attr('number'),
+    updatedAt: attr('moment-date'),
+    updatedBy: attr(),
+    publishedAt: attr('moment-date'),
+    publishedBy: belongsTo('user', {async: true}),
+    createdAt: attr('moment-date'),
+    createdBy: attr(),
     tags: hasMany('tag', {
         embedded: 'always',
         async: false
     }),
     url: attr('string'),
 
-    config: inject.service(),
-    ghostPaths: inject.service('ghost-paths'),
+    config: service(),
+    ghostPaths: service(),
 
     absoluteUrl: computed('url', 'ghostPaths.url', 'config.blogUrl', function () {
         let blogUrl = this.get('config.blogUrl');
@@ -77,7 +81,7 @@ export default Model.extend(ValidationEngine, {
     },
 
     isAuthoredByUser(user) {
-        return parseInt(user.get('id'), 10) === parseInt(this.get('author_id'), 10);
+        return parseInt(user.get('id'), 10) === parseInt(this.get('authorId'), 10);
     }
 
 });

@@ -1,11 +1,15 @@
 import Ember from 'ember';
-import {request as ajax} from 'ic-ajax';
-import SlugGenerator from 'ghost/models/slug-generator';
 import isNumber from 'ghost/utils/isNumber';
 import boundOneWay from 'ghost/utils/bound-one-way';
 import ValidationEngine from 'ghost/mixins/validation-engine';
 
-const {Controller, RSVP, computed, inject, isArray} = Ember;
+const {
+    Controller,
+    RSVP,
+    computed,
+    inject: {service},
+    isArray
+} = Ember;
 const {alias, and, not, or, readOnly} = computed;
 
 export default Controller.extend(ValidationEngine, {
@@ -18,10 +22,12 @@ export default Controller.extend(ValidationEngine, {
     showUploadCoverModal: false,
     showUplaodImageModal: false,
 
-    dropdown: inject.service(),
-    ghostPaths: inject.service('ghost-paths'),
-    notifications: inject.service(),
-    session: inject.service(),
+    ajax: service(),
+    dropdown: service(),
+    ghostPaths: service(),
+    notifications: service(),
+    session: service(),
+    slugGenerator: service(),
 
     user: alias('model'),
     currentUser: alias('session.user'),
@@ -50,7 +56,7 @@ export default Controller.extend(ValidationEngine, {
 
     // duplicated in gh-user-active -- find a better home and consolidate?
     userDefault: computed('ghostPaths', function () {
-        return this.get('ghostPaths.url').asset('/shared/img/user-image.png');
+        return `${this.get('ghostPaths.subdir')}/ghost/img/user-image.png`;
     }),
 
     userImageBackground: computed('user.image', 'userDefault', function () {
@@ -61,7 +67,7 @@ export default Controller.extend(ValidationEngine, {
     // end duplicated
 
     coverDefault: computed('ghostPaths', function () {
-        return this.get('ghostPaths.url').asset('/shared/img/user-cover.png');
+        return `${this.get('ghostPaths.subdir')}/ghost/img/user-cover.png`;
     }),
 
     coverImageBackground: computed('user.cover', 'coverDefault', function () {
@@ -72,14 +78,6 @@ export default Controller.extend(ValidationEngine, {
 
     coverTitle: computed('user.name', function () {
         return `${this.get('user.name')} 的封面图`;
-    }),
-
-    // Lazy load the slug generator for slugPlaceholder
-    slugGenerator: computed(function () {
-        return SlugGenerator.create({
-            ghostPaths: this.get('ghostPaths'),
-            slugType: 'user'
-        });
     }),
 
     roles: computed(function () {
@@ -210,7 +208,7 @@ export default Controller.extend(ValidationEngine, {
                     return;
                 }
 
-                return this.get('slugGenerator').generateSlug(newSlug).then((serverSlug) => {
+                return this.get('slugGenerator').generateSlug('user', newSlug).then((serverSlug) => {
                     // If after getting the sanitized and unique slug back from the API
                     // we end up with a slug that matches the existing slug, abort the change
                     if (serverSlug === slug) {
@@ -250,8 +248,7 @@ export default Controller.extend(ValidationEngine, {
 
             this.get('dropdown').closeDropdowns();
 
-            return ajax(url, {
-                type: 'PUT',
+            return this.get('ajax').put(url, {
                 data: {
                     owner: [{
                         id: user.get('id')

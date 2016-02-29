@@ -1,55 +1,54 @@
 var _               = require('lodash'),
     Promise         = require('bluebird'),
     crypto          = require('crypto'),
-    sequence        = require('../../utils/sequence'),
     path            = require('path'),
     fs              = require('fs'),
-    errors          = require('../../errors'),
-    commands        = require('./commands'),
-    versioning      = require('../versioning'),
-    models          = require('../../models'),
-    fixtures        = require('../fixtures'),
+    builder         = require('./builder'),
+    fixtures        = require('./fixtures'),
     schema          = require('../schema').tables,
+    commands        = require('../schema').commands,
+    versioning      = require('../schema').versioning,
     dataExport      = require('../export'),
-    utils           = require('../utils'),
     config          = require('../../config'),
-    i18n            = require('../../i18n'),
+    errors          = require('../../errors'),
+    models          = require('../../models'),
+    sequence        = require('../../utils/sequence'),
 
     schemaTables    = _.keys(schema),
 
     // private
     logInfo,
     populateDefaultSettings,
-    backupDatabase,
     fixClientSecret,
 
     // public
     init,
     reset,
     migrateUp,
-    migrateUpFreshDb;
+    migrateUpFreshDb,
+    backupDatabase;
 
 logInfo = function logInfo(message) {
-    errors.logInfo(i18n.t('notices.data.migration.index.migrations'), message);
+    errors.logInfo('Migrations', message);
 };
 
 populateDefaultSettings = function populateDefaultSettings() {
     // Initialise the default settings
-    logInfo(i18n.t('notices.data.migration.index.populatingDefaultSettings'));
+    logInfo('Populating default settings');
     return models.Settings.populateDefaults().then(function () {
-        logInfo(i18n.t('notices.data.migration.index.complete'));
+        logInfo('Complete');
     });
 };
 
 backupDatabase = function backupDatabase() {
-    logInfo(i18n.t('notices.data.migration.index.creatingDatabaseBackup'));
+    logInfo('Creating database backup');
     return dataExport().then(function (exportedData) {
         // Save the exported data to the file system for download
         return dataExport.fileName().then(function (fileName) {
             fileName = path.resolve(config.paths.contentPath + '/data/' + fileName);
 
             return Promise.promisify(fs.writeFile)(fileName, JSON.stringify(exportedData)).then(function () {
-                logInfo(i18n.t('notices.data.migration.index.databaseBackupDestination', {filename: fileName}));
+                logInfo('Database backup written to: ' + fileName);
             });
         });
     });
@@ -84,8 +83,7 @@ init = function (tablesOnly) {
         if (databaseVersion < defaultVersion || process.env.FORCE_MIGRATION) {
             // 2. The database exists but is out of date
             // Migrate to latest version
-            logInfo(i18n.t('notices.data.migration.index.databaseUpgradeRequired',
-                           {dbVersion: databaseVersion, defaultVersion: defaultVersion}));
+            logInfo('Database upgrade required from version ' + databaseVersion + ' to ' +  defaultVersion);
             return self.migrateUp(databaseVersion, defaultVersion).then(function () {
                 // Finally update the databases current version
                 return versioning.setDatabaseVersion();
@@ -94,7 +92,7 @@ init = function (tablesOnly) {
 
         if (databaseVersion === defaultVersion) {
             // 1. The database exists and is up-to-date
-            logInfo(i18n.t('notices.data.migration.index.upToDateAtVersion', {dbVersion: databaseVersion}));
+            logInfo('Up to date at version ' + databaseVersion);
             // TODO: temporary fix for missing client.secret
             return fixClientSecret();
         }
@@ -103,20 +101,20 @@ init = function (tablesOnly) {
             // 3. The database exists but the currentVersion setting does not or cannot be understood
             // In this case we don't understand the version because it is too high
             errors.logErrorAndExit(
-                i18n.t('notices.data.migration.index.databaseNotCompatible.error'),
-                i18n.t('notices.data.migration.index.databaseNotCompatible.help')
+                'Your database is not compatible with this version of Ghost',
+                'You will need to create a new database'
             );
         }
     }, function (err) {
         if (err.message || err === 'Settings table does not exist') {
             // 4. The database has not yet been created
             // Bring everything up from initial version.
-            logInfo(i18n.t('notices.data.migration.index.dbInitialisationRequired', {version: versioning.getDefaultDatabaseVersion()}));
+            logInfo('Database initialisation required for version ' + versioning.getDefaultDatabaseVersion());
             return self.migrateUpFreshDb(tablesOnly);
         }
         // 3. The database exists but the currentVersion setting does not or cannot be understood
         // In this case the setting was missing or there was some other problem
-        errors.logErrorAndExit(i18n.t('notices.data.migration.index.problemWithDatabase'), err.message || err);
+        errors.logErrorAndExit('There is a problem with the database', err.message || err);
     });
 };
 
@@ -125,7 +123,7 @@ init = function (tablesOnly) {
 reset = function () {
     var tables = _.map(schemaTables, function (table) {
         return function () {
-            return utils.deleteTable(table);
+            return commands.deleteTable(table);
         };
     }).reverse();
 
@@ -137,11 +135,11 @@ migrateUpFreshDb = function (tablesOnly) {
     var tableSequence,
         tables = _.map(schemaTables, function (table) {
             return function () {
-                logInfo(i18n.t('notices.data.migration.index.creatingTable', {table: table}));
-                return utils.createTable(table);
+                logInfo('Creating table: ' + table);
+                return commands.createTable(table);
             };
         });
-    logInfo(i18n.t('notices.data.migration.index.creatingTables'));
+    logInfo('Creating tables...');
     tableSequence = sequence(tables);
 
     if (tablesOnly) {
@@ -162,27 +160,28 @@ migrateUp = function (fromVersion, toVersion) {
         migrateOps = [];
 
     return backupDatabase().then(function () {
-        return utils.getTables();
+        return commands.getTables();
     }).then(function (tables) {
         oldTables = tables;
         if (!_.isEmpty(oldTables)) {
-            return utils.checkTables();
+            return commands.checkTables();
         }
     }).then(function () {
-        migrateOps = migrateOps.concat(commands.getDeleteCommands(oldTables, schemaTables));
-        migrateOps = migrateOps.concat(commands.getAddCommands(oldTables, schemaTables));
+        migrateOps = migrateOps.concat(builder.getDeleteCommands(oldTables, schemaTables));
+        migrateOps = migrateOps.concat(builder.getAddCommands(oldTables, schemaTables));
         return Promise.all(
             _.map(oldTables, function (table) {
-                return utils.getIndexes(table).then(function (indexes) {
-                    modifyUniCommands = modifyUniCommands.concat(commands.modifyUniqueCommands(table, indexes));
+                return commands.getIndexes(table).then(function (indexes) {
+                    modifyUniCommands = modifyUniCommands.concat(builder.modifyUniqueCommands(table, indexes));
                 });
             })
         );
     }).then(function () {
         return Promise.all(
             _.map(oldTables, function (table) {
-                return utils.getColumns(table).then(function (columns) {
-                    migrateOps = migrateOps.concat(commands.addColumnCommands(table, columns));
+                return commands.getColumns(table).then(function (columns) {
+                    migrateOps = migrateOps.concat(builder.dropColumnCommands(table, columns));
+                    migrateOps = migrateOps.concat(builder.addColumnCommands(table, columns));
                 });
             })
         );
@@ -191,7 +190,7 @@ migrateUp = function (fromVersion, toVersion) {
 
         // execute the commands in sequence
         if (!_.isEmpty(migrateOps)) {
-            logInfo(i18n.t('notices.data.migration.index.runningMigrations'));
+            logInfo('Running migrations');
 
             return sequence(migrateOps);
         }
@@ -207,6 +206,7 @@ migrateUp = function (fromVersion, toVersion) {
 module.exports = {
     init: init,
     reset: reset,
+    backupDatabase: backupDatabase,
     migrateUp: migrateUp,
     migrateUpFreshDb: migrateUpFreshDb
 };

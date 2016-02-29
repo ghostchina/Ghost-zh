@@ -11,7 +11,7 @@ Ghost 目由非盈利性组织 **Ghost Foundation** 和一群优秀的独立[贡
 - [最新版本（英文）](https://ghost.org/download/) & [最新版本（中文）](http://www.ghostchina.com/download/)
 - [技术支持（英文）](http://support.ghost.org/) & [问答社区（中文）](http://wenda.ghostchina.com/)
 - [主题文档](http://themes.ghost.org)
-- [贡献指南](https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md)
+- [贡献指南](https://github.com/TryGhost/Ghost/blob/master/.github/CONTRIBUTING.md)
 - [心愿列表](http://ideas.ghost.org/)
 - [技术博客](http://dev.ghost.org)
 
@@ -51,11 +51,11 @@ Node.js 是必须的，同样也是建议使用  **Node v0.10.x** 的最新版�
 <a name="getting-started"></a>
 # 开发者(从 git 下载 Ghost)
 
-安装 Node.js。
+安装 Node.js. （请参考 [受支持的 Node.js 版本](http://support.ghost.org/supported-node-versions/)）
 
 ```bash
 # Node v0.10.x - 推荐
-# Node v0.12.x 与 io.js v1.2 - 部分支持
+# Node v0.12.x 和 v4.2+ LTS - 已支持
 #
 # 自行斟酌吧
 ```

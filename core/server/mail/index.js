@@ -7,30 +7,16 @@ var _          = require('lodash'),
     config     = require('../config'),
     i18n       = require('../i18n');
 
-function GhostMailer(opts) {
-    opts = opts || {};
-    this.transport = opts.transport || null;
+function GhostMailer() {
+    var transport = config.mail && config.mail.transport || 'direct',
+        options = config.mail && _.clone(config.mail.options) || {};
+
+    this.state = {};
+
+    this.transport = nodemailer.createTransport(transport, options);
+
+    this.state.usingDirect = transport === 'direct';
 }
-
-// ## Email transport setup
-// *This promise should always resolve to avoid halting Ghost::init*.
-GhostMailer.prototype.init = function () {
-    var self = this;
-    self.state = {};
-    if (config.mail && config.mail.transport) {
-        this.createTransport();
-        return Promise.resolve();
-    }
-
-    self.transport = nodemailer.createTransport('direct');
-    self.state.usingDirect = true;
-
-    return Promise.resolve();
-};
-
-GhostMailer.prototype.createTransport = function () {
-    this.transport = nodemailer.createTransport(config.mail.transport, _.clone(config.mail.options) || {});
-};
 
 GhostMailer.prototype.from = function () {
     var from = config.mail && (config.mail.from || config.mail.fromaddress);
@@ -62,19 +48,15 @@ GhostMailer.prototype.getDomain = function () {
 // This assumes that api.settings.read('email') was already done on the API level
 GhostMailer.prototype.send = function (message) {
     var self = this,
-        to,
-        sendMail;
+        to;
 
-    message = message || {};
+    // important to clone message as we modify it
+    message = _.clone(message) || {};
     to = message.to || false;
 
-    if (!this.transport) {
-        return Promise.reject(new Error(i18n.t('errors.mail.noEmailTransportConfigured.error')));
-    }
     if (!(message && message.subject && message.html && message.to)) {
         return Promise.reject(new Error(i18n.t('errors.mail.incompleteMessageData.error')));
     }
-    sendMail = Promise.promisify(self.transport.sendMail.bind(self.transport));
 
     message = _.extend(message, {
         from: self.from(),
@@ -84,7 +66,7 @@ GhostMailer.prototype.send = function (message) {
     });
 
     return new Promise(function (resolve, reject) {
-        sendMail(message, function (error, response) {
+        self.transport.sendMail(message, function (error, response) {
             if (error) {
                 return reject(new Error(error));
             }
@@ -120,4 +102,4 @@ GhostMailer.prototype.send = function (message) {
     });
 };
 
-module.exports = new GhostMailer();
+module.exports = GhostMailer;

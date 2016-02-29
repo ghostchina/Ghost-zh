@@ -37,19 +37,19 @@ export default BaseValidator.create({
     },
 
     metaTitle(model) {
-        let metaTitle = model.get('meta_title');
+        let metaTitle = model.get('metaTitle');
 
         if (!validator.isLength(metaTitle, 0, 150)) {
-            model.get('errors').add('meta_title', '优化标题不能超过 150 个字符。');
+            model.get('errors').add('metaTitle', '优化标题不能超过 150 个字符。');
             this.invalidate();
         }
     },
 
     metaDescription(model) {
-        let metaDescription = model.get('meta_description');
+        let metaDescription = model.get('metaDescription');
 
         if (!validator.isLength(metaDescription, 0, 200)) {
-            model.get('errors').add('meta_description', '优化描述不能超过 200 个字符。');
+            model.get('errors').add('metaDescription', '优化描述不能超过 200 个字符。');
             this.invalidate();
         }
     }

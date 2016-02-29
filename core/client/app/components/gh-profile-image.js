@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
-const {Component, computed, inject, run} = Ember;
+const {
+    Component,
+    computed,
+    inject: {service},
+    run
+} = Ember;
 const {notEmpty} = computed;
 
 /**
@@ -26,7 +31,7 @@ export default Component.extend({
     hasUploadedImage: false,
     fileStorage: true,
 
-    ghostPaths: inject.service('ghost-paths'),
+    ghostPaths: service(),
     displayGravatar: notEmpty('validEmail'),
 
     init() {
@@ -36,7 +41,7 @@ export default Component.extend({
     },
 
     defaultImage: computed('ghostPaths', function () {
-        let url = this.get('ghostPaths.url').asset('/shared/img/user-image.png');
+        let url = `${this.get('ghostPaths.subdir')}/ghost/img/user-image.png`;
         return Ember.String.htmlSafe(`background-image: url(${url})`);
     }),
 
@@ -59,7 +64,7 @@ export default Component.extend({
 
         let style = '';
         if (email) {
-            let url = `http://cn.gravatar.com/avatar/${window.md5(email)}?s=${size}&d=blank`;
+            let url = `//cn.gravatar.com/avatar/${window.md5(email)}?s=${size}&d=blank`;
             style = `background-image: url(${url})`;
         }
         return Ember.String.htmlSafe(style);
